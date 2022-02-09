@@ -13,7 +13,7 @@ truffle migrate -f 2 --to 2
 # Copiar la dirección del contrato 2 (ANEXOS: Obtener la dirección de un contrato) en la linea 59 del contrato /backend/contracts/Tarifas.sol
 truffle migrate -f 3 --to 3
 # Copiar la dirección del contrato 3 (ANEXOS: Obtener la dirección de un contrato) en la linea 3 del archivo /frontend/js/app.js
-# Copiar los archivos json Tarifas.json y Divisa.json en /frontend/contracts
+# Copiar los archivos json Tarifas.json y ViCOIN.json en /frontend/contracts
 ```
 
 ## AÑADIR ViCOINs POR CONSOLA
