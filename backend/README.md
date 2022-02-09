@@ -9,10 +9,10 @@ Necesitaremos instalar todas las dependencias necesarias para el proyecto y comp
 ```bash
 npm install 
 truffle migrate -f 2 --to 2
-# Copiar la dirección del contrato 2 (ANEXOS: Obtener la dirección de un contrato) en la linea 59 del contrato /backend/contracts/tienda.sol
+# Copiar la dirección del contrato 2 (ANEXOS: Obtener la dirección de un contrato) en la linea 59 del contrato /backend/contracts/tarifas.sol
 truffle migrate -f 3 --to 3
 # Copiar la dirección del contrato 3 (ANEXOS: Obtener la dirección de un contrato) en la linea 3 del archivo /frontend/js/app.js
-# Copiar los archivos json tienda.json y ObrasDeArte.json en /frontend/contracts
+# Copiar los archivos json tarifas.json y divisa.json en /frontend/contracts
 ```
 
 ## AÑADIR ViCOINs POR CONSOLA
