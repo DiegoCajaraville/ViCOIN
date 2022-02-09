@@ -17,9 +17,7 @@ truffle migrate -f 3 --to 3
 
 ## AÑADIR ViCOINs POR CONSOLA
 
-[comment]: <> (This is a comment, it will not be included)
-
-[//]: # (```bash
+[comment]: <> (```bash
 # Ponemos por defecto en la consola la cuenta con la que queremos desplegar los contratos
 web3.eth.defaultAccount = ${direccionPropietario}
 # Accedemos al primer contrato ObrasDeArte
@@ -36,6 +34,8 @@ T = await tienda.deployed()
 T.totalSales()
 T.setPrice(${tokenId}, web3.utils.toBN("${priceNFT}"), {from: ${direccionPropietario}})
 ```)
+
+[//]: # ()
 
 
 
