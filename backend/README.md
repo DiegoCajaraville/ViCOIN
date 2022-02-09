@@ -61,8 +61,9 @@ Nos permitirá despligar una Blockchain local, que cuenta con múltiples cuentas
 https://www.trufflesuite.com/ganache
 ```
 
-Para interconectar el entorno Truffle con el emulador blockchain Ganache debemos editar en el fichero truffle-config.js de nuestro proyecto el siguiente párrafo:
-```bash networks: {
+Para interconectar el entorno Truffle con el emulador blockchain Ganache debemos editar en el fichero truffle-config.js de nuestro proyecto, suponiendo que ganache corre en el puerto 7545, el siguiente párrafo:
+```bash
+networks: {
     development: {
      host: "127.0.0.1",     // Localhost (default: none)
      port: 7545,            // Standard Ethereum port (default: none)
