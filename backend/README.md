@@ -18,7 +18,23 @@ truffle migrate -f 3 --to 3
 ## AÑADIR ViCOINs POR CONSOLA
 
 - En construcción ...
-
+<!--```bash
+# Ponemos por defecto en la consola la cuenta con la que queremos desplegar los contratos
+web3.eth.defaultAccount = ${direccionPropietario}
+# Accedemos al primer contrato ObrasDeArte
+ODA = await ObrasDeArte.deployed()
+# Asignaremos el NFT al nuevo propietario propietario
+ODA.safeMint(${direccionPropietario}, ${hashNFT_JSON_IPFS})
+# Podremos comprobar que se ha creado si ejecutamos 
+ODA.tokenURI(${tokenURI})
+ODA.balanceOf(${direccion})
+# Transferimos el el NFT con tokenID a la tienda
+ODA.safeTransferFrom(${direccionPropietario}, ${direccionTienda}, ${tokenID}, {from: ${direccionPropietario}})
+# Comprobamos en el contrato tienda para ver si existe el nuevo NFT
+T = await tienda.deployed()
+T.totalSales()
+T.setPrice(${tokenId}, web3.utils.toBN("${priceNFT}"), {from: ${direccionPropietario}})
+``` -->
 
 ## ANEXOS
 
