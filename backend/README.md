@@ -7,12 +7,13 @@ Consiste en la definición e implementación de contratos mediante lenguaje Soli
 Necesitaremos instalar todas las dependencias necesarias para el proyecto y compilar los contratos:
 
 ```bash
-npm install 
+npm install --save-exact openzeppelin-solidity
+# Si usamos alguna librería openzeppelin 
 truffle migrate -f 2 --to 2
-# Copiar la dirección del contrato 2 (ANEXOS: Obtener la dirección de un contrato) en la linea 59 del contrato /backend/contracts/tarifas.sol
+# Copiar la dirección del contrato 2 (ANEXOS: Obtener la dirección de un contrato) en la linea 59 del contrato /backend/contracts/Tarifas.sol
 truffle migrate -f 3 --to 3
 # Copiar la dirección del contrato 3 (ANEXOS: Obtener la dirección de un contrato) en la linea 3 del archivo /frontend/js/app.js
-# Copiar los archivos json tarifas.json y divisa.json en /frontend/contracts
+# Copiar los archivos json Tarifas.json y Divisa.json en /frontend/contracts
 ```
 
 ## AÑADIR ViCOINs POR CONSOLA
@@ -59,6 +60,15 @@ Nos permitirá despligar una Blockchain local, que cuenta con múltiples cuentas
 ```bash
 https://www.trufflesuite.com/ganache
 ```
+
+Para interconectar el entorno Truffle con el emulador blockchain Ganache debemos editar en el fichero truffle-config.js de nuestro proyecto el siguiente párrafo:
+> networks: {
+    development: {
+     host: "127.0.0.1",     // Localhost (default: none)
+     port: 7545,            // Standard Ethereum port (default: none)
+     network_id: "*",       // Any network (default: none)
+    }
+    
 
 ### Obtener la dirección de un contrato
 
