@@ -62,13 +62,14 @@ https://www.trufflesuite.com/ganache
 ```
 
 Para interconectar el entorno Truffle con el emulador blockchain Ganache debemos editar en el fichero truffle-config.js de nuestro proyecto el siguiente párrafo:
-> networks: {
+```bash networks: {
     development: {
      host: "127.0.0.1",     // Localhost (default: none)
      port: 7545,            // Standard Ethereum port (default: none)
      network_id: "*",       // Any network (default: none)
     }
-    
+}
+```
 
 ### Obtener la dirección de un contrato
 
