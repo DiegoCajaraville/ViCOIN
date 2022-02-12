@@ -1,19 +1,23 @@
-const ViCOIN = artifacts.require("ViCOIN")
+const ViCOINSale = artifacts.require("ViCOINSale")
 
-contract("ViCOIN", () => {
+contract("ViCOINSale", () => {
 
     before( async () => {
-        this.ViC = await ViCOIN.deployed()
+        this.ViCSale = await ViCOINSale.deployed()
     })
 
-    it('migrate deployed successfully', async () => {
-        const address = this.ViC.address
+    it('migrates deployed successfully', async () => {
+        const addressViCSale = this.ViCSale.address
 
-        console.log(address);
-        assert.notEqual(address,null);
-        assert.notEqual(address,undefined);
-        assert.notEqual(address,0x0);
-        assert.notEqual(address,'');
+        // const addressViCERC20 = this.ViCSale.ViCERC20 -> No devuelve la dirección
+
+        console.log(addressViCSale);
+        // console.log(this.ViCSale.ViCERC20.balanceOf(addressViCSale));
+
+        assert.notEqual(addressViCSale,null);
+        assert.notEqual(addressViCSale,undefined);
+        assert.notEqual(addressViCSale,0x0);
+        assert.notEqual(addressViCSale,'');
     })
 
 })
