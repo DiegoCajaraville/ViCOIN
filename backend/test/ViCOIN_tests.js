@@ -10,11 +10,10 @@ contract("ViCOIN", () => {
         const address = this.ViC.address
 
         console.log(address);
-        console.error(this.ViC);
         assert.notEqual(address,null);
-        assert.notEqual(address, undefined);
-        assert.notEqual(address, 0x0);
-        assert.notEqual(address, '');
+        assert.notEqual(address,undefined);
+        assert.notEqual(address,0x0);
+        assert.notEqual(address,'');
     })
 
 })
