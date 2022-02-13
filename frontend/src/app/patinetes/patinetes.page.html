@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Patinetes disponibles</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container">
+    
+    <ion-list>
+      <div *ngFor="let patinete of patinetes">
+        {{patinete.id}}
+        <ion-button href="http://localhost:8100/patinete?id={{patinete.id}}" color="secondary">Alquilar</ion-button>
+      </div>
+    </ion-list>
+
+    
+    <ion-button href="http://localhost:8100/comprar-moneda" color="secondary">Comprar moneda</ion-button>
+    
+  </div>
+</ion-content>
