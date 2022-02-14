@@ -7,13 +7,13 @@ import "./ViCOIN.sol";
     Acciones que debería poder llevar a cabo el admin sobre este contrato:
         - Editar {tokenPrice}
         - Llamar a ViCERC20.mint()
+        - Obtener el dinero de este contrato (lo pagado por los clientes)
 */
 
 contract ViCOINSale {
     address admin;
     ViCOIN public ViCERC20;
-    uint256 private centimo = 10000000000000000;
-    uint256 public tokenPrice = centimo;
+    uint256 public tokenPrice = 10000000000000000;
     // unidades en wheis, por lo tanto son 0.01 ETH cada ViCOIN
     uint256 public tokensSold = 0;
 
@@ -34,6 +34,10 @@ contract ViCOINSale {
 
     function moreSupply(uint256 newViCs) public soloAdmin {
         ViCERC20.mint(address(this), newViCs);
+    }
+
+    function getFunds() public soloAdmin {
+
     }
 
     function buyViCOINS(uint256 number) public payable {

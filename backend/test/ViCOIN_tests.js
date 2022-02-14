@@ -1,23 +1,36 @@
-const ViCOINSale = artifacts.require("ViCOINSale")
+const ViCOINSale = artifacts.require("ViCOINSale");
+const ViCOIN = artifacts.require("ViCOIN");
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 contract("ViCOINSale", () => {
+  before(async () => {
+    this.ViCSale = await ViCOINSale.deployed();
+    const addressViC = await this.ViCSale.ViCERC20();
+    this.ViC = await ViCOIN.at(addressViC.toString());
+    this.cuentas = await web3.eth.getAccounts();
+    this.admin = this.cuentas[0];
+  });
 
-    before( async () => {
-        this.ViCSale = await ViCOINSale.deployed()
-    })
+  it("migrates deployed successfully", async () => {
+    const addressViCSale = this.ViCSale.address;
+    const owner = await this.ViC.owner();
+    assert.equal(addressViCSale,owner.toString());
+  });
 
-    it('migrates deployed successfully', async () => {
-        const addressViCSale = this.ViCSale.address
+  it("Bought of 5 ViCOINs succeeded", async () => {
+    this.ViCSale.buyViCOINS(5, {value: web3.utils.toWei('0.05', 'ether'), from: this.cuentas[1]});
+    
+    //Hay que dar tiempo a la blockchain a actualizarse
+    await sleep(200);
 
-        // const addressViCERC20 = this.ViCSale.ViCERC20 -> No devuelve la dirección
-
-        console.log(addressViCSale);
-        // console.log(this.ViCSale.ViCERC20.balanceOf(addressViCSale));
-
-        assert.notEqual(addressViCSale,null);
-        assert.notEqual(addressViCSale,undefined);
-        assert.notEqual(addressViCSale,0x0);
-        assert.notEqual(addressViCSale,'');
-    })
-
-})
+    const balance = await this.ViC.balanceOf(this.ViCSale.address);
+    const balance2 = await this.ViC.balanceOf(this.cuentas[1]);
+    const total = await this.ViC.totalSupply();
+    console.log(balance.toNumber());
+    console.log(balance2.toNumber());
+    console.log(total.toNumber());
+  });
+});
