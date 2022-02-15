@@ -6,7 +6,11 @@
 
 <ion-content [fullscreen]="true">
   <div class="container">
-    
+    <google-map width="750px"
+            height="450px"
+            [center]="center"
+            [zoom]="zoom">
+</google-map>
     <ion-list>
       <div *ngFor="let patinete of patinetes">
         {{patinete.id}}
@@ -14,8 +18,8 @@
       </div>
     </ion-list>
 
-    
+
     <ion-button href="http://localhost:8100/comprar-moneda" color="secondary">Comprar moneda</ion-button>
-    
+
   </div>
 </ion-content>
