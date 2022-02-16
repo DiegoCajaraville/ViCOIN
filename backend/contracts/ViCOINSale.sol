@@ -37,7 +37,7 @@ contract ViCOINSale {
     }
 
     function getFunds() public soloAdmin {
-
+        require(payable(msg.sender).send(address(this).balance));
     }
 
     function buyViCOINS(uint256 number) public payable {

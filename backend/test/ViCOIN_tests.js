@@ -29,8 +29,17 @@ contract("ViCOINSale", () => {
     const balance = await this.ViC.balanceOf(this.ViCSale.address);
     const balance2 = await this.ViC.balanceOf(this.cuentas[1]);
     const total = await this.ViC.totalSupply();
-    console.log(balance.toNumber());
-    console.log(balance2.toNumber());
-    console.log(total.toNumber());
+
+    assert.equal(balance.toNumber(), 1995);
+    assert.equal(balance2.toNumber(), 5);
+    assert.equal(balance2.toNumber() + balance.toNumber(), total);
+    
   });
+
+  //Cambiar precio done
+  //it comprar 1996 ViCs error
+  //it mintear 5 ViCs succeed
+  //it comprar 1996 ViCs done
+  //it retirar los fondos al admin
+
 });
