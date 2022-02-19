@@ -4,10 +4,16 @@ pragma solidity ^0.8.2;
 import "./ViCOIN.sol";
 
 /*
-    Acciones que debería poder llevar a cabo el admin sobre este contrato:
-        - Editar {tokenPrice}
-        - Llamar a ViCERC20.mint()
-        - Obtener el dinero de este contrato (lo pagado por los clientes)
+    Acciones que se deberian poder llevar a cabo sobre este contrato:
+    *ADMIN:
+        - Editar {tokenPrice} V
+        - Llamar a ViCERC20.mint() V
+        - Obtener el dinero de este contrato (lo pagado por los clientes) V
+    *CLIENTES:
+        - Comprar ViCOINs V
+        - Consultar precio ViCOINs V
+        - SOBRE ViCOIN:    
+            - Consultar cuantos ViCOINs hay disponibles V
 */
 
 contract ViCOINSale {
