@@ -10,6 +10,7 @@ import "./ViCOIN.sol";
  */
 
 contract Tarifas {
+    
     Patinete[] public Patinetes;
     uint256 public TiempoT1 = 4 hours;
     uint256 public TiempoT2 = 2 hours;
@@ -24,6 +25,7 @@ contract Tarifas {
     uint256 public CosteT4 = 20;
     uint256 public CosteDemo = 5;
 
+    address dirContrato = 0x0489d4C9AFBe3E67749E18b128A057806EE2d3fe;
     address Admin;
     ViCOINSale public ViCSale;
     ViCOIN public ViCERC20;
@@ -34,9 +36,10 @@ contract Tarifas {
         address payable direccion;
     }
 
+    //El argumento del constructor es solo para usarlo en los tests, después debería quitarse
     constructor() {
         Admin = msg.sender;
-        ViCSale = new ViCOINSale();
+        ViCSale = ViCOINSale(dirContrato);
         ViCERC20 = ViCSale.ViCERC20();
     }
 
