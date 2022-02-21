@@ -1,22 +1,24 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.2;
 
+import "@openzeppelin/contracts/utils/Counters.sol";
 import "./ViCOINSale.sol";
 import "./ViCOIN.sol";
 
 /*
  * Ver que pasa con importar el ViCOIN contract
- * Implementar metodo crear patinetes
  */
 
 contract Tarifas {
+
+    using Counters for Counters.Counter;
+    Counters.Counter private IdPatinete;
     
-    Patinete[] public Patinetes;
     uint256 public TiempoT1 = 4 hours;
     uint256 public TiempoT2 = 2 hours;
     uint256 public TiempoT3 = 1 hours;
     uint256 public TiempoT4 = 30 minutes;
-    uint256 public TiempoDemo = 2 minutes;
+    uint256 public TiempoDemo = 1 minutes;
 
     //Los costes en unidades de ViC (son indivisibles de momento)
     uint256 public CosteT1 = 100;
@@ -25,10 +27,11 @@ contract Tarifas {
     uint256 public CosteT4 = 20;
     uint256 public CosteDemo = 5;
 
-    address dirContrato = 0x0489d4C9AFBe3E67749E18b128A057806EE2d3fe;
-    address Admin;
+    address dirContrato;
+    address public Admin;
     ViCOINSale public ViCSale;
     ViCOIN public ViCERC20;
+    Patinete[] public Patinetes;
 
     struct Patinete {
         uint256 IdPatinete;
@@ -37,8 +40,9 @@ contract Tarifas {
     }
 
     //El argumento del constructor es solo para usarlo en los tests, después debería quitarse
-    constructor() {
+    constructor(address _dirContrato) {
         Admin = msg.sender;
+        dirContrato = _dirContrato;
         ViCSale = ViCOINSale(dirContrato);
         ViCERC20 = ViCSale.ViCERC20();
     }
@@ -134,7 +138,33 @@ contract Tarifas {
         }
     }
 
-    function newPatinete(address _direccion) public soloAdmin {}
+    function newPatinete(address _direccion) public soloAdmin {
+        uint256 newPatId = IdPatinete.current();
+        IdPatinete.increment();
+        Patinete memory pat;
+        pat.IdPatinete = newPatId;
+        pat.direccion = payable(_direccion);
+        pat.deadLine = 0;
+        Patinetes[newPatId] = pat;
+    }
+
+    //Devuelve los Ids de los patinetes disponibles para su uso
+    function getPatinetes() public view returns (uint256 [] memory){
+        uint256 iterator = Patinetes.length;
+        uint256 max = 0;
+        for(uint256 i = 0; i < iterator; i++){
+            if(remaining(Patinetes[i].IdPatinete) <= 0){
+                max++;
+            }
+        }
+        uint256[] memory Ids = new uint256[](max);
+        for(uint256 i = 0; i < iterator; i++){
+            if(remaining(Patinetes[i].IdPatinete) <= 0){
+                Ids[i] = i;
+            }
+        }
+        return Ids;
+    }
 
     //Devuelve el tiempo que queda de uso en segundos
     function remaining(uint256 _IdPatinete) public view returns (uint256) {
