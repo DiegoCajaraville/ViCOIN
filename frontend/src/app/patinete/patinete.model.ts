@@ -1,6 +1,6 @@
 export interface Patinete{
     id: string;
-    coordinates: string;
-    location: string;
+    latitude: string;
+    longitude: string;
     battery: number;
 }

@@ -2,24 +2,16 @@
   <ion-toolbar>
     <ion-title>Patinetes disponibles</ion-title>
   </ion-toolbar>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+  crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+  crossorigin=""></script>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <div class="container">
-    <google-map width="750px"
-            height="450px"
-            [center]="center"
-            [zoom]="zoom">
-</google-map>
-    <ion-list>
-      <div *ngFor="let patinete of patinetes">
-        {{patinete.id}}
-        <ion-button href="http://localhost:8100/patinete?id={{patinete.id}}" color="secondary">Alquilar</ion-button>
-      </div>
-    </ion-list>
-
-
-    <ion-button href="http://localhost:8100/comprar-moneda" color="secondary">Comprar moneda</ion-button>
-
+    <div id="map"></div>
   </div>
 </ion-content>

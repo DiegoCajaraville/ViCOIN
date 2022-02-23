@@ -4,28 +4,29 @@ import { Patinete } from '../patinete/patinete.model';
   providedIn: 'root'
 })
 export class PatinetesService {
+
   private patinetes: Patinete[]=[
     {
       id: '1',
-      coordinates: '',
-      location: 'Castrelos',
+      latitude: '42.23826971200683',
+      longitude: '-8.719505616037408',
       battery: 100
     },
     {
       id: '2',
-      coordinates: '',
-      location: 'Urzaiz',
+      latitude: '42.23495405588338',
+      longitude: '-8.73021883869674',
       battery: 100
     },
     {
       id: '3',
-      coordinates: '',
-      location: 'Calle Zaragoza',
+      latitude: '42.227836213281826',
+      longitude: '-8.720090817296557',
       battery: 100
     }
   ]
   getPatinetes() {
     return [...this.patinetes]
   }
-  constructor() { }
+  constructor() {}
 }
