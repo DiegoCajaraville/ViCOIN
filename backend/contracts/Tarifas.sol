@@ -37,6 +37,7 @@ contract Tarifas {
         uint256 IdPatinete;
         uint256 deadLine;
         address payable direccion;
+        address usuarioActual;
     }
 
     //El argumento del constructor es solo para usarlo en los tests, después debería quitarse
@@ -50,6 +51,9 @@ contract Tarifas {
     //El front-end se debería ocupar de ver pedirle approve en caso de no tenerlo.
     //No hay forma de hacerlo en el back
     function tarifa1(uint256 _IdPatinete) public payable {
+        if(remaining(_IdPatinete) > 0){
+            require(msg.sender == Patinetes[_IdPatinete].usuarioActual);
+        }
         require(ViCERC20.allowance(msg.sender, address(this)) >= CosteT1);
         require(
             ViCERC20.transferFrom(
@@ -58,10 +62,14 @@ contract Tarifas {
                 CosteT1
             )
         );
+        Patinetes[_IdPatinete].usuarioActual = msg.sender;
         Patinetes[_IdPatinete].deadLine = block.timestamp + TiempoT1;
     }
 
     function tarifa2(uint256 _IdPatinete) public payable {
+        if(remaining(_IdPatinete) > 0){
+            require(msg.sender == Patinetes[_IdPatinete].usuarioActual);
+        }
         require(ViCERC20.allowance(msg.sender, address(this)) >= CosteT2);
         require(
             ViCERC20.transferFrom(
@@ -70,10 +78,14 @@ contract Tarifas {
                 CosteT2
             )
         );
+        Patinetes[_IdPatinete].usuarioActual = msg.sender;
         Patinetes[_IdPatinete].deadLine = block.timestamp + TiempoT2;
     }
 
     function tarifa3(uint256 _IdPatinete) public payable {
+        if(remaining(_IdPatinete) > 0){
+            require(msg.sender == Patinetes[_IdPatinete].usuarioActual);
+        }
         require(ViCERC20.allowance(msg.sender, address(this)) >= CosteT3);
         require(
             ViCERC20.transferFrom(
@@ -82,10 +94,14 @@ contract Tarifas {
                 CosteT3
             )
         );
+        Patinetes[_IdPatinete].usuarioActual = msg.sender;
         Patinetes[_IdPatinete].deadLine = block.timestamp + TiempoT3;
     }
 
     function tarifa4(uint256 _IdPatinete) public payable {
+        if(remaining(_IdPatinete) > 0){
+            require(msg.sender == Patinetes[_IdPatinete].usuarioActual);
+        }
         require(ViCERC20.allowance(msg.sender, address(this)) >= CosteT4);
         require(
             ViCERC20.transferFrom(
@@ -94,10 +110,14 @@ contract Tarifas {
                 CosteT4
             )
         );
+        Patinetes[_IdPatinete].usuarioActual = msg.sender;
         Patinetes[_IdPatinete].deadLine = block.timestamp + TiempoT4;
     }
 
     function tarifaDemo(uint256 _IdPatinete) public payable {
+        if(remaining(_IdPatinete) > 0){
+            require(msg.sender == Patinetes[_IdPatinete].usuarioActual);
+        }
         require(ViCERC20.allowance(msg.sender, address(this)) >= CosteDemo);
         require(
             ViCERC20.transferFrom(
@@ -106,6 +126,7 @@ contract Tarifas {
                 CosteDemo
             )
         );
+        Patinetes[_IdPatinete].usuarioActual = msg.sender;
         Patinetes[_IdPatinete].deadLine = block.timestamp + TiempoDemo;
     }
 
@@ -145,7 +166,8 @@ contract Tarifas {
         pat.IdPatinete = newPatId;
         pat.direccion = payable(_direccion);
         pat.deadLine = 0;
-        Patinetes[newPatId] = pat;
+        pat.usuarioActual = Admin;
+        Patinetes.push(pat);
     }
 
     //Devuelve los Ids de los patinetes disponibles para su uso
@@ -164,6 +186,10 @@ contract Tarifas {
             }
         }
         return Ids;
+    }
+    
+    function totalPatinetes() public view returns(uint256){
+        return IdPatinete.current();
     }
 
     //Devuelve el tiempo que queda de uso en segundos
