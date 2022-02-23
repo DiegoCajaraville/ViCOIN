@@ -6,6 +6,20 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/*
+    Tests a llevar a cabo:
+        * Crear un patinete
+        * Comprar 5 ViCOINs con usuario
+        * Comprobar patinete desactivado
+        * Comprar tarifaDemo
+        * Comprobar patinete usable durante un tiempo
+        * Modificar coste tarifa
+        * Modificar tiempo tarifa
+        * Comprobar da error si se paga menos
+        * Comprobar uso tarifa modificada
+        * Comprobar que otro no puede usar el patinete mientras esta en uso ?¿?¿?¿?¿?¿?
+*/
+
 contract("Tarifas", () => {
     let catchRevert = require("./exceptions.js").catchRevert;
 
@@ -30,6 +44,18 @@ contract("Tarifas", () => {
       assert.equal(ViCOfTarifas.toString(), this.ViC.address);
       assert.equal(admin1.toString(), admin2.toString());
       assert.equal(admin1.toString(), this.admin);
+      console.log(this.ViC.address);
+    });
+
+    it("patinete0 creado correctamente", async () => {
+        this.Tarifas.newPatinete('0xa53ea6ce25772b6a738be397b9629a34cce8fb97');
+        this.Tarifas.newPatinete("0xa53ea6ce25772b6a738be397b9629a34cce8fb97");
+        // let tiempo = await this.Tarifas.remaining(0);
+        let patinetes = await this.Tarifas.totalPatinetes();
+        console.log(patinetes.toNumber());
+        // let dir = await this.Tarifas.Patinetes[0];
+        // console.log(dir.toString());
+        // assert.equal(tiempo.toNumber(),0);
     });
 
 });
