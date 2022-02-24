@@ -12,7 +12,7 @@ import "./ViCOIN.sol";
 contract Tarifas {
 
     using Counters for Counters.Counter;
-    Counters.Counter private IdPatinete;
+    Counters.Counter private cuentaPatinetes;
     
     uint256 public TiempoT1 = 4 hours;
     uint256 public TiempoT2 = 2 hours;
@@ -40,7 +40,6 @@ contract Tarifas {
         address usuarioActual;
     }
 
-    //El argumento del constructor es solo para usarlo en los tests, después debería quitarse
     constructor(address _dirContrato) {
         Admin = msg.sender;
         dirContrato = _dirContrato;
@@ -160,8 +159,8 @@ contract Tarifas {
     }
 
     function newPatinete(address _direccion) public soloAdmin {
-        uint256 newPatId = IdPatinete.current();
-        IdPatinete.increment();
+        uint256 newPatId = cuentaPatinetes.current();
+        cuentaPatinetes.increment();
         Patinete memory pat;
         pat.IdPatinete = newPatId;
         pat.direccion = payable(_direccion);
@@ -189,16 +188,12 @@ contract Tarifas {
     }
     
     function totalPatinetes() public view returns(uint256){
-        return IdPatinete.current();
+        return cuentaPatinetes.current();
     }
 
     //Devuelve el tiempo que queda de uso en segundos
     function remaining(uint256 _IdPatinete) public view returns (uint256) {
-        uint256 res = Patinetes[_IdPatinete].deadLine - block.timestamp;
-        if (res < 0) {
-            res = 0;
-        }
-        return res;
+        return (Patinetes[_IdPatinete].deadLine < block.timestamp) ? (0) : (Patinetes[_IdPatinete].deadLine - block.timestamp);
     }
 
     modifier soloAdmin() {
