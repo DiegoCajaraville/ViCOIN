@@ -19,9 +19,10 @@ import "./ViCOIN.sol";
 contract ViCOINSale {
     address public admin;
     ViCOIN public ViCERC20;
-    uint256 public tokenPrice = 0.01 * 10 ** 18;
+    uint256 public tokenPrice = 1 * 10 ** 16;
     // unidades en wheis, por lo tanto son 0.01 ETH cada ViCOIN
     uint256 public tokensSold = 0;
+
 
     event Sell(address _buyer, uint256 _amount);
 
@@ -30,8 +31,8 @@ contract ViCOINSale {
         ViCERC20 = new ViCOIN();
     }
 
-    function multiply(uint256 x, uint256 y) internal pure returns (uint256 z) {
-        require(y == 0 || (z = x * y) / y == x);
+    function getPrice(uint256 x, uint256 y) internal pure returns (uint256 z) {
+        z = ((y * (x/10**18)*(x/10**18))/x)*10**18;
     }
 
     function setPrice(uint256 newPrice) public soloAdmin {
@@ -47,7 +48,7 @@ contract ViCOINSale {
     }
 
     function buyViCOINS(uint256 number) public payable {
-        require(msg.value == multiply(number, tokenPrice));
+        require(msg.value == getPrice(number,tokenPrice));
         require(ViCERC20.balanceOf(address(this)) >= number);
         require(ViCERC20.transfer(msg.sender, number));
 
