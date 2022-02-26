@@ -14,10 +14,10 @@ contract Tarifas {
     using Counters for Counters.Counter;
     Counters.Counter private cuentaPatinetes;
     
-    uint256 public TiempoT1 = 4 hours;
-    uint256 public TiempoT2 = 2 hours;
-    uint256 public TiempoT3 = 1 hours;
-    uint256 public TiempoT4 = 30 minutes;
+    uint256 public TiempoT1 = 1 hours;
+    uint256 public TiempoT2 = 45 minutes;
+    uint256 public TiempoT3 = 30 minutes;
+    uint256 public TiempoT4 = 15 minutes;
     uint256 public TiempoDemo = 1 minutes;
 
     //Los costes en unidades de ViC (son indivisibles de momento)

@@ -35,7 +35,7 @@ contract("ViCOINSale", () => {
     const balance2 = await this.ViC.balanceOf(this.cuentas[1]);
     const total = await this.ViC.totalSupply();
 
-    assert.equal(balance.toNumber(), 1995);
+    assert.equal(balance.toNumber(), 1995*10^18);
     assert.equal(balance2.toNumber(), 5);
     assert.equal(balance2.toNumber() + balance.toNumber(), total);
   });

@@ -53,6 +53,8 @@ Dentro del proyecto se ha generado una estructura definida por:
 
 Para desplegar el contrato usaremos `truffle deploy` pero si queremos obtener el código compilado de los contratos en formato JSON usaremos `truffle compile` (otra opción es `truffle migrate -f 2 --to 2` donde los flags -f y --to indican el primer y último contrato a compilar).
 
+Para desplegar contratos sobre otra blockchain debemos definir el fichero .env, que contendrá el project_id de infura y la semilla de la cuenta con dinero para desplegar el contrato, definir el nuevo entorno en truffle-config.js y desplegar mediante el comando: `truffle migrate --network {nombre_blockchain}`
+
 ### Ganache
 
 Nos permitirá despligar una Blockchain local, que cuenta con múltiples cuentas (claves públicas), orientado al testing del proyecto. En nuestro caso, usaremos la interfaz gráfica pues será más sencillo de visualizar:

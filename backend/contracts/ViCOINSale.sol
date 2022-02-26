@@ -19,7 +19,7 @@ import "./ViCOIN.sol";
 contract ViCOINSale {
     address public admin;
     ViCOIN public ViCERC20;
-    uint256 public tokenPrice = 10000000000000000;
+    uint256 public tokenPrice = 0.01 * 10 ** 18;
     // unidades en wheis, por lo tanto son 0.01 ETH cada ViCOIN
     uint256 public tokensSold = 0;
 

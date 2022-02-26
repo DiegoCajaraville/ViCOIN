@@ -6,8 +6,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract ViCOIN is ERC20, Ownable {
     constructor() ERC20("ViCOIN", "ViC") {
-        //_mint(msg.sender, 2000 * 10 ** decimals());
-        _mint(msg.sender, 2000);
+        _mint(msg.sender, 20000 * 10 ** decimals());
+        // _mint(msg.sender, 2000);
     }
 
     function mint(address to, uint256 amount) public onlyOwner {

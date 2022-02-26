@@ -20,6 +20,8 @@ function sleep(ms) {
         * Comprobar que otro no puede usar el patinete mientras esta en uso
 */
 
+//IMPORTANTE: este test no puede usarse con el autominado de truffle (ya que no calcula el tiempo correctamente)
+
 contract("Tarifas", () => {
   let catchRevert = require("./exceptions.js").catchRevert;
 
