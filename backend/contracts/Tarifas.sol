@@ -18,14 +18,14 @@ contract Tarifas {
     uint256 public TiempoT2 = 45 minutes;
     uint256 public TiempoT3 = 30 minutes;
     uint256 public TiempoT4 = 15 minutes;
-    uint256 public TiempoDemo = 1 minutes;
+    uint256 public TiempoDemo = 3 minutes;
 
-    //Los costes en unidades de ViC (son indivisibles de momento)
-    uint256 public CosteT1 = 100;
-    uint256 public CosteT2 = 50;
-    uint256 public CosteT3 = 30;
-    uint256 public CosteT4 = 20;
-    uint256 public CosteDemo = 5;
+    //Los costes en weis de ViC
+    uint256 public CosteT1 = 18 * 10 ** 18;
+    uint256 public CosteT2 = 15 * 10 ** 18;
+    uint256 public CosteT3 = 10 * 10 ** 18;
+    uint256 public CosteT4 = 5 * 10 ** 18;
+    uint256 public CosteDemo = 1 * 10 ** 18;
 
     address dirContrato;
     address public Admin;
@@ -49,7 +49,7 @@ contract Tarifas {
 
     //El front-end se debería ocupar de ver pedirle approve en caso de no tenerlo.
     //No hay forma de hacerlo en el back
-    function tarifa1(uint256 _IdPatinete) public payable {
+    function tarifa1(uint256 _IdPatinete) public {
         if(remaining(_IdPatinete) > 0){
             require(msg.sender == Patinetes[_IdPatinete].usuarioActual);
         }
@@ -65,7 +65,7 @@ contract Tarifas {
         Patinetes[_IdPatinete].deadLine = block.timestamp + TiempoT1;
     }
 
-    function tarifa2(uint256 _IdPatinete) public payable {
+    function tarifa2(uint256 _IdPatinete) public {
         if(remaining(_IdPatinete) > 0){
             require(msg.sender == Patinetes[_IdPatinete].usuarioActual);
         }
@@ -81,7 +81,7 @@ contract Tarifas {
         Patinetes[_IdPatinete].deadLine = block.timestamp + TiempoT2;
     }
 
-    function tarifa3(uint256 _IdPatinete) public payable {
+    function tarifa3(uint256 _IdPatinete) public {
         if(remaining(_IdPatinete) > 0){
             require(msg.sender == Patinetes[_IdPatinete].usuarioActual);
         }
@@ -97,7 +97,7 @@ contract Tarifas {
         Patinetes[_IdPatinete].deadLine = block.timestamp + TiempoT3;
     }
 
-    function tarifa4(uint256 _IdPatinete) public payable {
+    function tarifa4(uint256 _IdPatinete) public {
         if(remaining(_IdPatinete) > 0){
             require(msg.sender == Patinetes[_IdPatinete].usuarioActual);
         }
@@ -113,7 +113,7 @@ contract Tarifas {
         Patinetes[_IdPatinete].deadLine = block.timestamp + TiempoT4;
     }
 
-    function tarifaDemo(uint256 _IdPatinete) public payable {
+    function tarifaDemo(uint256 _IdPatinete) public {
         if(remaining(_IdPatinete) > 0){
             require(msg.sender == Patinetes[_IdPatinete].usuarioActual);
         }
@@ -143,7 +143,7 @@ contract Tarifas {
             TiempoDemo = newTime;
         }
     }
-    //Se le debe dar el coste en unidades de ViC
+    //Se le debe dar el coste en weis de ViC
     function setCoste(uint256 NTarifa, uint256 newCost) public soloAdmin {
         if (NTarifa == 1) {
             CosteT1 = newCost;
