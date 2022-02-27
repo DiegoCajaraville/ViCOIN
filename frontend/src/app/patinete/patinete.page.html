@@ -1,24 +1,42 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Datos patinete </ion-title>
+  
+  <ion-toolbar color="primary" style="max-height: 200px">
+    
+  
+    <ion-title id="logo" style="text-align:center">
+      <img alt="logo" src="../../assets/icon/logo.png" height="40" id="logo">
+    </ion-title>
+
+    <ion-buttons slot="start">
+      <ion-menu-button contentId="main"></ion-menu-button>
+    </ion-buttons>
+
+    
   </ion-toolbar>
+
+
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
   crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
   crossorigin=""></script>
+
+
+
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <div id="container">
+<ion-content>
+  <ion-card>
     <ion-item>
-      Identificador: {{patinete.id}}
+      <div id="map"></div>
     </ion-item>
     <ion-item>
-      Batería disponible: {{patinete.battery}}
+      <div class="card-title">Patinete {{patinete.id}}</div>  
     </ion-item>
-    <div id="map"></div>
-    <ion-button href="http://localhost:8100/patinetes">Atrás</ion-button>
-  </div>
+    
+
+  </ion-card>
 </ion-content>
+
+

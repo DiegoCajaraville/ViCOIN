@@ -13,9 +13,12 @@ var patinetes=[];
 export class PatinetesPage implements OnInit {
 
   constructor(private patinetesService: PatinetesService) { }
+  clickMenuMoneda(){
+    window.location.href="http://localhost:8100/comprarMoneda";
+  }
   ngOnInit() {
     patinetes = this.patinetesService.getPatinetes()
-    var map = L.map('map').setView([42.262539326354435, -8.748173066323389], 13);
+    var map = L.map('map').setView([42.22912736762485, -8.726044981888979], 16);
     for (var i=0 ; i < patinetes.length ; i++){
       
       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
@@ -43,8 +46,5 @@ export class PatinetesPage implements OnInit {
         }
       }
     }
-
-
   }
-  
 }

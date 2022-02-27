@@ -35,9 +35,9 @@ const routes: Routes = [
     loadChildren: () => import('./patinete/patinete.module').then( m => m.PatinetePageModule)
   },
   {
-    path: 'comprar-moneda',
+    path: 'comprarMoneda',
     loadChildren: () => import('./comprar-moneda/comprar-moneda.module').then( m => m.ComprarMonedaPageModule)
-  }
+  },
 ];
 
 @NgModule({

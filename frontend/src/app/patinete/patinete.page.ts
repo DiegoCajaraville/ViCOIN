@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { element } from 'protractor';
+
 import { PatinetesService } from '../patinetes/patinetes.service';
-import { Patinete } from './patinete.model';
+
 import * as L from 'Leaflet';
 @Component({
   selector: 'app-patinete',
@@ -11,22 +11,24 @@ import * as L from 'Leaflet';
 export class PatinetePage implements OnInit {
   patinetes=[]
   patinete
-  URL= window.location
+
   
   constructor(private patinetesService: PatinetesService) {}
-
+ 
   ngOnInit() {
+    //Alert metamask
+    
     this.patinetes=this.patinetesService.getPatinetes()
     this.patinete=this.getPatinete()
     var map = L.map('map').setView([42.262539326354435, -8.748173066323389], 13);
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenVicXZkejAyZnEydXVqN2l2Y2YxOWMifQ.glNgtsVaHuVyzN8dtwkqgw}', {
-      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-      maxZoom: 18,
-      id: 'mapbox/streets-v11',
-      tileSize: 512,
-      zoomOffset: -1,
-      accessToken: 'your.mapbox.access.token'
-    }).addTo(map);
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'your.mapbox.access.token'
+      }).addTo(map);
     L.marker([this.patinete.latitude, this.patinete.longitude]).addTo(map);
   }
   getPatinete(){
