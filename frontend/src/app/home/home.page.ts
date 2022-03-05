@@ -17,7 +17,9 @@ export class HomePage {
 
     //Cuenta seleccionada por el usuario
     account;
-    contracts;
+    ViCOIN;
+    ViCOINSale;
+    Tarifas;
     metamaskProvider;
     ViCOINContract;
     ViCOINSalesContract;
@@ -50,19 +52,19 @@ export class HomePage {
         try{
 
             //Creamos la estructura del contrato
-            this.contracts.ViCOIN=TruffleContract(contratoViCOIN);
-            this.contracts.ViCOINSale = TruffleContract(contratoViCOINSale);
-            this.contracts.Tarifas = TruffleContract(contratoTarifas);
+            this.ViCOIN=TruffleContract(contratoViCOIN);
+            this.ViCOINSale = TruffleContract(contratoViCOINSale);
+            this.Tarifas = TruffleContract(contratoTarifas);
             
             // Nos conectamos al contrato a través de la cuenta del wallet (Metamask)
-            this.contracts.ViCOIN.setProvider(this.metamaskProvider);
-            this.contracts.ViCOINSale.setProvider(this.metamaskProvider);
-            this.contracts.Tarifas.setProvider(this.metamaskProvider);
+            this.ViCOIN.setProvider(this.metamaskProvider);
+            this.ViCOINSale.setProvider(this.metamaskProvider);
+            this.Tarifas.setProvider(this.metamaskProvider);
 
-            this.ViCOINContract= await this.contracts.ViCOIN.deployed();
+            this.ViCOINContract= await this.ViCOIN.deployed();
             
-            this.ViCOINSalesContract=await this.contracts.ViCOINSale.deployed();
-            this.TarifasContract = await this.contracts.Tarifas.deployed();
+            this.ViCOINSalesContract=await this.ViCOINSale.deployed();
+            this.TarifasContract = await this.Tarifas.deployed();
 
 
             //console.log("Contratos cargados");
