@@ -37,7 +37,7 @@ const routes: Routes = [
   {
     path: 'comprarMoneda',
     loadChildren: () => import('./comprar-moneda/comprar-moneda.module').then( m => m.ComprarMonedaPageModule)
-  },
+  }
 ];
 
 @NgModule({
