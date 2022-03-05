@@ -32,7 +32,7 @@
               }
             ],
             "styles": ["src/theme/variables.scss", "src/global.scss"],
-            "scripts": [],
+            "scripts": ["node_modules/truffle-contract/dist/truffle-contract.min.js"],
             "aot": false,
             "vendorChunk": true,
             "extractLicenses": false,

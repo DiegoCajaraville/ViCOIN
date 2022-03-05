@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-//var TruffleContract = require("@truffle/contract");
-//var TruffleContract = require("truffle-contract");
-//import { TruffleContract } from ""
 
-// Obtenemos los contratos compilados desde local
 import contratoViCOIN from '../../../contracts/ViCOIN.json';
 import contratoViCOINSale from '../../../contracts/ViCOINSale.json';
 import contratoTarifas from '../../../contracts/Tarifas.json';
@@ -23,7 +19,6 @@ export class HomePage {
     account;
     contracts;
     metamaskProvider;
-
     ViCOINContract;
     ViCOINSalesContract;
     TarifasContract;
@@ -55,18 +50,21 @@ export class HomePage {
         try{
 
             //Creamos la estructura del contrato
-            //this.contracts.ViCOIN = await TruffleContract(contratoViCOIN);
-            //this.contracts.ViCOINSale = TruffleContract(contratoViCOINSale);
-            //this.contracts.Tarifas = TruffleContract(contratoTarifas);
+            this.contracts.ViCOIN=TruffleContract(contratoViCOIN);
+            this.contracts.ViCOINSale = TruffleContract(contratoViCOINSale);
+            this.contracts.Tarifas = TruffleContract(contratoTarifas);
             
             // Nos conectamos al contrato a través de la cuenta del wallet (Metamask)
-            //this.contracts.ViCOIN.setProvider(this.metamaskProvider);
-            //this.contracts.ViCOINSale.setProvider(this.metamaskProvider);
-            //this.contracts.Tarifas.setProvider(this.metamaskProvider);
+            this.contracts.ViCOIN.setProvider(this.metamaskProvider);
+            this.contracts.ViCOINSale.setProvider(this.metamaskProvider);
+            this.contracts.Tarifas.setProvider(this.metamaskProvider);
 
-            //this.ViCOINContract= await this.contracts.ViCOIN.deployed();
-            //this.ViCOINSalesContract=await this.contracts.ViCOINSale.deployed();
-            //this.TarifasContract = await this.contracts.Tarifas.deployed();
+            this.ViCOINContract= await this.contracts.ViCOIN.deployed();
+            
+            this.ViCOINSalesContract=await this.contracts.ViCOINSale.deployed();
+            this.TarifasContract = await this.contracts.Tarifas.deployed();
+
+
             //console.log("Contratos cargados");
             //console.log(this.ViCOINContract);
             //console.log(this.ViCOINSalesContract);
