@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
+import { HomeService } from './home.service';
+
 
 import contratoViCOIN from '../../../contracts/ViCOIN.json';
 import contratoViCOINSale from '../../../contracts/ViCOINSale.json';
 import contratoTarifas from '../../../contracts/Tarifas.json';
 
+
 declare let window:any;
 declare let TruffleContract:any;
+
 
 @Component({
   selector: 'app-home',
@@ -14,43 +18,46 @@ declare let TruffleContract:any;
 })
 
 export class HomePage {
+    dineroCuenta;
 
-    //Cuenta seleccionada por el usuario
+
+
     account;
     ViCOIN;
     ViCOINSale;
     Tarifas;
     metamaskProvider;
     ViCOINContract;
-    ViCOINSalesContract;
+    ViCOINSaleContract;
     TarifasContract;
+    //Cuenta seleccionada por el usuario
+    
 
-    constructor() {}
+    constructor(private HomeService: HomeService) {}
     ngOnInit() {
         this.loadMetamask();
+        console.log("AAAAAAAAAAAAA");
         this.loadContract();
-    }
+        console.log("sdfvszdaszdfszd");
+        this.balanceOfCliente();
+    }    
 
-    /**
-     * Carga el objeto del navegador que contiene la extensión del wallet 
-     * que contiene las cuentas para la red BlockChain
-    */
+
 
     async loadMetamask(){
+
         if (window.ethereum) {
             this.metamaskProvider=window.ethereum;
             const accounts=await this.metamaskProvider.request({ method: "eth_requestAccounts" });
             this.account=accounts[0];
-
             console.log(this.account);
         }else 
             alert("No ethereum browser is installed. Try it installing MetaMask ");
-    }
+      }
 
-    async loadContract(){
 
+      async loadContract(){
         try{
-
             //Creamos la estructura del contrato
             this.ViCOIN=TruffleContract(contratoViCOIN);
             this.ViCOINSale = TruffleContract(contratoViCOINSale);
@@ -60,34 +67,43 @@ export class HomePage {
             this.ViCOIN.setProvider(this.metamaskProvider);
             this.ViCOINSale.setProvider(this.metamaskProvider);
             this.Tarifas.setProvider(this.metamaskProvider);
-
-            this.ViCOINContract= await this.ViCOIN.deployed();
-            
-            this.ViCOINSalesContract=await this.ViCOINSale.deployed();
+    
+            this.ViCOINSaleContract = await this.ViCOINSale.deployed();
             this.TarifasContract = await this.Tarifas.deployed();
-
-
+            this.ViCOINContract= await this.ViCOIN.at('0xe8e781E9F26b21a0319bac6dc7e2843a86b29eaf');
+            //const beta= await this.ViCOINSaleContract.tokenPrice();
+            const alfa=await this.ViCOINContract.balanceOf(this.account);
+            console.log(alfa);
+            //this.dineroCuenta=await this.ViCOINContract.balanceOf(this.account);
+            //this.ViCOINContract.address;
             //console.log("Contratos cargados");
-            //console.log(this.ViCOINContract);
+            //console.log(this.ViCOINContract.balanceOf(this.account));
             //console.log(this.ViCOINSalesContract);
             //console.log(this.TarifasContract);
             
             //const patinetes = await this.TarifasContract.Patinetes(0);
             //const tokenIdNFT = patinetes.IdPatinete.toNumber();
-
+    
             //const priceNFT   = patinetes.price/(Math.pow(10, 18));   // Para pasar de Weis a ETH
             //var priceNFT_WEI = priceNFT_ETH * (Math.pow(10, 18));
-
+    
             //value nen wei
             //await App.tiendaContract.buyNFT(tokenId, {
             //  from: this.account,
             //  value: priceNFT_WEI
             //});
-
+    
             //console.log(tokenIdNFT);
         } catch (error) {
             console.error(error);
         }
-    }
+      }
     
+      async balanceOfCliente(){
+
+        //this.dineroCuenta=await this.ViCOINContract.balanceOf(this.account);
+      }
+
+
+
 }

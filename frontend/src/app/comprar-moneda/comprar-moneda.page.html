@@ -5,7 +5,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  
   <div id="container">
+    <ion-label>$VICs: {{dineroCliente}}</ion-label>
+    <ion-label>Precio Vic: {{precio}}</ion-label>
+    <ion-input type="number" [(ngModel)]="precioSeleccionado" position="floating">Cantidad a comprar</ion-input>
+    <ion-button (click)="comprarMoneda()"></ion-button>
     <ion-button href="http://localhost:8100/patinetes">Atrás</ion-button>
   </div>
 </ion-content>
