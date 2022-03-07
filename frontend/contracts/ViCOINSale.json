@@ -7982,60 +7982,14 @@
   },
   "networks": {
     "3": {
-      "events": {
-        "0x5e5e995ce3133561afceaa51a9a154d5db228cd7525d34df5185582c18d3df09": {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": false,
-              "internalType": "address",
-              "name": "_buyer",
-              "type": "address"
-            },
-            {
-              "indexed": false,
-              "internalType": "uint256",
-              "name": "_amount",
-              "type": "uint256"
-            }
-          ],
-          "name": "Sell",
-          "type": "event"
-        }
-      },
+      "events": {},
       "links": {},
-      "address": "0xEDacEee406b3Aac047604E12c1AFf7563a04eD93",
-      "transactionHash": "0xa512eab08cc37d36c6912443d6cf793adf458b8bc9b6f64308bc150327f6380e"
-    },
-    "5777": {
-      "events": {
-        "0x5e5e995ce3133561afceaa51a9a154d5db228cd7525d34df5185582c18d3df09": {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": false,
-              "internalType": "address",
-              "name": "_buyer",
-              "type": "address"
-            },
-            {
-              "indexed": false,
-              "internalType": "uint256",
-              "name": "_amount",
-              "type": "uint256"
-            }
-          ],
-          "name": "Sell",
-          "type": "event"
-        }
-      },
-      "links": {},
-      "address": "0x11C14530878fb09cff1dD00373CAac15776C95F9",
-      "transactionHash": "0x8e2569b4fa8737d48e1dbb5bce41e41d129ef3fa562dcc690f5be41a28aac7b5"
+      "address": "0x548Dd29243fE0253Bd182A743133c109a6CA9E7A",
+      "transactionHash": "0x7e767899fe0d105357b7c7c26e671d5b4efaf3eacd62a6efb2c9bb68db2d3032"
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2022-02-26T23:18:37.441Z",
+  "updatedAt": "2022-03-07T14:21:59.173Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
