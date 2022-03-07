@@ -52,6 +52,7 @@ contract("Tarifas", () => {
   it("patinete0 y patinete1 creados correctamente", async () => {
     this.Tarifas.newPatinete("0xa53ea6ce25772b6a738be397b9629a34cce8fb97");
     this.Tarifas.newPatinete("0x986cBfcd1034E84485110a78302906B6CD96878e");
+    this.Tarifas.newPatinete("0xD5B42F28F536c6b58E433a47815a76304a372C4B");
     //Hay que dar tiempo a la blockchain a actualizarse
     await sleep(1500);
     let tiempo = await this.Tarifas.remaining(0);
