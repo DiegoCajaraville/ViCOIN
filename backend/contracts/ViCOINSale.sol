@@ -2,6 +2,7 @@
 pragma solidity ^0.8.2;
 
 import "./ViCOIN.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 /*
     Acciones que se deberian poder llevar a cabo sobre este contrato:
@@ -17,6 +18,8 @@ import "./ViCOIN.sol";
 */
 
 contract ViCOINSale {
+
+    using SafeMath for uint256;
     address public admin;
     ViCOIN public ViCERC20;
     uint256 public tokenPrice = 1 * 10 ** 16;
@@ -32,7 +35,7 @@ contract ViCOINSale {
     }
 
     function getPrice(uint256 x, uint256 y) internal pure returns (uint256 z) {
-        z = ((y * (x/10**18)*(x/10**18))/x)*10**18;
+        z = y.mul(x).div(10**18);
     }
 
     function setPrice(uint256 newPrice) public soloAdmin {
@@ -48,7 +51,7 @@ contract ViCOINSale {
     }
 
     function buyViCOINS(uint256 number) public payable {
-        // require(msg.value == getPrice(number,tokenPrice));
+        require(msg.value == getPrice(number,tokenPrice));
         require(ViCERC20.balanceOf(address(this)) >= number);
         require(ViCERC20.transfer(msg.sender, number));
 
