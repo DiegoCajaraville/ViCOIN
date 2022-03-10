@@ -48,7 +48,7 @@ contract ViCOINSale {
     }
 
     function buyViCOINS(uint256 number) public payable {
-        require(msg.value == getPrice(number,tokenPrice));
+        // require(msg.value == getPrice(number,tokenPrice));
         require(ViCERC20.balanceOf(address(this)) >= number);
         require(ViCERC20.transfer(msg.sender, number));
 
