@@ -26,7 +26,7 @@
     "@capacitor/status-bar": "1.0.8",
     "@ionic/angular": "^6.0.0",
     "@metamask/onboarding": "^1.0.1",
-    "@truffle/contract": "^4.4.11",
+    "@truffle/contract": "^4.5.0",
     "assert": "^2.0.0",
     "core-js": "^3.21.1",
     "crypto-browserify": "^3.12.0",
@@ -39,7 +39,6 @@
     "require": "^2.4.20",
     "rxjs": "~6.6.0",
     "stream-browserify": "^3.0.0",
-    "truffle-contract": "^4.0.31",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
   },

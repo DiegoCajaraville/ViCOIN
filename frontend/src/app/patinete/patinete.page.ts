@@ -12,6 +12,8 @@ import contratoTarifas from '../../../contracts/Tarifas.json';
 
 declare let window:any;
 declare let TruffleContract:any;
+
+
 @Component({
   selector: 'app-patinete',
   templateUrl: './patinete.page.html',
