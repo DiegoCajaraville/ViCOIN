@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HomeService } from './home.service';
-
+import { HttpClient } from "@angular/common/http";
 
 import contratoViCOIN from '../../../contracts/ViCOIN.json';
 import contratoViCOINSale from '../../../contracts/ViCOINSale.json';
@@ -23,7 +23,7 @@ export class HomePage {
     dineroCuenta;
 
 
-
+    
     account;
     ViCOIN;
     ViCOINSale;
@@ -33,19 +33,36 @@ export class HomePage {
     ViCOINSaleContract;
     TarifasContract;
     //Cuenta seleccionada por el usuario
-    
+ 
 
-    constructor(private HomeService: HomeService) {}
+    constructor(private HomeService: HomeService, public http:HttpClient ) {}
     ngOnInit() {
+      this.getPatinetes();
         this.loadMetamask();
         console.log("AAAAAAAAAAAAA");
         this.loadContract();
         console.log("sdfvszdaszdfszd");
         this.balanceOfCliente();
-      
+        
     }    
 
 
+
+    /*
+    curl 
+    -G 'http://ec2-44-201-180-246.compute-1.amazonaws.com:8086/query?pretty=true' 
+    -H "Authorization: Token admin:lproPassword" 
+    --data-urlencode "db=pruebas" 
+    --data-urlencode "q=SELECT * FROM patinete1 ORDER BY time DESC LIMIT 1"
+    */
+
+    getPatinetes(){
+        var result=this.http.get("http://ec2-44-201-180-246.compute-1.amazonaws.com:8086/query?pretty=true",{
+        headers: {'Authorization': 'Token admin:lproPassword'},
+        params: {'db': 'pruebas', 'q':'SELECT * FROM patinete1 ORDER BY time DESC LIMIT 1'}
+      });
+      console.log(result);
+    }
 
     async loadMetamask(){
 

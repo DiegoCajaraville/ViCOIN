@@ -5,6 +5,7 @@ import contratoViCOINSale from '../../../contracts/ViCOINSale.json';
 import contratoTarifas from '../../../contracts/Tarifas.json';
 
 
+
 declare let window:any;
 declare let TruffleContract:any;
 
