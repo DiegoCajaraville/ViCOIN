@@ -11,6 +11,8 @@ declare let window:any;
 declare let TruffleContract:any;
 
 
+
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -40,6 +42,7 @@ export class HomePage {
         this.loadContract();
         console.log("sdfvszdaszdfszd");
         this.balanceOfCliente();
+      
     }    
 
 
@@ -105,7 +108,4 @@ export class HomePage {
 
         //this.dineroCuenta=await this.ViCOINContract.balanceOf(this.account);
       }
-
-
-
 }

@@ -18,7 +18,7 @@
       "assert": ["./node_modules/assert"],
       "http": ["./node_modules/stream-http"],
       "https": ["./node_modules/https-browserify"],
-      "os": ["./node_modules/os-browserify"],
+      "os": ["./node_modules/os-browserify"]
     },
     "lib": ["es2018", "dom"]
   },

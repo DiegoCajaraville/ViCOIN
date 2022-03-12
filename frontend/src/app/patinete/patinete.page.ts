@@ -115,37 +115,13 @@ export class PatinetePage implements OnInit {
       }
       
     }else{
-        this.allowRent = this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
-        if(this.allowRent >= this.tarifa1){
-          if(this.tarifaSeleccionada==1){
-            this.TarifasContract.tarifa1(this.patinete.id);
-          }else if(this.tarifaSeleccionada==2){
-            this.TarifasContract.tarifa2(this.patinete.id);
-          }else if(this.tarifaSeleccionada==3){
-            this.TarifasContract.tarifa3(this.patinete.id);
-          }else if(this.tarifaSeleccionada==4){
-            this.TarifasContract.tarifa4(this.patinete.id);
-          }else if(this.tarifaSeleccionada==5){
-            this.TarifasContract.tarifaDemo(this.patinete.id);
-          }
-        }else{
-          if(this.tarifaSeleccionada==1){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa1*Math.pow(10,18));
-            this.TarifasContract.tarifa1(this.patinete.id);
-          }else if(this.tarifaSeleccionada==2){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa2*Math.pow(10,18));
-            this.TarifasContract.tarifa2(this.patinete.id);
-          }else if(this.tarifaSeleccionada==3){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa3*Math.pow(10,18));
-            this.TarifasContract.tarifa3(this.patinete.id);
-          }else if(this.tarifaSeleccionada==4){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa4*Math.pow(10,18));
-            this.TarifasContract.tarifa4(this.patinete.id);
-          }else if(this.tarifaSeleccionada==5){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifaDemo*Math.pow(10,18));
-            this.TarifasContract.tarifaDemo(this.patinete.id);
-          }
-        }
+      this.allowRent = this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
+      if(this.allowRent >= this.tarifa1){
+        this.TarifasContract.tarifa1(this.patinete.id);
+      }else{
+        this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa1*Math.pow(10,18));
+        this.TarifasContract.tarifa1(this.patinete.id);
+      }
     }
   }
 
@@ -163,37 +139,13 @@ export class PatinetePage implements OnInit {
       }
       
     }else{
-        this.allowRent = this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
-        if(this.allowRent >= this.tarifa2){
-          if(this.tarifaSeleccionada==1){
-            this.TarifasContract.tarifa1(this.patinete.id);
-          }else if(this.tarifaSeleccionada==2){
-            this.TarifasContract.tarifa2(this.patinete.id);
-          }else if(this.tarifaSeleccionada==3){
-            this.TarifasContract.tarifa3(this.patinete.id);
-          }else if(this.tarifaSeleccionada==4){
-            this.TarifasContract.tarifa4(this.patinete.id);
-          }else if(this.tarifaSeleccionada==5){
-            this.TarifasContract.tarifaDemo(this.patinete.id);
-          }
-        }else{
-          if(this.tarifaSeleccionada==1){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa1*Math.pow(10,18));
-            this.TarifasContract.tarifa1(this.patinete.id);
-          }else if(this.tarifaSeleccionada==2){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa2*Math.pow(10,18));
-            this.TarifasContract.tarifa2(this.patinete.id);
-          }else if(this.tarifaSeleccionada==3){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa3*Math.pow(10,18));
-            this.TarifasContract.tarifa3(this.patinete.id);
-          }else if(this.tarifaSeleccionada==4){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa4*Math.pow(10,18));
-            this.TarifasContract.tarifa4(this.patinete.id);
-          }else if(this.tarifaSeleccionada==5){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifaDemo*Math.pow(10,18));
-            this.TarifasContract.tarifaDemo(this.patinete.id);
-          }
-        }
+      this.allowRent = this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
+      if(this.allowRent >= this.tarifa2){
+        this.TarifasContract.tarifa2(this.patinete.id);
+      }else{
+        this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa2*Math.pow(10,18));
+        this.TarifasContract.tarifa2(this.patinete.id);
+      }
     }
   }
 
@@ -211,37 +163,13 @@ export class PatinetePage implements OnInit {
       }
       
     }else{
-        this.allowRent = this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
-        if(this.allowRent >= this.tarifa3){
-          if(this.tarifaSeleccionada==1){
-            this.TarifasContract.tarifa1(this.patinete.id);
-          }else if(this.tarifaSeleccionada==2){
-            this.TarifasContract.tarifa2(this.patinete.id);
-          }else if(this.tarifaSeleccionada==3){
-            this.TarifasContract.tarifa3(this.patinete.id);
-          }else if(this.tarifaSeleccionada==4){
-            this.TarifasContract.tarifa4(this.patinete.id);
-          }else if(this.tarifaSeleccionada==5){
-            this.TarifasContract.tarifaDemo(this.patinete.id);
-          }
-        }else{
-          if(this.tarifaSeleccionada==1){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa1*Math.pow(10,18));
-            this.TarifasContract.tarifa1(this.patinete.id);
-          }else if(this.tarifaSeleccionada==2){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa2*Math.pow(10,18));
-            this.TarifasContract.tarifa2(this.patinete.id);
-          }else if(this.tarifaSeleccionada==3){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa3*Math.pow(10,18));
-            this.TarifasContract.tarifa3(this.patinete.id);
-          }else if(this.tarifaSeleccionada==4){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa4*Math.pow(10,18));
-            this.TarifasContract.tarifa4(this.patinete.id);
-          }else if(this.tarifaSeleccionada==5){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifaDemo*Math.pow(10,18));
-            this.TarifasContract.tarifaDemo(this.patinete.id);
-          }
-        }
+      this.allowRent = this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
+      if(this.allowRent >= this.tarifa3){  
+        this.TarifasContract.tarifa3(this.patinete.id);          
+      }else{
+        this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa3*Math.pow(10,18));
+        this.TarifasContract.tarifa3(this.patinete.id);
+      }
     }
   }
 
@@ -257,37 +185,13 @@ export class PatinetePage implements OnInit {
       }
       
     }else{
-        this.allowRent = this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
-        if(this.allowRent >= this.tarifa4){
-          if(this.tarifaSeleccionada==1){
-            this.TarifasContract.tarifa1(this.patinete.id);
-          }else if(this.tarifaSeleccionada==2){
-            this.TarifasContract.tarifa2(this.patinete.id);
-          }else if(this.tarifaSeleccionada==3){
-            this.TarifasContract.tarifa3(this.patinete.id);
-          }else if(this.tarifaSeleccionada==4){
-            this.TarifasContract.tarifa4(this.patinete.id);
-          }else if(this.tarifaSeleccionada==5){
-            this.TarifasContract.tarifaDemo(this.patinete.id);
-          }
-        }else{
-          if(this.tarifaSeleccionada==1){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa1*Math.pow(10,18));
-            this.TarifasContract.tarifa1(this.patinete.id);
-          }else if(this.tarifaSeleccionada==2){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa2*Math.pow(10,18));
-            this.TarifasContract.tarifa2(this.patinete.id);
-          }else if(this.tarifaSeleccionada==3){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa3*Math.pow(10,18));
-            this.TarifasContract.tarifa3(this.patinete.id);
-          }else if(this.tarifaSeleccionada==4){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa4*Math.pow(10,18));
-            this.TarifasContract.tarifa4(this.patinete.id);
-          }else if(this.tarifaSeleccionada==5){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifaDemo*Math.pow(10,18));
-            this.TarifasContract.tarifaDemo(this.patinete.id);
-          }
-        }
+      this.allowRent = this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
+      if(this.allowRent >= this.tarifa4){
+        this.TarifasContract.tarifa4(this.patinete.id);
+      }else{
+        this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa4*Math.pow(10,18));
+        this.TarifasContract.tarifa4(this.patinete.id);
+      }
     }
   }
 
@@ -300,42 +204,18 @@ export class PatinetePage implements OnInit {
       //El patinete ya esta siendo usado
       this.usuarioActual = this.Tarifas.Patinetes().usuarioActual;
       if(this.usuarioActual == this.account){
+
       }else{
 
       }
-      
     }else{
-        this.allowRent = this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
-        if(this.allowRent >= this.tarifaSeleccionada){
-          if(this.tarifaSeleccionada==1){
-            this.TarifasContract.tarifa1(this.patinete.id);
-          }else if(this.tarifaSeleccionada==2){
-            this.TarifasContract.tarifa2(this.patinete.id);
-          }else if(this.tarifaSeleccionada==3){
-            this.TarifasContract.tarifa3(this.patinete.id);
-          }else if(this.tarifaSeleccionada==4){
-            this.TarifasContract.tarifa4(this.patinete.id);
-          }else if(this.tarifaSeleccionada==5){
-            this.TarifasContract.tarifaDemo(this.patinete.id);
-          }
-        }else{
-          if(this.tarifaSeleccionada==1){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa1*Math.pow(10,18));
-            this.TarifasContract.tarifa1(this.patinete.id);
-          }else if(this.tarifaSeleccionada==2){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa2*Math.pow(10,18));
-            this.TarifasContract.tarifa2(this.patinete.id);
-          }else if(this.tarifaSeleccionada==3){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa3*Math.pow(10,18));
-            this.TarifasContract.tarifa3(this.patinete.id);
-          }else if(this.tarifaSeleccionada==4){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa4*Math.pow(10,18));
-            this.TarifasContract.tarifa4(this.patinete.id);
-          }else if(this.tarifaSeleccionada==5){
-            this.ViCOINContract.approve(this.TarifasContract.address,this.tarifaDemo*Math.pow(10,18));
-            this.TarifasContract.tarifaDemo(this.patinete.id);
-          }
-        }
+      this.allowRent = this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
+      if(this.allowRent >= this.tarifaSeleccionada){
+        this.TarifasContract.tarifaDemo(this.patinete.id);
+      }else{
+        this.ViCOINContract.approve(this.TarifasContract.address,this.tarifaDemo*Math.pow(10,18));
+        this.TarifasContract.tarifaDemo(this.patinete.id);
+      }
     }
   }
 
