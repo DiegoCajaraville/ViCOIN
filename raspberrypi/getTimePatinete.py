@@ -12,5 +12,6 @@ with open('contracts/Tarifas.json') as json_file:
     info_json = json.load(json_file)
     abi = info_json['abi']
     contract = w3.eth.contract(address=DIR_CONTRATO_TARIFAS,abi=abi)
-    print(contract.functions.remaining(int(sys.argv[1])).call())
+    tiemporestante = contract.functions.remaining(int(sys.argv[1])).call()
+    print(tiemporestante)
 
