@@ -53,7 +53,7 @@ export class HomePage {
             console.log(this.account);
         }else 
             alert("No ethereum browser is installed. Try it installing MetaMask ");
-      }
+    }
 
 
       async loadContract(){
@@ -70,10 +70,12 @@ export class HomePage {
     
             this.ViCOINSaleContract = await this.ViCOINSale.deployed();
             this.TarifasContract = await this.Tarifas.deployed();
-            this.ViCOINContract= await this.ViCOIN.at('0xe8e781E9F26b21a0319bac6dc7e2843a86b29eaf');
+            this.ViCOINContract= await this.ViCOIN.at('0x30FeD49F1808F83a2d1b4cf26C275DE66E4eE950');
             //const beta= await this.ViCOINSaleContract.tokenPrice();
-            const alfa=await this.ViCOINContract.balanceOf(this.account);
-            console.log(alfa);
+            const beta= this.ViCOINSaleContract.address;
+            var alfa=await this.ViCOINContract.balanceOf(beta);
+            
+            console.log(beta);
             //this.dineroCuenta=await this.ViCOINContract.balanceOf(this.account);
             //this.ViCOINContract.address;
             //console.log("Contratos cargados");

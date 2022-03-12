@@ -1,24 +1,33 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" color="primary">
   <ion-toolbar color="primary" style="max-height: 200px">
     
  
     <ion-title id="logo" style="text-align:center">
-      <img alt="logo" src="../../assets/icon/logo.png" height="40" id="logo">
+      <a href="http://localhost:8100">
+        <img alt="logo" src="../../assets/icon/logo.png" height="40" id="logo">
+      </a>
     </ion-title>
 
     <ion-buttons slot="start">
       <ion-menu-button contentId="main"></ion-menu-button>
     </ion-buttons>
 
-    
+    <ion-button slot="end">Admin</ion-button>
   </ion-toolbar>
 
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" color="primary">
   <div id="container">
-    {{dineroCuenta}}
-    <ion-button color="secondary" href="http://localhost:8100/comprarMoneda">Comprar moneda</ion-button>
+
+    <ion-row>
+      <ion-col>
+        <img src="../../assets/icon/bloque.png" alt="bloque">
+      </ion-col>
+      <ion-col>
+        <img src="../../assets/icon/logo.png" alt="logo">
+      </ion-col>
+    </ion-row>
     <ion-button color="secondary" href="http://localhost:8100/patinetes">Patinetes disponibles</ion-button>
   </div>
 </ion-content>

@@ -2,6 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { PatinetesService } from './patinetes.service';
 import * as L from 'Leaflet';
 
+
+import contratoViCOIN from '../../../contracts/ViCOIN.json';
+import contratoViCOINSale from '../../../contracts/ViCOINSale.json';
+import contratoTarifas from '../../../contracts/Tarifas.json';
+
+
+declare let window:any;
+declare let TruffleContract:any;
+
 var patinetes=[];
 
 @Component({
@@ -12,16 +21,30 @@ var patinetes=[];
 
 export class PatinetesPage implements OnInit {
 
+  account;
+  ViCOIN;
+  ViCOINSale;
+  Tarifas;
+  metamaskProvider;
+  ViCOINContract;
+  ViCOINSaleContract;
+  TarifasContract;
+  a;
+  PatinetesDisponibles;
+
   constructor(private patinetesService: PatinetesService) { }
   clickMenuMoneda(){
     window.location.href="http://localhost:8100/comprarMoneda";
   }
   ngOnInit() {
-    patinetes = this.patinetesService.getPatinetes()
+    this.loadMetamask();
+    this.loadContract();  
+    //Funcion para pillar los datos de la base de datos con los ids en PatinetesDisponibles.
+
+    
+    patinetes = this.patinetesService.getPatinetes();
     var map = L.map('map').setView([42.22912736762485, -8.726044981888979], 16);
-    for (var i=0 ; i < patinetes.length ; i++){
-      
-      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 18,
         id: 'mapbox/streets-v11',
@@ -29,10 +52,8 @@ export class PatinetesPage implements OnInit {
         zoomOffset: -1,
         accessToken: 'your.mapbox.access.token'
       }).addTo(map);
-  
-  
+    for (var i=0 ; i < patinetes.length ; i++){
       var marker = L.marker([patinetes[i].latitude, patinetes[i].longitude]).on('click', onClickMarker);; 
-  
       marker.addTo(map);
     }
 
@@ -45,6 +66,38 @@ export class PatinetesPage implements OnInit {
           }
         }
       }
+    }
+  }
+
+  async loadMetamask(){
+    if (window.ethereum) {
+        this.metamaskProvider=window.ethereum;
+        const accounts= await this.metamaskProvider.request({ method: "eth_requestAccounts" });
+        this.account=accounts[0];
+        console.log(this.account);
+    }else 
+        alert("No ethereum browser is installed. Try it installing MetaMask ");
+  }
+
+  async loadContract(){
+    try{
+        //Creamos la estructura del contrato
+        this.ViCOIN=TruffleContract(contratoViCOIN);
+        this.ViCOINSale = TruffleContract(contratoViCOINSale);
+        this.Tarifas = TruffleContract(contratoTarifas);
+        
+        // Nos conectamos al contrato a través de la cuenta del wallet (Metamask)
+        this.ViCOIN.setProvider(this.metamaskProvider);
+        this.ViCOINSale.setProvider(this.metamaskProvider);
+        this.Tarifas.setProvider(this.metamaskProvider);
+
+        this.ViCOINSaleContract = await this.ViCOINSale.deployed();
+        this.TarifasContract =await  this.Tarifas.deployed();
+        this.ViCOINContract= await this.ViCOIN.at('0xF4Acd5dFD9b3b9fbDA1FEd81aaBA6AF5a9F6A26A');
+        this.PatinetesDisponibles=this.TarifasContract.getPatinetes();
+        
+    } catch (error) {
+        console.error(error);
     }
   }
 }

@@ -1,16 +1,29 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Comprar Moneda</ion-title>
+  <ion-toolbar color="primary" style="max-height: 200px">
+    <ion-title id="logo" style="text-align:center">
+      <a href="http://localhost:8100">
+        <img alt="logo" src="../../assets/icon/logo.png" height="40" id="logo">
+      </a>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" color="primary">
   
   <div id="container">
-    <ion-label>$VICs: {{dineroCliente}}</ion-label>
-    <ion-label>Precio Vic: {{precio}}</ion-label>
-    <ion-input type="number" [(ngModel)]="precioSeleccionado" position="floating">Cantidad a comprar</ion-input>
-    <ion-button (click)="comprarMoneda()"></ion-button>
-    <ion-button href="http://localhost:8100/patinetes">Atrás</ion-button>
+    <ion-row>
+      <ion-col >
+        <ion-card>
+          <img src="../../assets/icon/bloque.png" alt="Bloque" height="500" >
+          <div class="card-title">Comprar moneda</div>
+          <ion-label>$VICs: {{dineroCliente}}</ion-label>
+          <br>
+          <ion-label>Precio Vic: {{precio}}</ion-label>
+
+          <ion-button (click)="comprarMoneda()">Comprar</ion-button>
+          <ion-button href="http://localhost:8100/patinetes">Atrás</ion-button>
+        </ion-card>
+      </ion-col>
+    </ion-row>
   </div>
 </ion-content>

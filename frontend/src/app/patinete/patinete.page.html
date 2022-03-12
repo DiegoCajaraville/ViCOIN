@@ -1,17 +1,13 @@
 <ion-header>
-  
   <ion-toolbar color="primary" style="max-height: 200px">
-    
-  
     <ion-title id="logo" style="text-align:center">
-      <img alt="logo" src="../../assets/icon/logo.png" height="40" id="logo">
+      <a href="http://localhost:8100">
+        <img alt="logo" src="../../assets/icon/logo.png" height="40" id="logo">
+      </a>
     </ion-title>
-
     <ion-buttons slot="start">
       <ion-menu-button contentId="main"></ion-menu-button>
     </ion-buttons>
-
-    
   </ion-toolbar>
 
 
@@ -21,21 +17,39 @@
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
   crossorigin=""></script>
-
-
-
 </ion-header>
+
+
+
 
 <ion-content>
   <ion-card>
     <ion-item>
       <div id="map"></div>
     </ion-item>
+    
+    
+
+
+    <ion-card-content>
+      <ion-list>
+        <ion-button (click)="rent1()">Tarifa 1: {{tarifa1}} Vics</ion-button>
+        <br>
+        <ion-button (click)="rent2()">Tarifa 2: {{tarifa2}} Vics</ion-button>
+        <br>
+        <ion-button (click)="rent3()">Tarifa 3: {{tarifa3}} Vics</ion-button>
+        <br>
+        <ion-button (click)="rent4()">Tarifa 4: {{tarifa4}} Vics</ion-button>
+        <br>
+        <ion-button (click)="rentDemo()">Tarifa Demo: {{tarifaDemo}} Vics</ion-button>
+      </ion-list>
+    </ion-card-content>
+
+
     <ion-item>
       <div class="card-title">Patinete {{patinete.id}}</div>  
     </ion-item>
     
-
   </ion-card>
 </ion-content>
 
