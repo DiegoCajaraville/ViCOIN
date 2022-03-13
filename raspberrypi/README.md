@@ -16,16 +16,16 @@ Debemos tener en cuenta que solo hay 3 patinetes (0, 1 y 2).
 #En primer lugar debemos de tener en las "interfacing options" Would you like a login shell to be accessible over serial?-> NO y "Would you like the serial porthardware to be eneabled?”-> YES
 sudo raspi-config
 
-`sudo apt-get update`
-`sudo apt-get dist-upgrade`
-`sudo rpi-update`
+`sudo apt-get update`  
+`sudo apt-get dist-upgrade`  
+`sudo rpi-update`  
 
 #reiniciar
 
 
 ### editar el fichero config.txt:
 
-`sudo nano /boot/config.txt`
+`sudo nano /boot/config.txt`  
 #añadir al final 
 
 dtoverlay=pps-gpio,gpiopin=18
