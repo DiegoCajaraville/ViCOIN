@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HomeService } from './home.service';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 
 import contratoViCOIN from '../../../contracts/ViCOIN.json';
 import contratoViCOINSale from '../../../contracts/ViCOINSale.json';
@@ -37,13 +37,12 @@ export class HomePage {
 
     constructor(private HomeService: HomeService, public http:HttpClient ) {}
     ngOnInit() {
-      this.getPatinetes();
+        this.getDatosBBDD("patinete1");
         this.loadMetamask();
         console.log("AAAAAAAAAAAAA");
         this.loadContract();
         console.log("sdfvszdaszdfszd");
         this.balanceOfCliente();
-        
     }    
 
 
@@ -56,12 +55,31 @@ export class HomePage {
     --data-urlencode "q=SELECT * FROM patinete1 ORDER BY time DESC LIMIT 1"
     */
 
-    getPatinetes(){
-        var result=this.http.get("http://ec2-44-201-180-246.compute-1.amazonaws.com:8086/query?pretty=true",{
-        headers: {'Authorization': 'Token admin:lproPassword'},
-        params: {'db': 'pruebas', 'q':'SELECT * FROM patinete1 ORDER BY time DESC LIMIT 1'}
-      });
-      console.log(result);
+    getDatosBBDD(patinete){
+
+        var headers = new HttpHeaders({ 'Authorization': 'Token admin:lproPassword' })
+
+        var params = new HttpParams();
+        params=params.set('db', 'pruebas');
+        params=params.set('q', 'SELECT * FROM ' + patinete + ' ORDER BY time DESC LIMIT 1');
+   
+        this.http.get<any>("http://ec2-44-201-180-246.compute-1.amazonaws.com:8086/query?pretty=true", {
+            params, 
+            headers
+        }).subscribe({
+            next: data => {
+
+                var keys = data.results[0].series[0].columns;
+                var values = data.results[0].series[0].values[0];
+                
+                for(var i=0; i<keys.length; i++){
+                    console.log(keys[i] + " = " + values[i]);
+                }
+            },
+            error: error => {
+                console.error('Ha ocurrido un error al obtener la información de la BBDD', error);
+            }
+        })
     }
 
     async loadMetamask(){
