@@ -21,7 +21,7 @@
 
 require("dotenv").config();
 
-const HDWalletProvider = require('@truffle/hdwallet-provider');
+const HDWalletProvider = require("truffle-hdwallet-provider");
 const infuraProjectId = process.env.INFURA_PROJECT_ID;
 //
 // const fs = require('fs');
@@ -60,7 +60,8 @@ module.exports = {
       },
       network_id: "3", // eslint-disable-line camelcase
       gas: 4465030,
-      gasPrice: 10000000000,
+      // gas: 4700000,
+      gasPrice: 26500000000,
     },
     // Another network with more advanced options...
     // advanced: {
