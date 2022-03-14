@@ -59,9 +59,10 @@ module.exports = {
         );
       },
       network_id: "3", // eslint-disable-line camelcase
-      gas: 4465030,
+      gas: 5500000,
       // gas: 4700000,
       gasPrice: 26500000000,
+      skipDryRun: true
     },
     // Another network with more advanced options...
     // advanced: {
