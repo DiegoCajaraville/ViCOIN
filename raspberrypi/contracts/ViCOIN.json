@@ -10586,15 +10586,15 @@
         104
       ],
       "ViCOIN": [
-        2021
+        2032
       ]
     },
-    "id": 2022,
+    "id": 2033,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1980,
+        "id": 1991,
         "literals": [
           "solidity",
           "^",
@@ -10607,10 +10607,10 @@
       {
         "absolutePath": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
         "file": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
-        "id": 1981,
+        "id": 1992,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 2022,
+        "scope": 2033,
         "sourceUnit": 693,
         "src": "57:55:9",
         "symbolAliases": [],
@@ -10619,10 +10619,10 @@
       {
         "absolutePath": "@openzeppelin/contracts/access/Ownable.sol",
         "file": "@openzeppelin/contracts/access/Ownable.sol",
-        "id": 1982,
+        "id": 1993,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 2022,
+        "scope": 2033,
         "sourceUnit": 105,
         "src": "113:52:9",
         "symbolAliases": [],
@@ -10633,25 +10633,25 @@
         "baseContracts": [
           {
             "baseName": {
-              "id": 1983,
+              "id": 1994,
               "name": "ERC20",
               "nodeType": "IdentifierPath",
               "referencedDeclaration": 692,
               "src": "186:5:9"
             },
-            "id": 1984,
+            "id": 1995,
             "nodeType": "InheritanceSpecifier",
             "src": "186:5:9"
           },
           {
             "baseName": {
-              "id": 1985,
+              "id": 1996,
               "name": "Ownable",
               "nodeType": "IdentifierPath",
               "referencedDeclaration": 104,
               "src": "193:7:9"
             },
-            "id": 1986,
+            "id": 1997,
             "nodeType": "InheritanceSpecifier",
             "src": "193:7:9"
           }
@@ -10660,9 +10660,9 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 2021,
+        "id": 2032,
         "linearizedBaseContracts": [
-          2021,
+          2032,
           104,
           692,
           795,
@@ -10675,7 +10675,7 @@
         "nodes": [
           {
             "body": {
-              "id": 2004,
+              "id": 2015,
               "nodeType": "Block",
               "src": "244:96:9",
               "statements": [
@@ -10684,7 +10684,7 @@
                     "arguments": [
                       {
                         "expression": {
-                          "id": 1994,
+                          "id": 2005,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
@@ -10695,7 +10695,7 @@
                             "typeString": "msg"
                           }
                         },
-                        "id": 1995,
+                        "id": 2006,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -10713,14 +10713,14 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 2001,
+                        "id": 2012,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
                           "hexValue": "3230303030",
-                          "id": 1996,
+                          "id": 2007,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -10741,14 +10741,14 @@
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           },
-                          "id": 2000,
+                          "id": 2011,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
                           "leftExpression": {
                             "hexValue": "3130",
-                            "id": 1997,
+                            "id": 2008,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
@@ -10768,7 +10768,7 @@
                             "arguments": [],
                             "expression": {
                               "argumentTypes": [],
-                              "id": 1998,
+                              "id": 2009,
                               "name": "decimals",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
@@ -10779,7 +10779,7 @@
                                 "typeString": "function () view returns (uint8)"
                               }
                             },
-                            "id": 1999,
+                            "id": 2010,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -10818,7 +10818,7 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 1993,
+                      "id": 2004,
                       "name": "_mint",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
@@ -10829,7 +10829,7 @@
                         "typeString": "function (address,uint256)"
                       }
                     },
-                    "id": 2002,
+                    "id": 2013,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -10844,13 +10844,13 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 2003,
+                  "id": 2014,
                   "nodeType": "ExpressionStatement",
                   "src": "254:43:9"
                 }
               ]
             },
-            "id": 2005,
+            "id": 2016,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [
@@ -10858,7 +10858,7 @@
                 "arguments": [
                   {
                     "hexValue": "5669434f494e",
-                    "id": 1989,
+                    "id": 2000,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": true,
@@ -10874,7 +10874,7 @@
                   },
                   {
                     "hexValue": "566943",
-                    "id": 1990,
+                    "id": 2001,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": true,
@@ -10889,10 +10889,10 @@
                     "value": "ViC"
                   }
                 ],
-                "id": 1991,
+                "id": 2002,
                 "kind": "baseConstructorSpecifier",
                 "modifierName": {
-                  "id": 1988,
+                  "id": 1999,
                   "name": "ERC20",
                   "nodeType": "IdentifierPath",
                   "referencedDeclaration": 692,
@@ -10906,18 +10906,18 @@
             "nameLocation": "-1:-1:-1",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1987,
+              "id": 1998,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "218:2:9"
             },
             "returnParameters": {
-              "id": 1992,
+              "id": 2003,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "244:0:9"
             },
-            "scope": 2021,
+            "scope": 2032,
             "src": "207:133:9",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -10925,7 +10925,7 @@
           },
           {
             "body": {
-              "id": 2019,
+              "id": 2030,
               "nodeType": "Block",
               "src": "405:34:9",
               "statements": [
@@ -10933,11 +10933,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 2015,
+                        "id": 2026,
                         "name": "to",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2007,
+                        "referencedDeclaration": 2018,
                         "src": "421:2:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -10945,11 +10945,11 @@
                         }
                       },
                       {
-                        "id": 2016,
+                        "id": 2027,
                         "name": "amount",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2009,
+                        "referencedDeclaration": 2020,
                         "src": "425:6:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -10968,7 +10968,7 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 2014,
+                      "id": 2025,
                       "name": "_mint",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
@@ -10979,7 +10979,7 @@
                         "typeString": "function (address,uint256)"
                       }
                     },
-                    "id": 2017,
+                    "id": 2028,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -10994,22 +10994,22 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 2018,
+                  "id": 2029,
                   "nodeType": "ExpressionStatement",
                   "src": "415:17:9"
                 }
               ]
             },
             "functionSelector": "40c10f19",
-            "id": 2020,
+            "id": 2031,
             "implemented": true,
             "kind": "function",
             "modifiers": [
               {
-                "id": 2012,
+                "id": 2023,
                 "kind": "modifierInvocation",
                 "modifierName": {
-                  "id": 2011,
+                  "id": 2022,
                   "name": "onlyOwner",
                   "nodeType": "IdentifierPath",
                   "referencedDeclaration": 46,
@@ -11023,17 +11023,17 @@
             "nameLocation": "355:4:9",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2010,
+              "id": 2021,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2007,
+                  "id": 2018,
                   "mutability": "mutable",
                   "name": "to",
                   "nameLocation": "368:2:9",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2020,
+                  "scope": 2031,
                   "src": "360:10:9",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -11042,7 +11042,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2006,
+                    "id": 2017,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "360:7:9",
@@ -11056,12 +11056,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 2009,
+                  "id": 2020,
                   "mutability": "mutable",
                   "name": "amount",
                   "nameLocation": "380:6:9",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2020,
+                  "scope": 2031,
                   "src": "372:14:9",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -11070,7 +11070,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2008,
+                    "id": 2019,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "372:7:9",
@@ -11085,19 +11085,19 @@
               "src": "359:28:9"
             },
             "returnParameters": {
-              "id": 2013,
+              "id": 2024,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "405:0:9"
             },
-            "scope": 2021,
+            "scope": 2032,
             "src": "346:93:9",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 2022,
+        "scope": 2033,
         "src": "167:275:9",
         "usedErrors": []
       }
@@ -11123,15 +11123,15 @@
         104
       ],
       "ViCOIN": [
-        2021
+        2032
       ]
     },
-    "id": 2022,
+    "id": 2033,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1980,
+        "id": 1991,
         "literals": [
           "solidity",
           "^",
@@ -11144,10 +11144,10 @@
       {
         "absolutePath": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
         "file": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
-        "id": 1981,
+        "id": 1992,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 2022,
+        "scope": 2033,
         "sourceUnit": 693,
         "src": "57:55:9",
         "symbolAliases": [],
@@ -11156,10 +11156,10 @@
       {
         "absolutePath": "@openzeppelin/contracts/access/Ownable.sol",
         "file": "@openzeppelin/contracts/access/Ownable.sol",
-        "id": 1982,
+        "id": 1993,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 2022,
+        "scope": 2033,
         "sourceUnit": 105,
         "src": "113:52:9",
         "symbolAliases": [],
@@ -11170,25 +11170,25 @@
         "baseContracts": [
           {
             "baseName": {
-              "id": 1983,
+              "id": 1994,
               "name": "ERC20",
               "nodeType": "IdentifierPath",
               "referencedDeclaration": 692,
               "src": "186:5:9"
             },
-            "id": 1984,
+            "id": 1995,
             "nodeType": "InheritanceSpecifier",
             "src": "186:5:9"
           },
           {
             "baseName": {
-              "id": 1985,
+              "id": 1996,
               "name": "Ownable",
               "nodeType": "IdentifierPath",
               "referencedDeclaration": 104,
               "src": "193:7:9"
             },
-            "id": 1986,
+            "id": 1997,
             "nodeType": "InheritanceSpecifier",
             "src": "193:7:9"
           }
@@ -11197,9 +11197,9 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 2021,
+        "id": 2032,
         "linearizedBaseContracts": [
-          2021,
+          2032,
           104,
           692,
           795,
@@ -11212,7 +11212,7 @@
         "nodes": [
           {
             "body": {
-              "id": 2004,
+              "id": 2015,
               "nodeType": "Block",
               "src": "244:96:9",
               "statements": [
@@ -11221,7 +11221,7 @@
                     "arguments": [
                       {
                         "expression": {
-                          "id": 1994,
+                          "id": 2005,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
@@ -11232,7 +11232,7 @@
                             "typeString": "msg"
                           }
                         },
-                        "id": 1995,
+                        "id": 2006,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -11250,14 +11250,14 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 2001,
+                        "id": 2012,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
                           "hexValue": "3230303030",
-                          "id": 1996,
+                          "id": 2007,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -11278,14 +11278,14 @@
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           },
-                          "id": 2000,
+                          "id": 2011,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
                           "leftExpression": {
                             "hexValue": "3130",
-                            "id": 1997,
+                            "id": 2008,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
@@ -11305,7 +11305,7 @@
                             "arguments": [],
                             "expression": {
                               "argumentTypes": [],
-                              "id": 1998,
+                              "id": 2009,
                               "name": "decimals",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
@@ -11316,7 +11316,7 @@
                                 "typeString": "function () view returns (uint8)"
                               }
                             },
-                            "id": 1999,
+                            "id": 2010,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -11355,7 +11355,7 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 1993,
+                      "id": 2004,
                       "name": "_mint",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
@@ -11366,7 +11366,7 @@
                         "typeString": "function (address,uint256)"
                       }
                     },
-                    "id": 2002,
+                    "id": 2013,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -11381,13 +11381,13 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 2003,
+                  "id": 2014,
                   "nodeType": "ExpressionStatement",
                   "src": "254:43:9"
                 }
               ]
             },
-            "id": 2005,
+            "id": 2016,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [
@@ -11395,7 +11395,7 @@
                 "arguments": [
                   {
                     "hexValue": "5669434f494e",
-                    "id": 1989,
+                    "id": 2000,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": true,
@@ -11411,7 +11411,7 @@
                   },
                   {
                     "hexValue": "566943",
-                    "id": 1990,
+                    "id": 2001,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": true,
@@ -11426,10 +11426,10 @@
                     "value": "ViC"
                   }
                 ],
-                "id": 1991,
+                "id": 2002,
                 "kind": "baseConstructorSpecifier",
                 "modifierName": {
-                  "id": 1988,
+                  "id": 1999,
                   "name": "ERC20",
                   "nodeType": "IdentifierPath",
                   "referencedDeclaration": 692,
@@ -11443,18 +11443,18 @@
             "nameLocation": "-1:-1:-1",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1987,
+              "id": 1998,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "218:2:9"
             },
             "returnParameters": {
-              "id": 1992,
+              "id": 2003,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "244:0:9"
             },
-            "scope": 2021,
+            "scope": 2032,
             "src": "207:133:9",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -11462,7 +11462,7 @@
           },
           {
             "body": {
-              "id": 2019,
+              "id": 2030,
               "nodeType": "Block",
               "src": "405:34:9",
               "statements": [
@@ -11470,11 +11470,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 2015,
+                        "id": 2026,
                         "name": "to",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2007,
+                        "referencedDeclaration": 2018,
                         "src": "421:2:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -11482,11 +11482,11 @@
                         }
                       },
                       {
-                        "id": 2016,
+                        "id": 2027,
                         "name": "amount",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2009,
+                        "referencedDeclaration": 2020,
                         "src": "425:6:9",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -11505,7 +11505,7 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 2014,
+                      "id": 2025,
                       "name": "_mint",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
@@ -11516,7 +11516,7 @@
                         "typeString": "function (address,uint256)"
                       }
                     },
-                    "id": 2017,
+                    "id": 2028,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -11531,22 +11531,22 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 2018,
+                  "id": 2029,
                   "nodeType": "ExpressionStatement",
                   "src": "415:17:9"
                 }
               ]
             },
             "functionSelector": "40c10f19",
-            "id": 2020,
+            "id": 2031,
             "implemented": true,
             "kind": "function",
             "modifiers": [
               {
-                "id": 2012,
+                "id": 2023,
                 "kind": "modifierInvocation",
                 "modifierName": {
-                  "id": 2011,
+                  "id": 2022,
                   "name": "onlyOwner",
                   "nodeType": "IdentifierPath",
                   "referencedDeclaration": 46,
@@ -11560,17 +11560,17 @@
             "nameLocation": "355:4:9",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2010,
+              "id": 2021,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2007,
+                  "id": 2018,
                   "mutability": "mutable",
                   "name": "to",
                   "nameLocation": "368:2:9",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2020,
+                  "scope": 2031,
                   "src": "360:10:9",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -11579,7 +11579,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2006,
+                    "id": 2017,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "360:7:9",
@@ -11593,12 +11593,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 2009,
+                  "id": 2020,
                   "mutability": "mutable",
                   "name": "amount",
                   "nameLocation": "380:6:9",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2020,
+                  "scope": 2031,
                   "src": "372:14:9",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -11607,7 +11607,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2008,
+                    "id": 2019,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "372:7:9",
@@ -11622,19 +11622,19 @@
               "src": "359:28:9"
             },
             "returnParameters": {
-              "id": 2013,
+              "id": 2024,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "405:0:9"
             },
-            "scope": 2021,
+            "scope": 2032,
             "src": "346:93:9",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 2022,
+        "scope": 2033,
         "src": "167:275:9",
         "usedErrors": []
       }
@@ -11647,7 +11647,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.3",
-  "updatedAt": "2022-03-13T23:45:56.874Z",
+  "updatedAt": "2022-03-14T15:41:18.008Z",
   "devdoc": {
     "kind": "dev",
     "methods": {
