@@ -81,7 +81,7 @@ export class ComprarMonedaPage implements OnInit {
 
         this.ViCOINSaleContract = await this.ViCOINSale.deployed();
         this.TarifasContract =await  this.Tarifas.deployed();
-        this.ViCOINContract= await this.ViCOIN.at('0xF4Acd5dFD9b3b9fbDA1FEd81aaBA6AF5a9F6A26A');
+        this.ViCOINContract= await this.ViCOIN.at('0x567b22010f6bb379Ba2dCADfEc25eBbDC0272434');
         //const beta= await this.ViCOINSaleContract.tokenPrice();
         const beta= this.ViCOINContract.address;
         var alfa= await this.ViCOINContract.balanceOf(beta);
@@ -93,8 +93,8 @@ export class ComprarMonedaPage implements OnInit {
         //console.log(this.ViCOINSalesContract);
         //console.log(this.TarifasContract);
         this.a = await this.ViCOINContract.balanceOf(this.account);
-        this.dineroCliente = this.a.toNumber();
-        
+        this.dineroCliente = this.a/Math.pow(10,18);
+        console.log(this.dineroCliente);
         //const patinetes = await this.TarifasContract.Patinetes(0);
         //const tokenIdNFT = patinetes.IdPatinete.toNumber();
 
