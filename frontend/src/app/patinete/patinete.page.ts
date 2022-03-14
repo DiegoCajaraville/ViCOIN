@@ -10,6 +10,8 @@ import contratoTarifas from '../../../contracts/Tarifas.json';
 
 
 
+
+
 declare let window:any;
 declare let TruffleContract:any;
 
@@ -33,7 +35,7 @@ export class PatinetePage implements OnInit {
   ViCOINContract;
   ViCOINSaleContract;
   TarifasContract;
-  
+  patinetesComprados;
 
   tarifaSeleccionada;
   tarifa1=18;
@@ -70,15 +72,26 @@ export class PatinetePage implements OnInit {
   }
 
   async loadMetamask(){
-
     if (window.ethereum) {
+      try{
         this.metamaskProvider=window.ethereum;
-        const accounts=await this.metamaskProvider.request({ method: "eth_requestAccounts" });
-        this.account=accounts[0];
-        console.log(this.account);
+        
+        const accounts= await this.metamaskProvider.request({ method: "eth_requestAccounts" });
+        
+        if(accounts.length==0){
+          alert("Iniciar sesión en metamask");
+        }else{
+          this.account=accounts[0];
+          console.log(this.account);
+        }
+      }catch(error){
+        if(error.code===4001){
+          alert("123");
+        }
+      }
     }else 
         alert("No ethereum browser is installed. Try it installing MetaMask ");
-}
+  } 
 
 
   async loadContract(){
@@ -95,7 +108,10 @@ export class PatinetePage implements OnInit {
 
         this.ViCOINSaleContract = await this.ViCOINSale.deployed();
         this.TarifasContract = await this.Tarifas.deployed();
-        this.ViCOINContract= await this.ViCOIN.at('0x30FeD49F1808F83a2d1b4cf26C275DE66E4eE950');
+        this.ViCOINContract= await this.ViCOIN.at('0x567b22010f6bb379Ba2dCADfEc25eBbDC0272434');
+        var j = await this.TarifasContract.getPatinetes();
+        this.patinetesComprados = j.toString();
+        console.log("aaaa"+this.patinetesComprados);
     } catch (error) {
         console.error(error);
     }
@@ -104,47 +120,78 @@ export class PatinetePage implements OnInit {
 
   async rent1(){
     this.tarifaSeleccionada=1;
-    console.log("aAAAAAAAAAAAA"+this.tarifaSeleccionada);
-    this.tiempoRestante = this.TarifasContract.remaining();
+    var a = await this.TarifasContract.remaining(0);
+    this.tiempoRestante = a.toNumber();
+    console.log(this.tiempoRestante);
     if(this.tiempoRestante>0){
       //El patinete ya esta siendo usado
-      this.usuarioActual = this.Tarifas.Patinetes().usuarioActual;
+      this.usuarioActual = (this.Tarifas.Patinetes().usuarioActual).toString();
+      console.log(this.usuarioActual+"------"+this.account);
       if(this.usuarioActual == this.account){
       }else{
 
       }
       
     }else{
-      this.allowRent = this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
+      var b= await this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
+      this.allowRent = b.toString();
+      console.log(this.allowRent);
       if(this.allowRent >= this.tarifa1){
-        this.TarifasContract.tarifa1(this.patinete.id);
+        this.TarifasContract.tarifa1(this.patinete.id,{
+          from: this.account,
+        });
       }else{
-        this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa1*Math.pow(10,18));
-        this.TarifasContract.tarifa1(this.patinete.id);
+        alert("Approve the money");
+        var c=this.tarifa1*Math.pow(10,18);
+        
+        await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
+          from: this.account,
+        });
+        await this.TarifasContract.tarifa1(this.patinete.id,{
+          from: this.account,
+        });
+        alert("Compra realizada");
       }
     }
   }
 
 
+
+
   async rent2(){
     this.tarifaSeleccionada=2;
-    console.log("aAAAAAAAAAAAA"+this.tarifaSeleccionada);
-    this.tiempoRestante = this.TarifasContract.remaining();
+    var a = await this.TarifasContract.remaining(0);
+    this.tiempoRestante = a.toNumber();
+    console.log(this.tiempoRestante);
     if(this.tiempoRestante>0){
       //El patinete ya esta siendo usado
-      this.usuarioActual = this.Tarifas.Patinetes().usuarioActual;
+      this.usuarioActual = (this.Tarifas.Patinetes().usuarioActual).toString();
+      console.log(this.usuarioActual+"------"+this.account);
       if(this.usuarioActual == this.account){
       }else{
 
       }
       
     }else{
-      this.allowRent = this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
+      var b= await this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
+      this.allowRent = b.toString();
+      console.log(BigInt(this.allowRent));
       if(this.allowRent >= this.tarifa2){
-        this.TarifasContract.tarifa2(this.patinete.id);
+        this.TarifasContract.tarifa2(this.patinete.id,{
+          from: this.account,
+        });
       }else{
-        this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa2*Math.pow(10,18));
-        this.TarifasContract.tarifa2(this.patinete.id);
+        alert("Approve the money");
+        var c=this.tarifa2*Math.pow(10,18);
+        console.log(c);
+        console.log(c.toString());
+        await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
+          from: this.account,
+        });
+        await this.TarifasContract.tarifa2(this.patinete.id,{
+          from: this.account,
+        });
+        alert("Compra realizada");
       }
     }
   }
@@ -152,45 +199,76 @@ export class PatinetePage implements OnInit {
 
   async rent3(){
     this.tarifaSeleccionada=3;
-    console.log("aAAAAAAAAAAAA"+this.tarifaSeleccionada);
-    this.tiempoRestante = this.TarifasContract.remaining();
+    var a = await this.TarifasContract.remaining(0);
+    this.tiempoRestante = a.toNumber();
+    console.log(this.tiempoRestante);
     if(this.tiempoRestante>0){
       //El patinete ya esta siendo usado
-      this.usuarioActual = this.Tarifas.Patinetes().usuarioActual;
+      this.usuarioActual = (this.Tarifas.Patinetes().usuarioActual).toString();
+      console.log(this.usuarioActual+"------"+this.account);
       if(this.usuarioActual == this.account){
       }else{
 
       }
       
     }else{
-      this.allowRent = this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
-      if(this.allowRent >= this.tarifa3){  
-        this.TarifasContract.tarifa3(this.patinete.id);          
+      var b= await this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
+      this.allowRent = b.toString();
+      console.log(BigInt(this.allowRent));
+      if(this.allowRent >= this.tarifa3){
+        this.TarifasContract.tarifa3(this.patinete.id,{
+          from: this.account,
+        });
       }else{
-        this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa3*Math.pow(10,18));
-        this.TarifasContract.tarifa3(this.patinete.id);
+        alert("Approve the money");
+        var c=this.tarifa3*Math.pow(10,18);
+        console.log(c);
+        console.log(c.toString());
+        await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
+          from: this.account,
+        });
+        await this.TarifasContract.tarifa3(this.patinete.id,{
+          from: this.account,
+        });
+        alert("Compra realizada");
       }
     }
   }
 
   async rent4(){
     this.tarifaSeleccionada=4;
-    this.tiempoRestante = this.TarifasContract.remaining();
+    var a = await this.TarifasContract.remaining(0);
+    this.tiempoRestante = a.toNumber();
+    console.log(this.tiempoRestante);
     if(this.tiempoRestante>0){
       //El patinete ya esta siendo usado
-      this.usuarioActual = this.Tarifas.Patinetes().usuarioActual;
+      this.usuarioActual = (this.Tarifas.Patinetes().usuarioActual).toString();
+      console.log(this.usuarioActual+"------"+this.account);
       if(this.usuarioActual == this.account){
       }else{
 
       }
       
     }else{
-      this.allowRent = this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
+      var b= await this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
+      this.allowRent = b.toString();
+      console.log(BigInt(this.allowRent));
       if(this.allowRent >= this.tarifa4){
-        this.TarifasContract.tarifa4(this.patinete.id);
+        this.TarifasContract.tarifa4(this.patinete.id,{
+          from: this.account,
+        });
       }else{
-        this.ViCOINContract.approve(this.TarifasContract.address,this.tarifa4*Math.pow(10,18));
-        this.TarifasContract.tarifa4(this.patinete.id);
+        alert("Approve the money");
+        var c=this.tarifa1*Math.pow(10,18);
+        console.log(c);
+        console.log(c.toString());
+        await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
+          from: this.account,
+        });
+        await this.TarifasContract.tarifa4(this.patinete.id,{
+          from: this.account,
+        });
+        alert("Compra realizada");
       }
     }
   }
@@ -198,23 +276,40 @@ export class PatinetePage implements OnInit {
 
   async rentDemo(){
     this.tarifaSeleccionada=5;
-    console.log("aAAAAAAAAAAAA"+this.tarifaDemo);
-    this.tiempoRestante = this.TarifasContract.remaining();
+    var a = await this.TarifasContract.remaining(0);
+    this.tiempoRestante = a.toNumber();
+    console.log(this.tiempoRestante);
     if(this.tiempoRestante>0){
       //El patinete ya esta siendo usado
-      this.usuarioActual = this.Tarifas.Patinetes().usuarioActual;
+      //Es necesario comprabar que existen patinetes(no haria falta porque si no hay patinetes disponibles no se llegaria a esta screen)
+      
+      this.usuarioActual = (this.Tarifas.Patinetes().usuarioActual).toString();
+      console.log(this.usuarioActual+"------"+this.account);
       if(this.usuarioActual == this.account){
-
       }else{
 
       }
+      
     }else{
-      this.allowRent = this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
-      if(this.allowRent >= this.tarifaSeleccionada){
-        this.TarifasContract.tarifaDemo(this.patinete.id);
+      var b= await this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
+      this.allowRent = b.toString();
+      console.log(BigInt(this.allowRent));
+      if(this.allowRent >= this.tarifaDemo){
+        this.TarifasContract.tarifaDemo(this.patinete.id,{
+          from: this.account,
+        });
       }else{
-        this.ViCOINContract.approve(this.TarifasContract.address,this.tarifaDemo*Math.pow(10,18));
-        this.TarifasContract.tarifaDemo(this.patinete.id);
+        alert("Approve the money");
+        var c=this.tarifa1*Math.pow(10,18);
+        console.log(c);
+        console.log(c.toString());
+        await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
+          from: this.account,
+        });
+        await this.TarifasContract.tarifaDemo(this.patinete.id,{
+          from: this.account,
+        });
+        alert("Compra realizada");
       }
     }
   }
