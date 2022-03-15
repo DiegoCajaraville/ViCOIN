@@ -33,7 +33,7 @@ public class CustomViewSettings
     //If you leave the locked chains empty, the token will appear if the chain is selected
     private static final List<TokenInfo> lockedTokens = Arrays.asList(
             // new TokenInfo(String TokenAddress, String TokenName, String TokenSymbol, int TokenDecimals, boolean isEnabled, long ChainId)
-            new TokenInfo("0xF4Acd5dFD9b3b9fbDA1FEd81aaBA6AF5a9F6A26A", "Vi-COIN", "ViC", 18, true, EthereumNetworkBase.ROPSTEN_ID)
+            new TokenInfo("0x24B09781e928b16afE34b7C35F4481565d421F7A", "Vi-COIN", "ViC", 18, true, EthereumNetworkBase.ROPSTEN_ID)
             //new TokenInfo("0x6C8c6b02E7b2BE14d4fA6022Dfd6d75921D90E4E", "Compound BAT", "CBAT", 8, true, EthereumNetworkBase.MAINNET_ID)
     );
 
