@@ -93,7 +93,7 @@ export class PatinetesPage implements OnInit {
 
         this.ViCOINSaleContract = await this.ViCOINSale.deployed();
         this.TarifasContract =await  this.Tarifas.deployed();
-        this.ViCOINContract= await this.ViCOIN.at('0xF4Acd5dFD9b3b9fbDA1FEd81aaBA6AF5a9F6A26A');
+        this.ViCOINContract= await this.ViCOIN.at('0x24B09781e928b16afE34b7C35F4481565d421F7A');
         this.PatinetesDisponibles=this.TarifasContract.getPatinetes();
         
     } catch (error) {

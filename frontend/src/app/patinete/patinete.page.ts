@@ -108,7 +108,7 @@ export class PatinetePage implements OnInit {
 
         this.ViCOINSaleContract = await this.ViCOINSale.deployed();
         this.TarifasContract = await this.Tarifas.deployed();
-        this.ViCOINContract= await this.ViCOIN.at('0x567b22010f6bb379Ba2dCADfEc25eBbDC0272434');
+        this.ViCOINContract= await this.ViCOIN.at('0x24B09781e928b16afE34b7C35F4481565d421F7A');
         var j = await this.TarifasContract.getPatinetes();
         this.patinetesComprados = j.toString();
         console.log("aaaa"+this.patinetesComprados);
@@ -147,9 +147,11 @@ export class PatinetePage implements OnInit {
         await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
           from: this.account,
         });
+        
         await this.TarifasContract.tarifa1(this.patinete.id,{
           from: this.account,
         });
+        console.log("sk");
         alert("Compra realizada");
       }
     }
@@ -295,18 +297,20 @@ export class PatinetePage implements OnInit {
       this.allowRent = b.toString();
       console.log(BigInt(this.allowRent));
       if(this.allowRent >= this.tarifaDemo){
+        
         this.TarifasContract.tarifaDemo(this.patinete.id,{
           from: this.account,
         });
-      }else{
+      }else{  
         alert("Approve the money");
-        var c=this.tarifa1*Math.pow(10,18);
+        var c=this.tarifaDemo*Math.pow(10,18);
         console.log(c);
         console.log(c.toString());
         await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
           from: this.account,
         });
-        await this.TarifasContract.tarifaDemo(this.patinete.id,{
+        console.log("mdsmmlk");
+        await this.TarifasContract.tarifaDemo(1,{
           from: this.account,
         });
         alert("Compra realizada");

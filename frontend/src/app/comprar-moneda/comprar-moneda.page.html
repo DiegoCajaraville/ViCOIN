@@ -18,9 +18,11 @@
           <div class="card-title">Comprar moneda</div>
           <ion-label>$VICs: {{dineroCliente}}</ion-label>
           <br>
+          <input #precioSeleccionado type="number">
+          <br>
           <ion-label>Precio Vic: {{precio}}</ion-label>
           <br>
-          <ion-button (click)="comprarMoneda()">Comprar</ion-button>
+          <ion-button (click)="comprarMoneda(precioSeleccionado.value)">Comprar</ion-button>
         </ion-card>
       </ion-col>
     </ion-row>
