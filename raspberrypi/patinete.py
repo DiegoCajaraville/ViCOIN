@@ -1,17 +1,19 @@
 import argparse
 import datetime
 import time
+import random
 
 from influxdb import InfluxDBClient
 
-#import math
-
-
+# VARIABLES GLOBALES
 HOST = 'ec2-44-201-180-246.compute-1.amazonaws.com'
 PORT = 8086
 USER = 'admin'
 PASSWORD = 'lproPassword'
 DBNAME = 'patinetes'
+
+SAVE_DATA = 5
+CHECK_BLOCKCHAIN = 6
 
 
 def main(id):
@@ -25,13 +27,46 @@ def main(id):
     except:
         print("No se ha podido conectar con la BBDD")
 
+    # PROGRAMA
+    ## Tiempo que pasa entre cada guardado en la BBDD       -> SAVE_DATA segundos
+    ## Tiempo que pasa entre cada llamada a la Blockchain   -> CHECK_BLOCKCHAIN * SAVE_DATA segundos
+
+    tiempoRestante = 50
+    activo = True
+
     while True:
 
-        # ENVIAR INFORMACION
+        # [EVENTUAL] LLAMADA A LA BLOCKCHAIN Y GESTIÓN RELE #################
         if(timeoutBlockchain == 0):
-            print("Llamada a la blockchain")
-            timeoutBlockchain = 6
 
+            print("Llamada a la blockchain")
+            tiempoRestante = random.randint(0, 2)
+
+            # Se ha acabado el tiempo del servicio, hasta ahora activo
+            if( (tiempoRestante == 0) and (activo == True) ):
+                print("El patinete ha dejado de tener servicio")
+                activo = False
+            # El patinete está desactivado, pero tampoco ha recibido una nueva petición
+            elif( tiempoRestante == 0 ):
+                print("El patinete no tiene un servicio contratado")
+            # El patinete está desactivado, pero recibe nuevo servicio
+            elif( (tiempoRestante != 0) and (activo == False) ):
+                print("Nuevo servicio contratado: " + str(tiempoRestante))
+                activo = True
+            # El patinete está activado y aun queda tiempo de servicio
+            else:
+                print("Tiempo restante del servicio: " + str(tiempoRestante))
+            
+            timeoutBlockchain = CHECK_BLOCKCHAIN
+
+        # OBTENER INFORMACIÓN DEL GPS #################
+        
+        latitud = random.uniform(-90, 90)
+        longitud = random.uniform(-180, 180)
+        bateria = random.randint(0, 100)
+        velocidad = random.randint(0, 50)
+
+        # ENVIAR INFORMACION #################
         now = datetime.datetime.today()
         points = []
 
@@ -39,13 +74,14 @@ def main(id):
             "measurement": measurement,
             "time": int(now.strftime('%s')),
             "fields": {
-                "altitud": 189.12,
-                "latitud": -82.123,
-                "bateria": 91,
-                "velocidad": 12
+                "latitud": float("{:.3f}".format(latitud)),
+                "longitud": float("{:.3f}".format(longitud)),
+                "bateria": bateria,
+                "velocidad": velocidad
             }
         }
-        
+
+        print(point)
         points.append(point)
 
         try:
@@ -54,10 +90,10 @@ def main(id):
         except:
             print("No se ha podido almacenar la información en la BBDD")
 
-        
-        # Actualizamos estado 
+
+        # ACTUALIZAR INFORMACION #################
         timeoutBlockchain = timeoutBlockchain - 1
-        time.sleep(5)
+        time.sleep(SAVE_DATA)
 
 
 def parse_args():
@@ -91,4 +127,9 @@ if __name__ == '__main__':
 
     print("Create database: " + DBNAME)
     client.create_database(DBNAME)
+
+    print("Latitud: {0:.3f}".format(latitud))
+    print("Longitud: {0:.3f}".format(longitud))
+    print("Bateria: " + str(bateria))
+    print("Velocidad: " + str(velocidad) + "\n")
     """
