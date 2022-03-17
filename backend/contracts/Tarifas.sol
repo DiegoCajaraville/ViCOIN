@@ -171,7 +171,7 @@ contract Tarifas {
 
     //Devuelve los Ids de los patinetes disponibles para su uso
     function getPatinetes() public view returns (uint256 [] memory){
-        uint256 iterator = Patinetes.length;
+        uint256 iterator = cuentaPatinetes.current();
         uint256 max = 0;
         for(uint256 i = 0; i < iterator; i++){
             if(remaining(Patinetes[i].IdPatinete) <= 0){
@@ -179,9 +179,11 @@ contract Tarifas {
             }
         }
         uint256[] memory Ids = new uint256[](max);
+        uint256 indexPats = 0;
         for(uint256 i = 0; i < iterator; i++){
             if(remaining(Patinetes[i].IdPatinete) <= 0){
-                Ids[i] = i;
+                Ids[indexPats] = Patinetes[i].IdPatinete;
+                indexPats++;
             }
         }
         return Ids;

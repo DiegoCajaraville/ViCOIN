@@ -18,8 +18,10 @@ declare let TruffleContract:any;
 })
 export class ComprarMonedaPage implements OnInit {
   precio=0.01;
-  precioSeleccionado=1;
+  
+
   dineroCliente;
+
   disponibleAdmin;
   
 
@@ -40,14 +42,20 @@ export class ComprarMonedaPage implements OnInit {
     this.loadContract();
   }
 
-  async comprarMoneda(){
+  async comprarMoneda(precioSeleccionado){
     //El precio del vic fijo?
-    var address = this.ViCOINSaleContract.address;
+    
+    var address = this.ViCOINSaleContract.address; 
+    
+    console.log(address);
     this.disponibleAdmin = await this.ViCOINContract.balanceOf(address);
-    if( (this.disponibleAdmin-(this.precioSeleccionado*Math.pow(10,18))) >0 ){
+    console.log(this.disponibleAdmin.toString());
+    console.log(precioSeleccionado);
+    if( (this.disponibleAdmin-precioSeleccionado*Math.pow(10,18)) >0 ){
       //Se puede comprar
-      var b=this.precio*this.precioSeleccionado*Math.pow(10,18);   
-      var c=(this.precioSeleccionado*Math.pow(10,18));
+      
+      var b=this.precio*precioSeleccionado*Math.pow(10,18);   
+      var c=(precioSeleccionado*Math.pow(10,18));
       await this.ViCOINSaleContract.buyViCOINS(c.toString(),{from: this.account,value: b.toString()});
     }
   }
@@ -81,31 +89,13 @@ export class ComprarMonedaPage implements OnInit {
 
         this.ViCOINSaleContract = await this.ViCOINSale.deployed();
         this.TarifasContract =await  this.Tarifas.deployed();
-        this.ViCOINContract= await this.ViCOIN.at('0xF4Acd5dFD9b3b9fbDA1FEd81aaBA6AF5a9F6A26A');
-        //const beta= await this.ViCOINSaleContract.tokenPrice();
+        this.ViCOINContract= await this.ViCOIN.at('0x24B09781e928b16afE34b7C35F4481565d421F7A');
+        
         const beta= this.ViCOINContract.address;
         var alfa= await this.ViCOINContract.balanceOf(beta);
-        console.log(alfa);
-        //this.dineroCuenta=await this.ViCOINContract.balanceOf(this.account);
-        //this.ViCOINContract.address;
-        //console.log("Contratos cargados");
-        //console.log(this.ViCOINContract.balanceOf(this.account));
-        //console.log(this.ViCOINSalesContract);
-        //console.log(this.TarifasContract);
         this.a = await this.ViCOINContract.balanceOf(this.account);
-        this.dineroCliente = this.a.toNumber();
-        
-        //const patinetes = await this.TarifasContract.Patinetes(0);
-        //const tokenIdNFT = patinetes.IdPatinete.toNumber();
-
-        //const priceNFT   = patinetes.price/(Math.pow(10, 18));   // Para pasar de Weis a ETH
-        //var priceNFT_WEI = priceNFT_ETH * (Math.pow(10, 18));
-
-        //value nen wei
-        //await App.tiendaContract.buyNFT(tokenId, {
-        //  from: this.account,
-        //  value: priceNFT_WEI
-        //});
+        this.dineroCliente = this.a/Math.pow(10,18);
+        console.log(this.dineroCliente);
     } catch (error) {
         console.error(error);
     }
