@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { PatinetesService } from './patinetes.service';
 import * as L from 'Leaflet';
-
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 
 import contratoViCOIN from '../../../contracts/ViCOIN.json';
 import contratoViCOINSale from '../../../contracts/ViCOINSale.json';
 import contratoTarifas from '../../../contracts/Tarifas.json';
+
+
+
+import { PopoverController } from '@ionic/angular';
+import { PopoverComponent } from '../components/popover/popover.component';
 
 
 declare let window:any;
@@ -32,7 +37,10 @@ export class PatinetesPage implements OnInit {
   a;
   PatinetesDisponibles;
 
-  constructor(private patinetesService: PatinetesService) { }
+  totalPatinetes;
+  idsDisponibles;
+  
+  constructor(private patinetesService: PatinetesService, public http:HttpClient, private popCtrl: PopoverController) { }
   clickMenuMoneda(){
     window.location.href="http://localhost:8100/comprarMoneda";
   }
@@ -43,6 +51,8 @@ export class PatinetesPage implements OnInit {
 
     
     patinetes = this.patinetesService.getPatinetes();
+    //longitud-latitud
+
     var map = L.map('map').setView([42.22912736762485, -8.726044981888979], 16);
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -53,7 +63,7 @@ export class PatinetesPage implements OnInit {
         accessToken: 'your.mapbox.access.token'
       }).addTo(map);
     for (var i=0 ; i < patinetes.length ; i++){
-      var marker = L.marker([patinetes[i].latitude, patinetes[i].longitude]).on('click', onClickMarker);; 
+      var marker = L.marker([patinetes[i].latitude, patinetes[i].longitude]).on('click', onClickMarker);
       marker.addTo(map);
     }
 
@@ -100,4 +110,14 @@ export class PatinetesPage implements OnInit {
         console.error(error);
     }
   }
+  async patinetesAlquilados(){
+    //Crear popUp
+    
+    //popUp
+    const popover= this.popCtrl.create({
+      component: PopoverComponent
+    })
+    return (await popover).present();
+  }
+  
 }

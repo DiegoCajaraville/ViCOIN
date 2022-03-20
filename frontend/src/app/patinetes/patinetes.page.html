@@ -26,13 +26,19 @@
   crossorigin=""></script>
 
 
-
+ 
 
 
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="container">
-    <div id="map"></div>
+  <div id="mainContainer">
+    <div id="mapDiv">
+      <div id="map">
+        <button id="refreshButton" (click)="patinetesAlquilados()">
+          Button
+        </button>
+      </div>
+    </div>
   </div>
 </ion-content>

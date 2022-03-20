@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MenuComponent } from './menu/menu.component';
-import { PopupComponent } from './popup/popup.component'
+import { PopoverComponent } from './popover/popover.component'
 
 @NgModule({
-  declarations: [MenuComponent, PopupComponent],
+  declarations: [MenuComponent, PopoverComponent],
   imports: [
     CommonModule
   ],
   exports: [
     MenuComponent,
-    PopupComponent
+    PopoverComponent
   ],
 })
 export class ComponentsModule { }

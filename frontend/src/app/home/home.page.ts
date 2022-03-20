@@ -68,7 +68,7 @@ export class HomePage {
             headers
         }).subscribe({
             next: data => {
-
+                
                 var keys = data.results[0].series[0].columns;
                 var values = data.results[0].series[0].values[0];
                 

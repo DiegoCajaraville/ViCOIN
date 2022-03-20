@@ -37,6 +37,10 @@ const routes: Routes = [
   {
     path: 'comprarMoneda',
     loadChildren: () => import('./comprar-moneda/comprar-moneda.module').then( m => m.ComprarMonedaPageModule)
+  },
+  {
+    path: 'ticket-bus',
+    loadChildren: () => import('./ticket-bus/ticket-bus.module').then( m => m.TicketBusPageModule)
   }
 ];
 

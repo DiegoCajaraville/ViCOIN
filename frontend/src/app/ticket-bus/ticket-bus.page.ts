@@ -1,30 +1,20 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { ComprarMonedaService } from './comprar-moneda.service';
+import { Component, OnInit } from '@angular/core';
+
 
 import contratoViCOIN from '../../../contracts/ViCOIN.json';
 import contratoViCOINSale from '../../../contracts/ViCOINSale.json';
 import contratoTarifas from '../../../contracts/Tarifas.json';
 
-
 declare let window:any;
 declare let TruffleContract:any;
 
 
-
 @Component({
-  selector: 'app-comprar-moneda',
-  templateUrl: './comprar-moneda.page.html',
-  styleUrls: ['./comprar-moneda.page.scss'],
+  selector: 'app-ticket-bus',
+  templateUrl: './ticket-bus.page.html',
+  styleUrls: ['./ticket-bus.page.scss'],
 })
-export class ComprarMonedaPage implements OnInit {
-  precio=0.01;
-  
-
-  dineroCliente;
-
-  disponibleAdmin;
-  
-
+export class TicketBusPage implements OnInit {
   account;
   ViCOIN;
   ViCOINSale;
@@ -33,38 +23,18 @@ export class ComprarMonedaPage implements OnInit {
   ViCOINContract;
   ViCOINSaleContract;
   TarifasContract;
-  a;
 
-  constructor(private ComprarMonedaService: ComprarMonedaService) { }
-  
+
+
+  constructor() { }
+
   ngOnInit() {
     this.loadMetamask();
-    this.loadContract();
+    this.loadContract(); 
   }
-
-  async comprarMoneda(precioSeleccionado){
-    //El precio del vic fijo?
-    
-    var address = this.ViCOINSaleContract.address; 
-    
-    console.log(address);
-    this.disponibleAdmin = await this.ViCOINContract.balanceOf(address);
-    console.log(this.disponibleAdmin.toString());
-    console.log(precioSeleccionado);
-    if( (this.disponibleAdmin-precioSeleccionado*Math.pow(10,18)) >0 ){
-      //Se puede comprar
-      
-      var b=this.precio*precioSeleccionado*Math.pow(10,18);   
-      var c=(precioSeleccionado*Math.pow(10,18));
-      this.ViCOINSaleContract.buyViCOINS(c.toString(),{from: this.account,value: b.toString()}).once(
-        alert("Realizando compra")
-      );
-      alert("Compra realizada");
-
-    }
+  payment(){
+    console.log("cvnmsdfiojvnjikodfnv");
   }
-
-
 
 
   async loadMetamask(){
@@ -76,8 +46,6 @@ export class ComprarMonedaPage implements OnInit {
     }else 
         alert("No ethereum browser is installed. Try it installing MetaMask ");
   }
-
-
 
   async loadContract(){
     try{
@@ -95,19 +63,8 @@ export class ComprarMonedaPage implements OnInit {
         this.TarifasContract =await  this.Tarifas.deployed();
         this.ViCOINContract= await this.ViCOIN.at('0x24B09781e928b16afE34b7C35F4481565d421F7A');
         
-        const beta= this.ViCOINContract.address;
-        var alfa= await this.ViCOINContract.balanceOf(beta);
-        this.a = await this.ViCOINContract.balanceOf(this.account);
-        this.dineroCliente = this.a/Math.pow(10,18);
-        console.log(this.dineroCliente);
     } catch (error) {
         console.error(error);
     }
   }
-
-  async balanceOfCliente(){
-
-    //this.dineroCuenta=await this.ViCOINContract.balanceOf(this.account);
-  }
-  
 }
