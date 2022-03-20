@@ -163,8 +163,8 @@ def getPositionData(gpsd):
     try:
         nx = gpsd.next()
         if nx['class'] == 'TPV' :
-            latitud = getattr(nx, 'lat', 'Unknown')
-            longitud= getattr(nx, 'lon', 'Unknown')
+            latitud = getattr(nx, 'lat', None)
+            longitud= getattr(nx, 'lon', None)
             print("lon = " + str(longitud) + ", lat = " +  str(latitud))
             return [latitud, longitud]
         else:
