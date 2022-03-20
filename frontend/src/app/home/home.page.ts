@@ -51,8 +51,8 @@ export class HomePage {
     curl 
     -G 'http://ec2-44-201-180-246.compute-1.amazonaws.com:8086/query?pretty=true' 
     -H "Authorization: Token admin:lproPassword" 
-    --data-urlencode "db=pruebas" 
-    --data-urlencode "q=SELECT * FROM patinete1 ORDER BY time DESC LIMIT 1"
+    --data-urlencode "db=ViCOIN" 
+    --data-urlencode "q=SELECT * FROM patinetes WHERE idPatinete='1' ORDER BY time DESC LIMIT 1"
     */
 
     getDatosBBDD(patinete){
@@ -60,8 +60,8 @@ export class HomePage {
         var headers = new HttpHeaders({ 'Authorization': 'Token admin:lproPassword' })
 
         var params = new HttpParams();
-        params=params.set('db', 'pruebas');
-        params=params.set('q', 'SELECT * FROM ' + patinete + ' ORDER BY time DESC LIMIT 1');
+        params=params.set('db', 'ViCOIN');
+        params=params.set('q', 'SELECT * FROM patinetes WHERE idPatinete=\'' + patinete + '\' ORDER BY time DESC LIMIT 1');
    
         this.http.get<any>("http://ec2-44-201-180-246.compute-1.amazonaws.com:8086/query?pretty=true", {
             params, 
