@@ -65,6 +65,8 @@ def main(id):
     tiempoRestante = 0
     state = False
     changeStateScooter(state)
+    lastLatitud = random.uniform(-90, 90)
+    lastLongitud = random.uniform(-180, 180)
 
     while True:
 
@@ -98,8 +100,17 @@ def main(id):
         #latitud = random.uniform(-90, 90)
         #longitud = random.uniform(-180, 180)
         datosGPS = getPositionData(gpsd)
-        latitud = datosGPS[0]
-        longitud = datosGPS[1]
+
+        if(datosGPS[0] == None or datosGPS[1] == None):
+            print("No se han podido obtener datos del GPS")
+            latitud = lastLatitud
+            longitud = lastLongitud
+        else:
+            print("Se han podido obtener datos del GPS")
+            latitud = datosGPS[0]
+            longitud = datosGPS[1]
+            lastLatitud = latitud
+            lastLongitud = longitud    
 
         # OBTENER INFORMACIÓN DEL CONTROLADOR #################
         bateria = random.randint(0, 100)
@@ -156,6 +167,8 @@ def getPositionData(gpsd):
             longitud= getattr(nx, 'lon', 'Unknown')
             print("lon = " + str(longitud) + ", lat = " +  str(latitud))
             return [latitud, longitud]
+        else:
+            return [None, None]
     except:
         print("Error al obtener información del GPS")
         return [None, None]

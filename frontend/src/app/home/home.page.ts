@@ -37,7 +37,7 @@ export class HomePage {
 
     constructor(private HomeService: HomeService, public http:HttpClient ) {}
     ngOnInit() {
-        this.getDatosBBDD("patinete1");
+        this.getDatosBBDD(1);
         this.loadMetamask();
         console.log("AAAAAAAAAAAAA");
         this.loadContract();
@@ -57,6 +57,9 @@ export class HomePage {
 
     getDatosBBDD(patinete){
 
+        console.log("Realizar busqueda BBDD")
+        console.log('SELECT * FROM patinetes WHERE idPatinete=\'' + patinete + '\' ORDER BY time DESC LIMIT 1')
+
         var headers = new HttpHeaders({ 'Authorization': 'Token admin:lproPassword' })
 
         var params = new HttpParams();
@@ -68,13 +71,18 @@ export class HomePage {
             headers
         }).subscribe({
             next: data => {
-                
-                var keys = data.results[0].series[0].columns;
-                var values = data.results[0].series[0].values[0];
-                
-                for(var i=0; i<keys.length; i++){
-                    console.log(keys[i] + " = " + values[i]);
-                }
+
+                if(data.results[0].series == null)
+                    console.log("No hay registros de este patinete")
+                else{
+                    
+                    var keys = data.results[0].series[0].columns;
+                    var values = data.results[0].series[0].values[0];
+                    
+                    for(var i=0; i<keys.length; i++){
+                        console.log(keys[i] + " = " + values[i]);
+                    }
+                } 
             },
             error: error => {
                 console.error('Ha ocurrido un error al obtener la información de la BBDD', error);
