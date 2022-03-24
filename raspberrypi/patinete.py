@@ -65,8 +65,8 @@ def main(id):
     tiempoRestante = 0
     state = False
     changeStateScooter(state)
-    lastLatitud = random.uniform(-90, 90)
-    lastLongitud = random.uniform(-180, 180)
+    lastLatitud = random.uniform(42.6, 43)
+    lastLongitud = random.uniform(-8.3, 8.7)
 
     while True:
 
