@@ -3,7 +3,6 @@ import datetime
 import time
 import random
 import threading
-from time import sleep
 
 from influxdb import InfluxDBClient
 from gps import *
@@ -18,8 +17,8 @@ PASSWORD = 'lproPassword'
 DBNAME = 'ViCOIN'
 MEASUREMENT = 'patinetes'
 
-DIR_CONTRATO_TARIFAS = '0xFe5d6C0D7b500f0F801d18E16f85E1EFBc275Ffa'
 URI_INFURA = '7cf06df7347d4670a96d76dc4e3e3410'  # your uri
+CHAIN_ID = '3' # (Ropsten = 3, Rinkeby = 4, Goerli = 5)
 
 SAVE_DATA = 10
 CHECK_BLOCKCHAIN = 30
@@ -31,7 +30,14 @@ PIN_STATE_SCOOTER = 21
 def main(id):
 
     # Inicializacion
-    infura_url = 'https://ropsten.infura.io/v3/' + URI_INFURA
+    if( CHAIN_ID == '3'):
+        infura_url = 'https://ropsten.infura.io/v3/' + URI_INFURA
+    elif( CHAIN_ID == '4'):
+        infura_url = 'https://rinkeby.infura.io/v3/' + URI_INFURA
+    elif( CHAIN_ID == '5'):
+        infura_url = 'https://goerli.infura.io/v3/' + URI_INFURA
+    else:
+        infura_url = 'https://ropsten.infura.io/v3/' + URI_INFURA
 
     try:
         print("[INFO] Inicializando datos BBDD")
@@ -51,13 +57,15 @@ def main(id):
         w3 = Web3(Web3.HTTPProvider(infura_url))
         json_file = open('contracts/Tarifas.json')
         info_json = json.load(json_file)
+        direccionTarifas = info_json['networks'][CHAIN_ID]['address']
         abi = info_json['abi']
-        contract = w3.eth.contract(address=DIR_CONTRATO_TARIFAS,abi=abi)
+        contract = w3.eth.contract(address=direccionTarifas,abi=abi)
     except:
         sys.exit("[ERROR] No se ha podido inicializar el servicio de Infura. Revisa los datos de conexión a la red Blockchain, así como el fichero del SmartContract.")
 
     try:
         print("[INFO] Inicializando pines de conexión")
+        GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(PIN_STATE_SCOOTER, GPIO.OUT)
     except:
