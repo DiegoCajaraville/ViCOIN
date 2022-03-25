@@ -58,11 +58,23 @@ module.exports = {
           "https://ropsten.infura.io/v3/" + infuraProjectId
         );
       },
-      network_id: "3", // eslint-disable-line camelcase
+      network_id: "3",
       gas: 5500000,
-      // gas: 4700000,
       gasPrice: 26500000000,
-      skipDryRun: true
+      skipDryRun: true,
+    },
+    goerli: {
+      networkCheckTimeout: 100000,
+      provider: () => {
+        return new HDWalletProvider(
+          process.env.DEV_MNEMONIC,
+          "https://goerli.infura.io/v3/" + infuraProjectId
+        );
+      },
+      network_id: "5",
+      gas: 4700000,
+      gasPrice: 26500000000,
+      skipDryRun: true,
     },
     // Another network with more advanced options...
     // advanced: {
