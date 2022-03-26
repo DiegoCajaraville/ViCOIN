@@ -1,11 +1,25 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>ticket-bus</ion-title>
+  <ion-toolbar color="primary" style="max-height: 200px">
+    
+ 
+    <ion-title id="logo" style="text-align:center">
+      <a href="http://localhost:8100">
+        <img alt="logo" src="../../assets/icon/logo.png" height="40" id="logo">
+      </a>
+    </ion-title>
+
+    <ion-buttons slot="start">
+      <ion-menu-button contentId="main"></ion-menu-button>
+    </ion-buttons>
+
+    
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content>
- 
-  <ion-button (click)="payment()">Pagar</ion-button>
- 
+  <div class="center-button">
+    <div class="round-button"><div class="round-button-circle"><a class="round-button">Pay!!</a></div></div>
+  </div>
+
 </ion-content>

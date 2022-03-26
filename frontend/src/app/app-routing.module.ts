@@ -17,7 +17,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'patinetes/patinete',
+    path: 'patinete/:id',
     redirectTo: 'patinete',
     pathMatch: 'full'
   },
@@ -31,7 +31,7 @@ const routes: Routes = [
     loadChildren: () => import('./patinetes/patinetes.module').then( m => m.PatinetesPageModule)
   },
   {
-    path: 'patinete',
+    path: 'patinete/:id',
     loadChildren: () => import('./patinete/patinete.module').then( m => m.PatinetePageModule)
   },
   {
@@ -41,6 +41,14 @@ const routes: Routes = [
   {
     path: 'ticket-bus',
     loadChildren: () => import('./ticket-bus/ticket-bus.module').then( m => m.TicketBusPageModule)
+  },
+  {
+    path: 'patinete-alquilado-yo',
+    loadChildren: () => import('./patinete-alquilado-yo/patinete-alquilado-yo.module').then( m => m.PatineteAlquiladoYoPageModule)
+  },
+  {
+    path: 'patinete-alquilado-no-yo',
+    loadChildren: () => import('./patinete-alquilado-no-yo/patinete-alquilado-no-yo.module').then( m => m.PatineteAlquiladoNoYoPageModule)
   }
 ];
 

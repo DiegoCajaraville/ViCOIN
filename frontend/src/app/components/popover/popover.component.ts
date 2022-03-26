@@ -75,14 +75,18 @@ export class PopoverComponent implements OnInit {
       var mostrar=true;
   
       this.idsDisponibles = await this.TarifasContract.getPatinetes();
-      console.log(this.idsDisponibles.toString());
+      console.log("ids disponibles: "+this.idsDisponibles.toString());
       this.totalPatinetes = await this.TarifasContract.totalPatinetes();
-      console.log(this.totalPatinetes.toNumber());
+      console.log("total patinetes: "+this.totalPatinetes.toNumber());
+
+
       for(var a=0; a<this.totalPatinetes.toNumber();a++){
+        mostrar=true;
         for(var b=0;b<this.idsDisponibles.length;b++){
-          if(a==b){
+          if(a==this.idsDisponibles[b]){
+            console.log("j"+a);
             mostrar=false;
-          }
+          } 
         }
         if(mostrar){
           console.log("AAA");

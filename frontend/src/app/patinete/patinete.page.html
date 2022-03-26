@@ -29,20 +29,19 @@
     </ion-item>
     
     
-
-
     <ion-card-content>
-      <ion-list>
-        <ion-button (click)="rent1()">Tarifa 1: {{tarifa1}} Vics</ion-button>
-        <br>
-        <ion-button (click)="rent2()">Tarifa 2: {{tarifa2}} Vics</ion-button>
-        <br>
-        <ion-button (click)="rent3()">Tarifa 3: {{tarifa3}} Vics</ion-button>
-        <br>
-        <ion-button (click)="rent4()">Tarifa 4: {{tarifa4}} Vics</ion-button>
-        <br>
-        <ion-button (click)="rentDemo()">Tarifa Demo: {{tarifaDemo}} Vics</ion-button>
-      </ion-list>
+      <ion-item>      
+        <ion-select placeholder="Selecciona la tarifa" [(ngModel)]="tarifa">
+          <ion-select-option value="1">Tarifa 1</ion-select-option>
+          <ion-select-option value="2">Tarifa 2</ion-select-option>
+          <ion-select-option value="3">Tarifa 3</ion-select-option>
+          <ion-select-option value="4">Tarifa 4</ion-select-option>
+          <ion-select-option value="5">Tarifa Demo</ion-select-option>
+      </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-button (click)="rent()" id="rentButton">Alquilar</ion-button>
+      </ion-item>
     </ion-card-content>
 
 
