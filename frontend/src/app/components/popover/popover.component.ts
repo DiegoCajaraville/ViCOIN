@@ -84,7 +84,6 @@ export class PopoverComponent implements OnInit {
         mostrar=true;
         for(var b=0;b<this.idsDisponibles.length;b++){
           if(a==this.idsDisponibles[b]){
-            console.log("j"+a);
             mostrar=false;
           } 
         }
