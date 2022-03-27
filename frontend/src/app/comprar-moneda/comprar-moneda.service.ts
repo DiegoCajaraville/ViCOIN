@@ -18,7 +18,7 @@ export class ComprarMonedaService {
   async inicio(){
     this.HomeService.loadMetamask();
     this.HomeService.loadContract();
-    this.dineroCliente=this.HomeService.balanceOfCliente();
+    //this.dineroCliente=this.HomeService.balanceOfCliente();
   }
 
   async balanceOfTienda(monedaRequerida){

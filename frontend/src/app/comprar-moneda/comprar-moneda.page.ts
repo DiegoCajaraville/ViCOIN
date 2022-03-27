@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ComprarMonedaService } from './comprar-moneda.service';
 
-import contratoViCOIN from '../../../contracts/ViCOIN.json';
-import contratoViCOINSale from '../../../contracts/ViCOINSale.json';
-import contratoTarifas from '../../../contracts/Tarifas.json';
+import contratoViCOIN from '../../../contracts/ropsten/ViCOIN.json';
+import contratoViCOINSale from '../../../contracts/ropsten/ViCOINSale.json';
+import contratoTarifas from '../../../contracts/ropsten/Tarifas.json';
 
 
 declare let window:any;
@@ -104,10 +104,4 @@ export class ComprarMonedaPage implements OnInit {
         console.error(error);
     }
   }
-
-  async balanceOfCliente(){
-
-    //this.dineroCuenta=await this.ViCOINContract.balanceOf(this.account);
-  }
-  
 }

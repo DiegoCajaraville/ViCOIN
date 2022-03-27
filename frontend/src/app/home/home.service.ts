@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import contratoViCOIN from '../../../contracts/ViCOIN.json';
-import contratoViCOINSale from '../../../contracts/ViCOINSale.json';
-import contratoTarifas from '../../../contracts/Tarifas.json';
+import contratoViCOIN from '../../../contracts/ropsten/ViCOIN.json';
+import contratoViCOINSale from '../../../contracts/ropsten/ViCOINSale.json';
+import contratoTarifas from '../../../contracts/ropsten/Tarifas.json';
 
 
 
@@ -22,6 +22,7 @@ export class HomeService {
   ViCOINContract;
   ViCOINSaleContract;
   TarifasContract;
+  monedaCliente;
   constructor() { }
 
 
@@ -53,35 +54,9 @@ export class HomeService {
 
         this.ViCOINSaleContract = await this.ViCOINSale.deployed();
         this.TarifasContract = await this.Tarifas.deployed();
-        this.ViCOINContract= await this.ViCOIN.at('0xe8e781E9F26b21a0319bac6dc7e2843a86b29eaf');
-
-        //this.ViCOINContract.address();
-        //console.log("Contratos cargados");
-        console.log(this.ViCOINContract);
-        //console.log(this.ViCOINSalesContract);
-        //console.log(this.TarifasContract);
-        
-        //const patinetes = await this.TarifasContract.Patinetes(0);
-        //const tokenIdNFT = patinetes.IdPatinete.toNumber();
-
-        //const priceNFT   = patinetes.price/(Math.pow(10, 18));   // Para pasar de Weis a ETH
-        //var priceNFT_WEI = priceNFT_ETH * (Math.pow(10, 18));
-
-        //value nen wei
-        //await App.tiendaContract.buyNFT(tokenId, {
-        //  from: this.account,
-        //  value: priceNFT_WEI
-        //});
-
-        //console.log(tokenIdNFT);
-    } catch (error) {
+        this.ViCOINContract= await this.ViCOIN.at('0x24B09781e928b16afE34b7C35F4481565d421F7A');
+    }catch (error) {
         console.error(error);
     }
-  }
-
-  async balanceOfCliente(){
-    
-    //console.log(this.ViCOINContract.balanceOf(this.account))
-    //return this.ViCOINContract.balanceOf(this.account);
   }
 }

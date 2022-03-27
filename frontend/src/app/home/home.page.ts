@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { HomeService } from './home.service';
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 
-import contratoViCOIN from '../../../contracts/ViCOIN.json';
-import contratoViCOINSale from '../../../contracts/ViCOINSale.json';
-import contratoTarifas from '../../../contracts/Tarifas.json';
+import contratoViCOIN from '../../../contracts/ropsten/ViCOIN.json';
+import contratoViCOINSale from '../../../contracts/ropsten/ViCOINSale.json';
+import contratoTarifas from '../../../contracts/ropsten/Tarifas.json';
 
 
 declare let window:any;

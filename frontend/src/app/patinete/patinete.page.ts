@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { Patinete } from '../patinete/patinete.model';
 
-import { PatinetesService } from '../patinetes/patinetes.service';
-import { PatinetesPage } from '../patinetes/patinetes.page';
+
 import * as L from 'Leaflet';
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 
-import contratoViCOIN from '../../../contracts/ViCOIN.json';
-import contratoViCOINSale from '../../../contracts/ViCOINSale.json';
-import contratoTarifas from '../../../contracts/Tarifas.json';
+import contratoViCOIN from '../../../contracts/ropsten/ViCOIN.json';
+import contratoViCOINSale from '../../../contracts/ropsten/ViCOINSale.json';
+import contratoTarifas from '../../../contracts/ropsten/Tarifas.json';
+
 
 
 
@@ -22,8 +24,7 @@ declare let TruffleContract:any;
   styleUrls: ['./patinete.page.scss'],
 })
 export class PatinetePage implements OnInit {
-  patinetes=[];
-  patinete;
+  patinete: Patinete;
   tiempoRestante;
   usuarioActual;
   allowRent;
@@ -36,17 +37,17 @@ export class PatinetePage implements OnInit {
   ViCOINSaleContract;
   TarifasContract;
   patinetesComprados;
-
+  
   tarifa;
-
+  map;
   tarifaSeleccionada;
   tarifa1=18;
   tarifa2=15;
   tarifa3=10;
   tarifa4=5;
   tarifaDemo=1;
-  
-  constructor(private patinetesPage: PatinetesPage) {}
+  id;
+  constructor(public http:HttpClient) {}
  
   ngOnInit() {
     L.Icon.Default.ImagePath = "../../assests/icon/";
@@ -56,9 +57,11 @@ export class PatinetePage implements OnInit {
     this.loadContract();
     
 
-    this.patinete=this.getPatinete();
+    this.id=this.getPatinete();
+    
 
-    var map = L.map('map').setView([42.262539326354435, -8.748173066323389], 13);
+
+    this.map = L.map('map').setView([42.262539326354435, -8.748173066323389], 13);
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 18,
@@ -66,17 +69,17 @@ export class PatinetePage implements OnInit {
         tileSize: 512,
         zoomOffset: -1,
         accessToken: 'your.mapbox.access.token'
-      }).addTo(map);
+      }).addTo(this.map);
+    //Llamar a la base de datos para obtener los datos del patinete seleccionado
+    this.getDatosBBDD(this.id);
 
-    L.marker([this.patinete.latitude, this.patinete.longitude]).addTo(map);
   }
+
+
+
   getPatinete(){
     var url = (window.location+"").split('/');
-    var idURL=url[4];
-    console.log(idURL);
-    for(var i=0;i<this.patinetesPage.patinetes.length;i++){
-      if(idURL==this.patinetesPage.patinetes[i].id) return this.patinetesPage.patinetes[i];
-    }
+    return url[4];
   }
 
   async loadMetamask(){
@@ -119,7 +122,8 @@ export class PatinetePage implements OnInit {
         this.ViCOINContract= await this.ViCOIN.at('0x24B09781e928b16afE34b7C35F4481565d421F7A');
         var j = await this.TarifasContract.getPatinetes();
         this.patinetesComprados = j.toString();
-        console.log("aaaa"+this.patinetesComprados);
+        var b= await this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
+        this.allowRent= b/Math.pow(10,18);
     } catch (error) {
         console.error(error);
     }
@@ -128,15 +132,15 @@ export class PatinetePage implements OnInit {
 
 
 
-
-  async renting(tar){
-    console.log(tar);
-    if(tar==1){
+  async rent(){
+    
+    if(this.tarifa==1){
       if(this.allowRent >= this.tarifa1){
-        console.log("comprar");
+        alert("Realizando alquiler");
         this.TarifasContract.tarifa1(this.patinete.id,{
           from: this.account,
         });
+        alert("Alquiler completado");
       }else{
         alert("Approve the money");
         var c=this.tarifa1*Math.pow(10,18);
@@ -144,19 +148,20 @@ export class PatinetePage implements OnInit {
         await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
           from: this.account,
         });
-        
+        alert("Realizando alquiler");
         await this.TarifasContract.tarifa1(this.patinete.id,{
           from: this.account,
         });
-        console.log("sk");
-        alert("Compra realizada");
+     
+        alert("Alquiler Completado");
       }
-    }else if(tar==2){
+    }else if(this.tarifa==2){
       if(this.allowRent >= this.tarifa2){
-        console.log("comprar");
+        alert("Realizando alquiler");
         this.TarifasContract.tarifa2(this.patinete.id,{
           from: this.account,
         });
+        alert("Alquiler completado");
       }else{
         alert("Approve the money");
         var c=this.tarifa1*Math.pow(10,18);
@@ -164,19 +169,20 @@ export class PatinetePage implements OnInit {
         await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
           from: this.account,
         });
-        
+        alert("Realizando alquiler");
         await this.TarifasContract.tarifa2(this.patinete.id,{
           from: this.account,
         });
-        console.log("sk");
-        alert("Compra realizada");
+ 
+        alert("Alquiler completado");
       }
-    }else if(tar==3){
+    }else if(this.tarifa==3){
       if(this.allowRent >= this.tarifa3){
-        console.log("comprar");
+        alert("Realizando alquiler");
         this.TarifasContract.tarifa3(this.patinete.id,{
           from: this.account,
         });
+        alert("Alquiler completado");
       }else{
         alert("Approve the money");
         var c=this.tarifa1*Math.pow(10,18);
@@ -184,19 +190,20 @@ export class PatinetePage implements OnInit {
         await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
           from: this.account,
         });
-        
+        alert("Realizando alquiler");
         await this.TarifasContract.tarifa3(this.patinete.id,{
           from: this.account,
         });
-        console.log("sk");
-        alert("Compra realizada");
+        
+        alert("Alquiler completado");
       }
-    }else if(tar==4){
+    }else if(this.tarifa==4){
       if(this.allowRent >= this.tarifa4){
-        console.log("comprar");
+        alert("Realizando alquiler");
         this.TarifasContract.tarifa4(this.patinete.id,{
           from: this.account,
         });
+        alert("Alquiler completado");
       }else{
         alert("Approve the money");
         var c=this.tarifa1*Math.pow(10,18);
@@ -204,20 +211,21 @@ export class PatinetePage implements OnInit {
         await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
           from: this.account,
         });
-        
+        alert("Realizando alquiler");
         await this.TarifasContract.tarifa4(this.patinete.id,{
           from: this.account,
         });
-        console.log("sk");
-        alert("Compra realizada");
+        
+        alert("Alquiler completado");
       }
-    }else if(tar==5){
-      
+    }else if(this.tarifa==5){
+      console.log("abc"+this.allowRent);
       if(this.allowRent >= this.tarifaDemo){
-        console.log("comprar");
+        alert("Realizando alquiler");
         this.TarifasContract.tarifaDemo(this.patinete.id,{
           from: this.account,
         });
+        alert("Alquiler completado");
       }else{
         alert("Approve the money");
         var c=this.tarifa1*Math.pow(10,18);
@@ -225,14 +233,49 @@ export class PatinetePage implements OnInit {
         await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
           from: this.account,
         });
-        
+        console.log(c);
+        alert("Realizando alquiler");
+
         await this.TarifasContract.tarifaDemo(this.patinete.id,{
           from: this.account,
         });
-        console.log("sk");
-        alert("Compra realizada");
+        
+        alert("Alquiler completado");
       }
     }
+  }
+
+
+
+  getDatosBBDD(patinete){
+    var headers = new HttpHeaders({ 'Authorization': 'Token admin:lproPassword' })
+    var params = new HttpParams();
+    params=params.set('db', 'ViCOIN');
+    params=params.set('q', 'SELECT * FROM patinetes WHERE idPatinete=\'' + patinete + '\' ORDER BY time DESC LIMIT 1');
+    this.http.get<any>("http://ec2-44-201-180-246.compute-1.amazonaws.com:8086/query?pretty=true", {
+        params, 
+        headers
+    }).subscribe({
+        next: data => {
+            if(data.results[0].series == null)
+                console.log("No hay registros de este patinete")
+            else{
+                var keys = data.results[0].series[0].columns;
+                var values = data.results[0].series[0].values[0];
+                this.patinete={
+                  id: patinete+"",
+                  latitude: values[3]+"",
+                  longitude: values[4]+"",
+                  bateria: values[1]+""
+                };
+                var marker = L.marker([values[3], values[4]]);
+                marker.addTo(this.map);
+            }
+        },
+        error: error => {
+            console.error('Ha ocurrido un error al obtener la información de la BBDD', error);
+        }
+    })
   }
   
 }

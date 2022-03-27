@@ -3,9 +3,9 @@ import * as L from 'Leaflet';
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Patinete } from '../patinete/patinete.model';
 
-import contratoViCOIN from '../../../contracts/ViCOIN.json';
-import contratoViCOINSale from '../../../contracts/ViCOINSale.json';
-import contratoTarifas from '../../../contracts/Tarifas.json';
+import contratoViCOIN from '../../../contracts/ropsten/ViCOIN.json';
+import contratoViCOINSale from '../../../contracts/ropsten/ViCOINSale.json';
+import contratoTarifas from '../../../contracts/ropsten/Tarifas.json';
 
 
 import { PopoverController } from '@ionic/angular';
@@ -186,7 +186,6 @@ export class PatinetesPage implements OnInit {
             console.error('Ha ocurrido un error al obtener la información de la BBDD', error);
         }
     })
-
-}
+  }
   
 }
