@@ -1,24 +1,34 @@
 <ion-header [translucent]="true" color="primary">
   <ion-toolbar color="primary" style="max-height: 200px">
-    
- 
     <ion-title id="logo" style="text-align:center">
       <a href="http://localhost:8100">
         <img alt="logo" src="../../assets/icon/logo.png" height="40" id="logo">
       </a>
     </ion-title>
-
     <ion-buttons slot="start">
       <ion-menu-button contentId="main"></ion-menu-button>
     </ion-buttons>
-
-    <ion-button slot="end">Admin</ion-button>
   </ion-toolbar>
 
 </ion-header>
 
 <ion-content [fullscreen]="true" color="primary">
-  <div id="container">
+  <div class="content" [class.move]="animate">
+    <div class="content-timer">
+      <div class="content-h">
+        <div class="time"> {{hours | number:'2.0'}} <span>h</span></div>
+      </div>
 
+      <div class="content-m">
+        <div class="time"> {{minutes | number:'2.0'}} <span>m</span></div>
+      </div>
+
+      <div class="content-s">
+        <div class="time"> {{seconds | number:'2.0'}} <span>s</span></div>
+      </div>
+    </div>
   </div>
+
 </ion-content>
+
+

@@ -1,6 +1,4 @@
-<ion-list *ngFor="let item of patinetesAlquilados">
- <ion-item>
-  <button ion-item (click)="patineteAlquiladoInfo()">Patinete {{patinetesAlquilados}}</button>
- </ion-item>
-  
+<ion-list>
+  <ion-list-header>Patinetes alquilados:</ion-list-header>
+  <button ion-item *ngFor="let item of patinetesAlquilados" (click)="patineteAlquiladoInfo(item)">Patinete {{patinetesAlquilados}}</button>
 </ion-list>

@@ -50,7 +50,7 @@ export class PatinetePage implements OnInit {
   constructor(public http:HttpClient) {}
  
   ngOnInit() {
-    L.Icon.Default.ImagePath = "../../assests/icon/";
+    
 
 
     this.loadMetamask();
@@ -61,15 +61,16 @@ export class PatinetePage implements OnInit {
     
 
 
-    this.map = L.map('map').setView([42.262539326354435, -8.748173066323389], 13);
+    this.map = L.map('map').setView([42.262539326354435, -8.748173066323389], 16);
+    L.Icon.Default.ImagePath = "../../assests/icon/";
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 18,
-        id: 'mapbox/streets-v11',
-        tileSize: 512,
-        zoomOffset: -1,
-        accessToken: 'your.mapbox.access.token'
-      }).addTo(this.map);
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      maxZoom: 18,
+      id: 'mapbox/streets-v11',
+      tileSize: 512,
+      zoomOffset: -1,
+      accessToken: 'your.mapbox.access.token'
+    }).addTo(this.map);
     //Llamar a la base de datos para obtener los datos del patinete seleccionado
     this.getDatosBBDD(this.id);
 
@@ -182,7 +183,6 @@ export class PatinetePage implements OnInit {
         }
         var c=dineroApprove*Math.pow(10,18);
         
-        
         await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
           from: this.account,
         });
@@ -190,7 +190,8 @@ export class PatinetePage implements OnInit {
         await this.TarifasContract.tarifa2(this.patinete.id,{
           from: this.account,
         });
- 
+
+        
         alert("Alquiler completado");
       }
     }else if(this.tarifa==3){

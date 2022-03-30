@@ -35,6 +35,14 @@ const routes: Routes = [
     loadChildren: () => import('./patinete/patinete.module').then( m => m.PatinetePageModule)
   },
   {
+    path: 'patineteNoYo/:id',
+    loadChildren: () => import('./patinete-alquilado-no-yo/patinete-alquilado-no-yo.module').then( m => m.PatineteAlquiladoNoYoPageModule)
+  },
+  {
+    path: 'patineteYo/:id',
+    loadChildren: () => import('./patinete-alquilado-yo/patinete-alquilado-yo.module').then( m => m.PatineteAlquiladoYoPageModule)
+  },
+  {
     path: 'comprarMoneda',
     loadChildren: () => import('./comprar-moneda/comprar-moneda.module').then( m => m.ComprarMonedaPageModule)
   },
