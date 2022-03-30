@@ -149,10 +149,10 @@ export class PatinetePage implements OnInit {
         //Aprobar solo el dinero que sea necesario
         var dineroApprove=this.tarifa1-this.allowRent;
         //Comprobar que tiene dinero suficiente para poder hacer el approve
-        if(dineroApprove>this.dineroCliente){
-          alert("No tiene dinero suficiente");
-          return;
-        }
+        //if(dineroApprove>this.dineroCliente){
+        //  alert("No tiene dinero suficiente");
+        //  return;
+        //}
         var c=dineroApprove*Math.pow(10,18);
         
         await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
@@ -177,10 +177,10 @@ export class PatinetePage implements OnInit {
         //Aprobar solo el dinero que sea necesario+
         var dineroApprove=this.tarifa1-this.allowRent;
         //Comprobar que tiene dinero suficiente para poder hacer el approve
-        if(dineroApprove>this.dineroCliente){
-          alert("No tiene dinero suficiente");
-          return;
-        }
+        //if(dineroApprove>this.dineroCliente){
+        //  alert("No tiene dinero suficiente");
+        //  return;
+        //}
         var c=dineroApprove*Math.pow(10,18);
         
         await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
@@ -206,10 +206,10 @@ export class PatinetePage implements OnInit {
         //Aprobar solo el dinero que sea necesario+
         var dineroApprove=this.tarifa1-this.allowRent;
         //Comprobar que tiene dinero suficiente para poder hacer el approve
-        if(dineroApprove>this.dineroCliente){
-          alert("No tiene dinero suficiente");
-          return;
-        }
+        //if(dineroApprove>this.dineroCliente){
+        //  alert("No tiene dinero suficiente");
+        //  return;
+        //}
         var c=dineroApprove*Math.pow(10,18);
         
         await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
@@ -234,10 +234,10 @@ export class PatinetePage implements OnInit {
         //Aprobar solo el dinero que sea necesario+
         var dineroApprove=this.tarifa1-this.allowRent;
         //Comprobar que tiene dinero suficiente para poder hacer el approve
-        if(dineroApprove>this.dineroCliente){
-          alert("No tiene dinero suficiente");
-          return;
-        }
+        //if(dineroApprove>this.dineroCliente){
+        //  alert("No tiene dinero suficiente");
+        //  return;
+        //}
         var c=dineroApprove*Math.pow(10,18);
         
         await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
@@ -263,10 +263,10 @@ export class PatinetePage implements OnInit {
         //Aprobar solo el dinero que sea necesario+
         var dineroApprove=this.tarifa1-this.allowRent;
         //Comprobar que tiene dinero suficiente para poder hacer el approve
-        if(dineroApprove>this.dineroCliente){
-          alert("No tiene dinero suficiente");
-          return;
-        }
+        //if(dineroApprove>this.dineroCliente){
+        //  alert("No tiene dinero suficiente");
+        //  return;
+        //}
         var c=dineroApprove*Math.pow(10,18);
         
         await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
