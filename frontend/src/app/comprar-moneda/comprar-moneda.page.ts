@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ComprarMonedaService } from './comprar-moneda.service';
 
-import contratoViCOIN from '../../../contracts/ropsten/ViCOIN.json';
-import contratoViCOINSale from '../../../contracts/ropsten/ViCOINSale.json';
-import contratoTarifas from '../../../contracts/ropsten/Tarifas.json';
+import contratoViCOIN from '../../../contracts/goerli/ViCOIN.json';
+import contratoViCOINSale from '../../../contracts/goerli/ViCOINSale.json';
+import contratoTarifas from '../../../contracts/goerli/Tarifas.json';
 
 
 declare let window:any;
@@ -93,7 +93,7 @@ export class ComprarMonedaPage implements OnInit {
 
         this.ViCOINSaleContract = await this.ViCOINSale.deployed();
         this.TarifasContract =await  this.Tarifas.deployed();
-        this.ViCOINContract= await this.ViCOIN.at('0x24B09781e928b16afE34b7C35F4481565d421F7A');
+        this.ViCOINContract= await this.ViCOIN.at('0x30FeD49F1808F83a2d1b4cf26C275DE66E4eE950');
         
         const beta= this.ViCOINContract.address;
         var alfa= await this.ViCOINContract.balanceOf(beta);
