@@ -2,6 +2,7 @@ import argparse
 import datetime
 import time
 import random
+import json
 
 #from influxdb import InfluxDBClient
 #from gps import *
@@ -19,8 +20,7 @@ import RPi.GPIO as GPIO
 #URI_INFURA = '7cf06df7347d4670a96d76dc4e3e3410'  # your uri
 #CHAIN_ID = '3' # (Ropsten = 3, Rinkeby = 4, Goerli = 5)
 
-PIN_NFC = 20
-PIN_TIMBRE = 22
+PIN_TIMBRE = 23
 
 ###########################################################################################
 
@@ -30,7 +30,6 @@ def main():
         print("[INFO] Inicializando pines de conexión")
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(PIN_NFC, GPIO.IN)
         GPIO.setup(PIN_TIMBRE, GPIO.OUT)
     except:
         sys.exit("[ERROR] No se ha podido inicializar el estado del patinete. Revisa los pines del NFC o zumbador.")
@@ -43,16 +42,18 @@ def main():
     while True:
 
         # LECTURA DEL RECEPTOR #################
-        print("[INFO] Esperando a que el NFC haga alguna lectura")
+        print("[INFO] Esperando a que se haga alguna lectura QR")
         time.sleep(5)
         lectura = "NADA!"
 
+        # ADAPTACION DE LA ENTRADA #################
         print("[INFO] Lectura realizada: " + lectura)
+        lecturaAdaptada = adaptarEntrada(lectura)
 
         # COMPROBACIÓN VALIDEZ #################
         print("[INFO] Procedemos a comprobar si el estado de la transacción es correcto")
 
-        if( random.randint(0, 1) == 1):
+        if( comprobarTransaccion(lecturaAdaptada) ):
             print("[INFO] La transacción es correcta. El usuario puede acceder al servicio.")
             activateSound(1, 1)
         else:
@@ -71,6 +72,27 @@ def activateSound(duration, period):
         time.sleep(duration)
         GPIO.output(PIN_TIMBRE, False)
         i = i + 1
+
+###########################################################################################
+
+def adaptarEntrada(entrada):
+
+    entrada = json.loads(entrada)
+    entrada['to'] = "0xc15648cfe1afc36eddabc5a79c5f33480bf24ce0"
+
+    #print(entrada["r"])
+
+    return entrada
+
+
+def comprobarTransaccion(transaccion):
+
+    print(transaccion)
+
+    gas = int( transaccion["gas"], 16) # Hexadecimal to decimal
+    print(gas)
+    
+    return True
 
 ###########################################################################################
 
