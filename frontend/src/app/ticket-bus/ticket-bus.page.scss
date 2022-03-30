@@ -1,7 +1,18 @@
 
 .round-button {
-    margin-top: 80px;
-    width:100%;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+
+    margin-top: 40px;
+    width:70%;
+    top: 20%;
+    left: 50%;
+    //margin-right: -50%;
+    //transform: translate(-50%, -50%)
 }
 .round-button-circle {
     width: 100%;
@@ -28,8 +39,8 @@
             
     text-align:center;
     color:#e2eaf3;
-    font-family:Verdana;
-    font-size:1.2em;
+    font-family: Arial;
+    font-size:2.2em;
     font-weight:bold;
     text-decoration:none;
 }

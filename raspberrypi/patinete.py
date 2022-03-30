@@ -19,7 +19,7 @@ DBNAME = 'ViCOIN'
 MEASUREMENT = 'patinetes'
 
 URI_INFURA = '7cf06df7347d4670a96d76dc4e3e3410'  # your uri
-CHAIN_ID = '3' # (Ropsten = 3, Rinkeby = 4, Goerli = 5)
+CHAIN_ID = '5' # (Ropsten = 3, Rinkeby = 4, Goerli = 5)
 
 SAVE_DATA = 10
 CHECK_BLOCKCHAIN = 30
@@ -33,12 +33,16 @@ def main(id):
     # Inicializacion
     if( CHAIN_ID == '3'):
         infura_url = 'https://ropsten.infura.io/v3/' + URI_INFURA
+        rutaTarifas = 'contracts/ropsten/Tarifas.json'
     elif( CHAIN_ID == '4'):
         infura_url = 'https://rinkeby.infura.io/v3/' + URI_INFURA
+        rutaTarifas = 'contracts/rinkeby/Tarifas.json'
     elif( CHAIN_ID == '5'):
         infura_url = 'https://goerli.infura.io/v3/' + URI_INFURA
+        rutaTarifas = 'contracts/goerli/Tarifas.json'
     else:
         infura_url = 'https://ropsten.infura.io/v3/' + URI_INFURA
+        rutaTarifas = 'contracts/ropsten/Tarifas.json'
 
     try:
         print("[INFO] Inicializando datos BBDD")
@@ -56,7 +60,7 @@ def main(id):
     try:
         print("[INFO] Inicializando conexión Blockchain")
         w3 = Web3(Web3.HTTPProvider(infura_url))
-        json_file = open('contracts/Tarifas.json')
+        json_file = open(rutaTarifas)
         info_json = json.load(json_file)
         direccionTarifas = info_json['networks'][CHAIN_ID]['address']
         abi = info_json['abi']
