@@ -2,9 +2,9 @@ import { getLocaleId } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Patinete } from '../patinete/patinete.model';
-import contratoViCOIN from '../../../contracts/ropsten/ViCOIN.json';
-import contratoViCOINSale from '../../../contracts/ropsten/ViCOINSale.json';
-import contratoTarifas from '../../../contracts/ropsten/Tarifas.json';
+import contratoViCOIN from '../../../contracts/goerli/ViCOIN.json';
+import contratoViCOINSale from '../../../contracts/goerli/ViCOINSale.json';
+import contratoTarifas from '../../../contracts/goerli/Tarifas.json';
 
 
 
@@ -181,7 +181,7 @@ export class PatineteAlquiladoNoYoPage implements OnInit {
 
         this.ViCOINSaleContract = await this.ViCOINSale.deployed();
         this.TarifasContract = await this.Tarifas.deployed();
-        this.ViCOINContract= await this.ViCOIN.at('0x24B09781e928b16afE34b7C35F4481565d421F7A');
+        this.ViCOINContract= await this.ViCOIN.at('0x30FeD49F1808F83a2d1b4cf26C275DE66E4eE950');
         var j = await this.TarifasContract.getPatinetes();
         this.tiempoRestante =  await this.TarifasContract.remaining(this.id);
 
