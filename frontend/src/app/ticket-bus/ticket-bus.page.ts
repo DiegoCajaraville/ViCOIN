@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 var QRCode = require('qrcode')
 
 const direccionAdministrador = '0x76A431B17560D46dE8430435001cBC66ae04De46'
@@ -26,7 +27,7 @@ export class TicketBusPage implements OnInit {
   ViCOINSaleContract;
   TarifasContract;
 
-  constructor() { }
+  constructor(public http:HttpClient) { }
 
   ngOnInit() {
     this.loadMetamask();
@@ -46,15 +47,38 @@ export class TicketBusPage implements OnInit {
 
         console.log("Se ha hecho la transaccion \n" + hash)
 
-        const transaction = await this.metamaskProvider.request({
-            method: "eth_getTransactionByHash",
-            params: [hash],
-        });
+        /*
+        curl http://sample-endpoint-name.network.quiknode.pro/token-goes-here/ \
+        -X POST \
+        -H "Content-Type: application/json" \
+        --data '{"method":"eth_getTransactionByHash","params":["0x04b713fdbbf14d4712df5ccc7bb3dfb102ac28b99872506a363c0dcc0ce4343c"],"id":1,"jsonrpc":"2.0"}'
+        */
+        try {
+            //var transaction = await this.metamaskProvider.request({
+            //    method: "eth_getTransactionByHash",
+            //    params: [hash],
+            //});
 
-        this.createQR(transaction)
+            var headers = new HttpHeaders({ 'Content-Type': 'application/json' })
+            var payload = "{'method':'eth_getTransactionByHash','params':['" + hash + "'],'id':1,'jsonrpc':'2.0'}"
+            this.http.post("http://sample-endpoint-name.network.quiknode.pro/token-goes-here/", payload, {
+                headers
+            }).subscribe({
+                next: data => {
+                    console.log("Ha salido bien: ", data)
+                },
+                error: error => {
+                    console.error('Ha ocurrido un error: ', error);
+                }
+            })
+
+            //this.createQR(transaction)
+        } catch (error) {
+            console.error("ERROR AL LLAMAR A 'eth_getTransactionByHash' para el hash: " + hash)
+            this.createQR(null)
+        }
+        
     });
-
-    this.createQR(null)
   }
 
 
