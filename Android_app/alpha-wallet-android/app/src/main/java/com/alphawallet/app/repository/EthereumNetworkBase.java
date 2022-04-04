@@ -74,7 +74,7 @@ public abstract class EthereumNetworkBase implements EthereumNetworkRepositoryTy
 {
     public static final String COVALENT = "[COVALENT]";
 
-    private static final String DEFAULT_HOMEPAGE = "https://alphawallet.com/browser/";
+    private static final String DEFAULT_HOMEPAGE = "https://google.es";
 
     private static final String POLYGON_HOMEPAGE = "https://alphawallet.com/browser-item-category/polygon/";
 
