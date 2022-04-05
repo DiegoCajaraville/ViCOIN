@@ -39,6 +39,7 @@ export class TicketBusPage implements OnInit {
     // ViC que cuesta el pago a realizar
     var pagoDinero = 1
     var pagoWEIs = pagoDinero * Math.pow(10,18);
+    var hashTransaction = []
         
     await this.ViCOINContract.transfer(direccionAdministrador, BigInt(pagoWEIs), {
         from: this.account,
@@ -46,41 +47,63 @@ export class TicketBusPage implements OnInit {
     .once("transactionHash", async function (hash) {
 
         console.log("Se ha hecho la transaccion \n" + hash)
-
-        /*
-        curl http://sample-endpoint-name.network.quiknode.pro/token-goes-here/ \
-        -X POST \
-        -H "Content-Type: application/json" \
-        --data '{"method":"eth_getTransactionByHash","params":["0x04b713fdbbf14d4712df5ccc7bb3dfb102ac28b99872506a363c0dcc0ce4343c"],"id":1,"jsonrpc":"2.0"}'
-        */
+        hashTransaction[0] = hash
+        
         try {
             //var transaction = await this.metamaskProvider.request({
             //    method: "eth_getTransactionByHash",
             //    params: [hash],
             //});
 
-            var headers = new HttpHeaders({ 'Content-Type': 'application/json' })
-            var payload = "{'method':'eth_getTransactionByHash','params':['" + hash + "'],'id':1,'jsonrpc':'2.0'}"
-            this.http.post("http://sample-endpoint-name.network.quiknode.pro/token-goes-here/", payload, {
-                headers
-            }).subscribe({
-                next: data => {
-                    console.log("Ha salido bien: ", data)
+            //this.createQRHash(hashTransaction[0])
+            hash = hash.replace(/0x/g, '')
+
+            console.log("[INFO] La transaccion enviada será: " + hash)
+
+            QRCode.toCanvas(document.getElementById('qrcode'), hash, {
+                width: window.innerWidth * 0.9,
+                height: window.innerWidth * 0.9,
+                color: {
+                    //dark:"#5868bf",
+                    light:"#E0ECFF"
                 },
-                error: error => {
-                    console.error('Ha ocurrido un error: ', error);
-                }
-            })
+                errorCorrectionLevel : 'L'
+            }, function (error) {
+                if (error) 
+                    console.error(error)
+                console.log('success!');
+            });
 
-            //this.createQR(transaction)
         } catch (error) {
-            console.error("ERROR AL LLAMAR A 'eth_getTransactionByHash' para el hash: " + hash)
-            this.createQR(null)
+            console.error(error)
         }
-        
     });
-  }
 
+    /*
+    curl http://sample-endpoint-name.network.quiknode.pro/token-goes-here/ \
+    -X POST \
+    -H "Content-Type: application/json" \
+    --data '{"method":"eth_getTransactionByHash","params":["0x04b713fdbbf14d4712df5ccc7bb3dfb102ac28b99872506a363c0dcc0ce4343c"],"id":1,"jsonrpc":"2.0"}'
+    */
+    /*
+    console.log("Comprobamos la transaccion fuera del once")
+
+    var headers = new HttpHeaders({ 'Content-Type': 'application/json' })
+    var payload = '{"method":"eth_getTransactionByHash","params":["' + hashTransaction[0] + '"],"id":5,"jsonrpc":"2.0"}'
+    console.log(JSON.parse(payload))
+    this.http.post("https://goerli.infura.io/v3/7cf06df7347d4670a96d76dc4e3e3410", payload, {
+        headers
+    }).subscribe({
+        next: data => {
+            console.log("Ha salido bien: ", data)
+        },
+        error: error => {
+            console.error('Ha ocurrido un error: ', error);
+        }
+    })
+    */
+
+  }
 
   async loadMetamask(){
     if (window.ethereum) {
@@ -113,7 +136,8 @@ export class TicketBusPage implements OnInit {
     }
   }
 
-  createQR( transaction ){
+  /*
+  async createQRTransaction( transaction ){
     
     transaction = {
         "v": "0x00",  //ECDSA recovery id
@@ -172,4 +196,27 @@ export class TicketBusPage implements OnInit {
     });
 
   }
+
+  createQRHash( hash ){
+
+    hash = hash.replace(/0x/g, '')
+
+    console.log("[INFO] La transaccion enviada será: " + hash)
+
+    QRCode.toCanvas(document.getElementById('qrcode'), hash, {
+        width: window.innerWidth * 0.9,
+        height: window.innerWidth * 0.9,
+        color: {
+            //dark:"#5868bf",
+            light:"#E0ECFF"
+        },
+        errorCorrectionLevel : 'L'
+    }, function (error) {
+        if (error) 
+            console.error(error)
+        console.log('success!');
+    });
+
+  }
+  */
 }

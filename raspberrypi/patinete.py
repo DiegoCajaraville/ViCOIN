@@ -25,6 +25,7 @@ SAVE_DATA = 10
 CHECK_BLOCKCHAIN = 30
 
 PIN_STATE_SCOOTER = 21
+PIN_TIMBRE = 23
 
 ###########################################################################################
 
@@ -78,6 +79,8 @@ def main(id):
 
 
     # PROGRAMA
+
+    inicializated()
 
     ## Tiempo que pasa entre cada guardado en la BBDD       -> SAVE_DATA segundos
     hiloBBDD = threading.Thread(target=sendInformationBBDD, args=(client, gpsd, id,))
@@ -213,6 +216,19 @@ def getDataGPS(gpsd):
         print("[ERROR] Error al obtener información del GPS")
         return [None, None, None]
 
+
+###########################################################################################
+
+def inicializated():
+
+    GPIO.output(PIN_TIMBRE, True)
+    time.sleep(0.3)
+    GPIO.output(PIN_TIMBRE, False)
+    time.sleep(0.3/3)
+    GPIO.output(PIN_TIMBRE, True)
+    time.sleep(0.6)
+    GPIO.output(PIN_TIMBRE, False)
+    time.sleep(0.6/3)
 
 ###########################################################################################
 

@@ -1,5 +1,17 @@
 # RASPBERRY PI
 
+## Configuración CRONTAB
+
+Debemos emplear Crontab con el objetivo de iniciar procesos al conectar a la corriente las Raspberrys. Para ello, debemos modificar el fichero de configuración:
+`crontab -e`  
+Escribiremos las siguientes lineas al final del fichero:
+
+`> SHELL = /bin/bash`
+`> @reboot sleep 10 && /home/pi/Desktop/script_init.sh`
+
+La Raspberry ejecutará el fichero SH especificado, que contendrá la inicialización que nos interese. Importante cambiar los permisos de dicho fichero con el comando `chmod 777 /home/pi/Desktop/script_init.sh` para que sea accesible desde cualquier usuario. El contenido del fichero SH puede ser el siguiete:
+`> python3 /home/pi/Desktop/pagosQR.py &`
+
 ## getTimePatinete.py
 
 Se debe instalar el paquete de web3:  

@@ -3,11 +3,11 @@ import datetime
 import time
 import random
 import json
+import requests
 
 #from influxdb import InfluxDBClient
 #from gps import *
 #from web3 import Web3
-import RPi.GPIO as GPIO
 
 # VARIABLES GLOBALES
 #HOST = 'ec2-44-201-180-246.compute-1.amazonaws.com'
@@ -17,8 +17,8 @@ import RPi.GPIO as GPIO
 #DBNAME = 'ViCOIN'
 #MEASUREMENT = 'patinetes'
 
-#URI_INFURA = '7cf06df7347d4670a96d76dc4e3e3410'  # your uri
-#CHAIN_ID = '3' # (Ropsten = 3, Rinkeby = 4, Goerli = 5)
+URI_INFURA = '7cf06df7347d4670a96d76dc4e3e3410'  # your uri
+CHAIN_ID = '5' # (Ropsten = 3, Rinkeby = 4, Goerli = 5)
 
 PIN_TIMBRE = 23
 
@@ -26,52 +26,37 @@ PIN_TIMBRE = 23
 
 def main():
 
-    try:
-        print("[INFO] Inicializando pines de conexión")
-        GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(PIN_TIMBRE, GPIO.OUT)
-    except:
-        sys.exit("[ERROR] No se ha podido inicializar el estado del patinete. Revisa los pines del NFC o zumbador.")
-
-
-    # PROGRAMA
-
-    GPIO.output(PIN_TIMBRE, False)
-
     while True:
 
-        # LECTURA DEL RECEPTOR #################
-        print("[INFO] Esperando a que se haga alguna lectura QR")
-        time.sleep(5)
-        lectura = "NADA!"
+        # Inicializacion
+        if( CHAIN_ID == '3'):
+            infura_url = 'https://ropsten.infura.io/v3/' + URI_INFURA
+        elif( CHAIN_ID == '4'):
+            infura_url = 'https://rinkeby.infura.io/v3/' + URI_INFURA
+        elif( CHAIN_ID == '5'):
+            infura_url = 'https://goerli.infura.io/v3/' + URI_INFURA
+        else:
+            infura_url = 'https://ropsten.infura.io/v3/' + URI_INFURA
+
+        # LECTURA DEL QR #################
+        print("[INFO] Esperando a que el NFC haga alguna lectura")
+        lectura = 'd3b2df0fe99a7657c6ccdcfd1b94d974a5a6011829ffd501ed08e4d901a3479c'
 
         # ADAPTACION DE LA ENTRADA #################
         print("[INFO] Lectura realizada: " + lectura)
-        lecturaAdaptada = adaptarEntrada(lectura)
+        lectura = "0x" + lectura
 
         # COMPROBACIÓN VALIDEZ #################
         print("[INFO] Procedemos a comprobar si el estado de la transacción es correcto")
 
-        if( comprobarTransaccion(lecturaAdaptada) ):
+        if( comprobarTransaccion(lectura, infura_url) ):
             print("[INFO] La transacción es correcta. El usuario puede acceder al servicio.")
-            activateSound(1, 1)
         else:
             print("[INFO] La transacción NO es correcta. El acceso al servicio por parte del usuario ha sido rechazado.")
-            activateSound(0.5, 3)
+
+        time.sleep(100)
 
 
-###########################################################################################
-
-def activateSound(duration, period):
-
-    i = 1
-
-    while(i <= period):
-        GPIO.output(PIN_TIMBRE, True)
-        time.sleep(duration)
-        GPIO.output(PIN_TIMBRE, False)
-        i = i + 1
 
 ###########################################################################################
 
@@ -85,12 +70,26 @@ def adaptarEntrada(entrada):
     return entrada
 
 
-def comprobarTransaccion(transaccion):
+def comprobarTransaccion(hash, url):
 
-    print(transaccion)
+    """""
+    curl https://goerli.infura.io/v3/{ID}
+    -X POST 
+    -H "Content-Type: application/json" 
+    --data '{"method":"eth_getTransactionByHash","params":["0x04b713fdbbf14d4712df5ccc7bb3dfb102ac28b99872506a363c0dcc0ce4343c"],"id":1,"jsonrpc":"2.0"}'
+    """""
 
-    gas = int( transaccion["gas"], 16) # Hexadecimal to decimal
-    print(gas)
+    transaction = '{"method":"eth_getTransactionByHash","params":["' + hash + '"],"id":' + CHAIN_ID + ',"jsonrpc":"2.0"}'
+    print("Transaction: " + transaction)
+
+    response = requests.post(url, data = transaction, headers = {"Content-Type": "application/json"})
+
+    print("Status code: " + str(response.status_code))
+    print("Response: " + str(response.text))
+
+
+    #gas = int( transaccion["gas"], 16) # Hexadecimal to decimal
+    #print(gas)
     
     return True
 
