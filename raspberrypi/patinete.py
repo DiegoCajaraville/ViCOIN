@@ -31,7 +31,8 @@ PIN_TIMBRE = 23
 
 def main(id):
 
-    # Inicializacion
+    # INICIALIZACION 
+    
     if( CHAIN_ID == '3'):
         infura_url = 'https://ropsten.infura.io/v3/' + URI_INFURA
         rutaTarifas = 'contracts/ropsten/Tarifas.json'
@@ -42,8 +43,8 @@ def main(id):
         infura_url = 'https://goerli.infura.io/v3/' + URI_INFURA
         rutaTarifas = 'contracts/goerli/Tarifas.json'
     else:
-        infura_url = 'https://ropsten.infura.io/v3/' + URI_INFURA
-        rutaTarifas = 'contracts/ropsten/Tarifas.json'
+        infura_url = 'https://goerli.infura.io/v3/' + URI_INFURA
+        rutaTarifas = 'contracts/goerli/Tarifas.json'
 
     try:
         print("[INFO] Inicializando datos BBDD")
