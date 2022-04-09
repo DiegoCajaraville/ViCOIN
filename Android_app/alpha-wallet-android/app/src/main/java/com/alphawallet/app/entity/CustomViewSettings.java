@@ -19,7 +19,7 @@ import static com.alphawallet.ethereum.EthereumNetworkBase.MAINNET_ID;
 
 public class CustomViewSettings
 {
-    public static final long primaryChain = MAINNET_ID;
+    public static final long primaryChain = EthereumNetworkBase.GOERLI_ID;
     private static final String primaryChainName = C.ETHEREUM_NETWORK_NAME;
 
     //You can use the settings in this file to customise the wallet appearance
