@@ -96,7 +96,7 @@ public abstract class EthereumNetworkBase implements EthereumNetworkRepositoryTy
     public static native String getSecondaryInfuraKey();
 
     //Fallback nodes: these nodes are used if there's no Amberdata key, and also as a fallback in case the primary node times out while attempting a call
-    public static final String MAINNET_RPC_URL = "https://mainnet.infura.io/v3/" + getInfuraKey();
+    public static final String MAINNET_RPC_URL = "https://goerli.infura.io/v3/" + getInfuraKey();
     public static final String RINKEBY_RPC_URL = "https://rinkeby.infura.io/v3/" + getInfuraKey();
 
     //Note that AlphaWallet now uses a double node configuration. See class AWHttpService comment 'try primary node'.
@@ -104,7 +104,7 @@ public abstract class EthereumNetworkBase implements EthereumNetworkRepositoryTy
     //See the declaration of NetworkInfo - it has a member backupNodeUrl. Put your secondary node here.
 
     public static final String BACKUP_INFURA_KEY = getSecondaryInfuraKey();
-    public static final String MAINNET_FALLBACK_RPC_URL = "https://mainnet.infura.io/v3/" + getSecondaryInfuraKey();
+    public static final String MAINNET_FALLBACK_RPC_URL = "https://goerli.infura.io/v3/" + getSecondaryInfuraKey();
     public static final String CLASSIC_RPC_URL = "https://www.ethercluster.com/etc";
     public static final String XDAI_RPC_URL = "https://rpc.xdaichain.com/";
     public static final String POA_RPC_URL = "https://core.poa.network/";

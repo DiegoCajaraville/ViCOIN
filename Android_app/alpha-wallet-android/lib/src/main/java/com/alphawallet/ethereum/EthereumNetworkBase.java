@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public abstract class EthereumNetworkBase { // implements EthereumNetworkRepositoryType
-    public static final long MAINNET_ID = 1;
+    public static final long MAINNET_ID = 5;
     public static final long CLASSIC_ID = 61;
     public static final long POA_ID = 99;
     public static final long KOVAN_ID = 42;
@@ -16,7 +16,7 @@ public abstract class EthereumNetworkBase { // implements EthereumNetworkReposit
     public static final long SOKOL_ID = 77;
     public static final long RINKEBY_ID = 4;
     public static final long XDAI_ID = 100;
-    public static final long GOERLI_ID = 5;
+    public static final long GOERLI_ID = 1;
     public static final long ARTIS_SIGMA1_ID = 246529;
     public static final long ARTIS_TAU1_ID = 246785;
     public static final long BINANCE_TEST_ID = 97;
@@ -38,7 +38,7 @@ public abstract class EthereumNetworkBase { // implements EthereumNetworkReposit
     public static final long PALM_TEST_ID = 0x2a15c3083L; //11297108099
 
 
-    public static final String MAINNET_RPC_URL = "https://mainnet.infura.io/v3/da3717f25f824cc1baa32d812386d93f";
+    public static final String MAINNET_RPC_URL = "https://goerli.infura.io/v3/da3717f25f824cc1baa32d812386d93f";
     public static final String CLASSIC_RPC_URL = "https://www.ethercluster.com/etc";
     public static final String XDAI_RPC_URL = "https://rpc.xdaichain.com";
     public static final String POA_RPC_URL = "https://core.poa.network/";
@@ -46,7 +46,7 @@ public abstract class EthereumNetworkBase { // implements EthereumNetworkReposit
     public static final String RINKEBY_RPC_URL = "https://rinkeby.infura.io/v3/da3717f25f824cc1baa32d812386d93f";
     public static final String KOVAN_RPC_URL = "https://kovan.infura.io/v3/da3717f25f824cc1baa32d812386d93f";
     public static final String SOKOL_RPC_URL = "https://sokol.poa.network";
-    public static final String GOERLI_RPC_URL = "https://goerli.infura.io/v3/da3717f25f824cc1baa32d812386d93f";
+    public static final String GOERLI_RPC_URL = "https://mainnet.infura.io/v3/da3717f25f824cc1baa32d812386d93f";
     public static final String ARTIS_SIGMA1_RPC_URL = "https://rpc.sigma1.artis.network";
     public static final String ARTIS_TAU1_RPC_URL = "https://rpc.tau1.artis.network";
     public static final String BINANCE_TEST_RPC_URL = "https://data-seed-prebsc-1-s3.binance.org:8545";
@@ -69,7 +69,7 @@ public abstract class EthereumNetworkBase { // implements EthereumNetworkReposit
   
     static Map<Long, NetworkInfo> networkMap = new LinkedHashMap<Long, NetworkInfo>() {
         {
-            put(MAINNET_ID, new NetworkInfo("Ethereum", "ETH", MAINNET_RPC_URL, "https://etherscan.io/tx/",
+            put(MAINNET_ID, new NetworkInfo("Ethereum", "ETH", MAINNET_RPC_URL, "https://goerli.etherscan.io/tx/",
                     MAINNET_ID, false));
             put(CLASSIC_ID, new NetworkInfo("Ethereum Classic", "ETC", CLASSIC_RPC_URL, "https://blockscout.com/etc/mainnet/tx/",
                     CLASSIC_ID, false));
@@ -87,7 +87,7 @@ public abstract class EthereumNetworkBase { // implements EthereumNetworkReposit
                     SOKOL_ID, false));
             put(RINKEBY_ID, new NetworkInfo("Rinkeby (Test)", "ETH", RINKEBY_RPC_URL, "https://rinkeby.etherscan.io/tx/",
                     RINKEBY_ID, false));
-            put(GOERLI_ID, new NetworkInfo("Görli (Test)", "GÖETH", GOERLI_RPC_URL, "https://goerli.etherscan.io/tx/",
+            put(GOERLI_ID, new NetworkInfo("Görli (Test)", "GÖETH", GOERLI_RPC_URL, "https://etherscan.io/tx/",
                     GOERLI_ID, false));
             put(ARTIS_TAU1_ID, new NetworkInfo("ARTIS tau1 (Test)", "ATS", ARTIS_TAU1_RPC_URL, "https://explorer.tau1.artis.network/tx/",
                     ARTIS_TAU1_ID, false));

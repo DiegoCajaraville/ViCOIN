@@ -97,7 +97,7 @@
     <string name="error_export">Error al exportar el monedero</string>
     <string name="error_fail_load_tokens">Error al cargar la lista de tokens</string>
     <string name="error_create_wallet">Error al crear un monedero</string>
-    <string name="app_name">AlphaWallet</string>
+    <string name="app_name">Vi-COIN</string>
     <string name="all">Todo</string>
     <string name="currency">Monedas</string>
     <string name="advanced">Opciones avanzadas</string>
@@ -519,7 +519,7 @@
     <string name="provide_authentication">Proporcionar autenticación para crear la clave</string>
     <string name="import_error">Error de importación. Intenta importarlo de nuevo.</string>
     <string name="watch_exists">El monedero %1$s ya está completo - no es necesario observarlo</string>
-    <string name="welcome_to_alphawallet">Bienvenido a Vi-COIN AlphaWallet</string>
+    <string name="welcome_to_alphawallet">Bienvenido a Vi-COIN</string>
     <string name="lock_seed_phrase">Bloquear frase semilla</string>
     <string name="no_key">No se ha encontrado ninguna clave</string>
     <string name="pending_transaction">Transacción pendiente...</string>

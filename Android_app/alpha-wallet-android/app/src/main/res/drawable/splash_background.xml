@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:drawable="@color/white" />
     <item
-        android:drawable="@mipmap/ic_launcher_foreground"
-        android:gravity="center"/>
+        android:width="300dp"
+        android:height="300dp"
+        android:gravity="center">
+        <bitmap
+            android:gravity="fill"
+            android:src="@mipmap/ic_launcher_foreground"
+            android:mipMap="true"/>
+    </item>
 </layer-list>
