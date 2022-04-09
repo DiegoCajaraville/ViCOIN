@@ -6,19 +6,19 @@ import cv2
 import requests
 import json
 
-#from influxdb import InfluxDBClient
+from influxdb import InfluxDBClient
 #from gps import *
 #from web3 import Web3
 import RPi.GPIO as GPIO
-#from mfrc522 import SimpleMFRC522
 
 # VARIABLES GLOBALES
-#HOST = 'ec2-44-201-180-246.compute-1.amazonaws.com'
-#PORT = 8086
-#USER = 'admin'
-#PASSWORD = 'lproPassword'
-#DBNAME = 'ViCOIN'
-#MEASUREMENT = 'patinetes'
+HOST = 'ec2-44-201-180-246.compute-1.amazonaws.com'
+PORT = 8086
+USER = 'admin'
+PASSWORD = 'lproPassword'
+DBNAME = 'ViCOIN'
+MEASUREMENT = 'transporte'
+TRANSPORTE = "BUS"
 
 URI_INFURA = '7cf06df7347d4670a96d76dc4e3e3410'  # your uri
 CHAIN_ID = '5' # (Ropsten = 3, Rinkeby = 4, Goerli = 5)
@@ -40,6 +40,13 @@ def main():
         infura_url = 'https://goerli.infura.io/v3/' + URI_INFURA
     else:
         infura_url = 'https://goerli.infura.io/v3/' + URI_INFURA
+
+    try:
+        print("[INFO] Inicializando datos BBDD")
+        client = InfluxDBClient(HOST, PORT, USER, PASSWORD, DBNAME)
+        client.switch_database(DBNAME)
+    except:
+        sys.exit("[ERROR] No se ha podido conectar con la BBDD. Revisa si los datos de conexión han cambiado o si el servicio AWS está activo.")
 
     try:
         print("[INFO] Inicializando pines de conexión")
@@ -74,7 +81,6 @@ def main():
             data, bbox, _ = detector.detectAndDecode(img)
         except:
             print("[ERROR] Fallo al obtener la imagen y decodificarla")
-            break
     
         # if there is a bounding box, draw one, along with the data
         if(bbox is not None and data):
@@ -85,18 +91,18 @@ def main():
             if( len(hash) != 66 ):
                 print("[ERROR] La información contenida en el QR no corresponde con un hash")
                 activateSound(0.15, 3)
-                break
-            
-            #VALIDACION DE LA TRANSACCION
-            print("[INFO] Procedemos a comprobar si el estado de la transacción es correcto")
-            result = comprobarTransaccion(hash, infura_url)
-            
-            if( result == True ):
-                print("[INFO] La transacción es correcta. El usuario puede acceder al servicio.")
-                activateSound(0.6, 1)
             else:
-                print("[INFO] La transacción NO es correcta. El acceso al servicio por parte del usuario ha sido rechazado.")
-                activateSound(0.15, 3)
+            
+                #VALIDACION DE LA TRANSACCION
+                print("[INFO] Procedemos a comprobar si el estado de la transacción es correcto")
+                result = comprobarTransaccion(hash, infura_url, client)
+                
+                if( result == True ):
+                    print("[INFO] La transacción es correcta. El usuario puede acceder al servicio.")
+                    activateSound(0.6, 1)
+                else:
+                    print("[INFO] La transacción NO es correcta. El acceso al servicio por parte del usuario ha sido rechazado.")
+                    activateSound(0.15, 3)
             
             # Espera para que no haga la misma lectura 2 veces
             for i in range(10):
@@ -157,16 +163,16 @@ def getTransactionByHash(hash, url):
     return status, transaction
 
 
-def comprobarTransaccion(hash, url):
+def comprobarTransaccion(hash, url, clienteBBDD):
 
     status, data = getTransactionByHash(hash, url)
 
-    # Comprobamos que haya devuelto una respuesta esperada
+    # 1 - Comprobamos que haya devuelto una respuesta esperada
     if( status < 200 or status >= 300 ):
         print("[ERROR] Infura no ha devuelto una respuesta esperada.")
         return False
 
-    # Comprobamos que se ha encontrado una transaccion con dicho Hash
+    # 2 - Comprobamos que se ha encontrado una transaccion con dicho Hash
     data = json.loads(data)
     transaction = data["result"]
 
@@ -174,7 +180,14 @@ def comprobarTransaccion(hash, url):
         print("[ERROR] No se ha encontrado una transacción con dicho hash.")
         return False
 
-    # Extraemos los campos y comprobamos que sean correctos los campos
+    # 3 - Comprobamos que no se haya registrado una transacción anterior con el mismo hash
+    resultBBDD = checkHashBBDD(clienteBBDD, data)
+
+    if( not resultBBDD ):
+        print("[ERROR] Existe una transacción previa en el registro ya usada")
+        return False
+
+    # 4 - Extraemos los datos de la transaccion y comprobamos que sea correcta
 
     #entrada = json.loads(entrada)
     #entrada['to'] = "0xc15648cfe1afc36eddabc5a79c5f33480bf24ce0"
@@ -183,48 +196,60 @@ def comprobarTransaccion(hash, url):
     #gas = int( transaccion["gas"], 16) # Hexadecimal to decimal
     #print(gas)
 
+    sendInformationBBDD(clienteBBDD, hash, TRANSPORTE)
     return True
 
 ###########################################################################################
 
-def parse_args():
+def checkHashBBDD(client, hash):
 
-    """Parse the args."""
-    parser = argparse.ArgumentParser(description='example code to play with InfluxDB')
-    
-    parser.add_argument('--test', type=int, required=False,
-                        help='testing')
+    query = 'SELECT * FROM ' + MEASUREMENT + ' WHERE hash=\'' + hash + '\' ORDER BY time DESC LIMIT 1'
+    print("Querying data: " + query)
 
-    return parser.parse_args()
+    try:
+        # Obtener informacion de la BBDD
+        result = client.query(query, database=DBNAME)
 
+        listaHash = list(result.get_points(measurement=MEASUREMENT))
+
+        if( len(listaHash) != 0 ):
+            print("[INFO] Hash: {0}".format(listaHash[0]['hash']))
+            print("[INFO] Transporte: {0}".format(listaHash[0]['transporte']))
+            return False
+        else:
+            return True 
+
+    except:
+        print("[ERROR] No se ha podido obtener información de la BBDD")
+        return False
+
+
+def sendInformationBBDD(client, hash, transporte):
+
+    # ENVIAR INFORMACION #################
+    now = datetime.datetime.today()
+    points = []
+
+    point = {
+        "measurement": MEASUREMENT,
+        "time": int(now.strftime('%s')),
+        "fields": {
+            "hash": hash,
+            "transporte": transporte
+        }
+    }
+
+    print(point)
+    points.append(point)
+
+    try:
+        # Write points
+        client.write_points(points)
+        print("[INFO] Enviando datos a la BBDD")
+    except:
+        print("[ERROR] No se ha podido almacenar la información en la BBDD")
+
+###########################################################################################
 
 if __name__ == '__main__':
-    #args = parse_args()
-    #test=args.test
     main()
-
-
-    """
-    # RECUPERAR INFORMACION
-    time.sleep(3)
-
-    query = 'SELECT * FROM patinetes WHERE idPatinete=\'' + id + '\' ORDER BY time DESC LIMIT 1'
-    print("Querying data: " + query)
-    result = client.query(query, database=DBNAME)
-    print("Result: {0}".format(result))
-    print("Result: {0}".format(list(result.get_points(measurement='patinete1'))[0]['altitud']))
-    print("Result: {0}".format(list(result.get_points(measurement='patinete1'))[0]['latitud']))
-    print("Result: {0}".format(list(result.get_points(measurement='patinete1'))[0]['bateria']))
-    print("Result: {0}".format(list(result.get_points(measurement='patinete1'))[0]['velocidad']))
-
-    print("Create database: " + DBNAME)
-    client.create_database(DBNAME)
-
-    print("Latitud: {0:.3f}".format(latitud))
-    print("Longitud: {0:.3f}".format(longitud))
-    print("Bateria: " + str(bateria))
-    print("Velocidad: " + str(velocidad) + "\n")
-
-    --------------------------
-        global pruebas
-    """
