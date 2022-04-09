@@ -8,7 +8,7 @@ import json
 
 from influxdb import InfluxDBClient
 #from gps import *
-#from web3 import Web3
+from web3 import Web3
 import RPi.GPIO as GPIO
 
 # VARIABLES GLOBALES
@@ -22,8 +22,9 @@ TRANSPORTE = "BUS"
 
 URI_INFURA = '7cf06df7347d4670a96d76dc4e3e3410'  # your uri
 CHAIN_ID = '5' # (Ropsten = 3, Rinkeby = 4, Goerli = 5)
+DIRECCION_VICOIN = '0x30FeD49F1808F83a2d1b4cf26C275DE66E4eE950'
+CUENTA_ADMINISTRADOR = '0x76A431B17560D46dE8430435001cBC66ae04De46'
 
-#PIN_NFC = 16
 PIN_TIMBRE = 23
 
 ###########################################################################################
@@ -34,12 +35,16 @@ def main():
 
     if( CHAIN_ID == '3'):
         infura_url = 'https://ropsten.infura.io/v3/' + URI_INFURA
+        rutaTarifas = 'contracts/ropsten/ViCOIN.json'
     elif( CHAIN_ID == '4'):
         infura_url = 'https://rinkeby.infura.io/v3/' + URI_INFURA
+        rutaTarifas = 'contracts/rinkeby/ViCOIN.json'
     elif( CHAIN_ID == '5'):
         infura_url = 'https://goerli.infura.io/v3/' + URI_INFURA
+        rutaTarifas = 'contracts/goerli/ViCOIN.json'
     else:
         infura_url = 'https://goerli.infura.io/v3/' + URI_INFURA
+        rutaTarifas = 'contracts/goerli/ViCOIN.json'
 
     try:
         print("[INFO] Inicializando datos BBDD")
@@ -57,6 +62,16 @@ def main():
         GPIO.output(PIN_TIMBRE, False)
     except:
         sys.exit("[ERROR] No se ha podido inicializar los pines de conexión de la Raspberry Pi. Revisa los pines del zumbador.")
+
+    try:
+        print("[INFO] Inicializando conexión Blockchain")
+        w3 = Web3(Web3.HTTPProvider(infura_url))
+        json_file = open(rutaTarifas)
+        info_json = json.load(json_file) 
+        abi = info_json['abi']
+        contract = w3.eth.contract(address=DIRECCION_VICOIN,abi=abi)
+    except:
+        sys.exit("[ERROR] No se ha podido inicializar el servicio de Infura. Revisa los datos de conexión a la red Blockchain, así como el fichero del SmartContract.")
 
     try:
         print("[INFO] Inicializando la cámara de la Raspberry Pi")
@@ -95,7 +110,7 @@ def main():
             
                 #VALIDACION DE LA TRANSACCION
                 print("[INFO] Procedemos a comprobar si el estado de la transacción es correcto")
-                result = comprobarTransaccion(hash, infura_url, client)
+                result = comprobarTransaccion(hash, infura_url, client, contract)
                 
                 if( result == True ):
                     print("[INFO] La transacción es correcta. El usuario puede acceder al servicio.")
@@ -163,7 +178,7 @@ def getTransactionByHash(hash, url):
     return status, transaction
 
 
-def comprobarTransaccion(hash, url, clienteBBDD):
+def comprobarTransaccion(hash, url, clienteBBDD, contract):
 
     status, data = getTransactionByHash(hash, url)
 
@@ -176,12 +191,14 @@ def comprobarTransaccion(hash, url, clienteBBDD):
     data = json.loads(data)
     transaction = data["result"]
 
+    ## {"jsonrpc":"2.0","id":5,"result":{"accessList":[],"blockHash":"0x17c947d946185de5c63ab43c6e289c2533e8b4284b14674f448b8d31fe772a41","blockNumber":"0x65de8c","chainId":"0x5","from":"0x0570b5fc3a5a31e157b419992fb104f4cd18bc7f","gas":"0xac0e","gasPrice":"0x9502f907","hash":"0x86870d8cb62d511df79ecd4ac2ab845cb035c13df28c3e0f4d3f66a9319c0618","input":"0xa9059cbb00000000000000000000000076a431b17560d46de8430435001cbc66ae04de460000000000000000000000000000000000000000000000000de0b6b3a7640000","maxFeePerGas":"0x9502f90e","maxPriorityFeePerGas":"0x9502f900","nonce":"0x25","r":"0x956d9b7e629be63f6309b611b4fe739887e2182f6b194f518c0fae22dfaa1f06","s":"0x99c8d323b31cd554b6af0f83ac4b8054b7ec50d611c98ea5c8d6451adb861a2","to":"0x30fed49f1808f83a2d1b4cf26c275de66e4ee950","transactionIndex":"0x6","type":"0x2","v":"0x1","value":"0x0"}}
+
     if( transaction == None ):
         print("[ERROR] No se ha encontrado una transacción con dicho hash.")
         return False
 
     # 3 - Comprobamos que no se haya registrado una transacción anterior con el mismo hash
-    resultBBDD = checkHashBBDD(clienteBBDD, data)
+    resultBBDD = checkHashBBDD(clienteBBDD, hash)
 
     if( not resultBBDD ):
         print("[ERROR] Existe una transacción previa en el registro ya usada")
@@ -189,9 +206,21 @@ def comprobarTransaccion(hash, url, clienteBBDD):
 
     # 4 - Extraemos los datos de la transaccion y comprobamos que sea correcta
 
-    #entrada = json.loads(entrada)
-    #entrada['to'] = "0xc15648cfe1afc36eddabc5a79c5f33480bf24ce0"
-    #print(entrada["r"])    
+    dataInput = transaction['input']
+    resultDecode = contract.decode_function_input( dataInput )
+    ##(<Function transfer(address,uint256)>, {'to': '0x76A431B17560D46dE8430435001cBC66ae04De46', 'amount': 1000000000000000000})
+
+    funcionTransaction = str(resultDecode).split('<')[1].split('>')[0]
+    cuerpoFuncion = '{' + str( str(resultDecode).split('{')[1].split('}')[0] ) + '}'
+    cuerpoFuncion = json.loads( cuerpoFuncion.replace('\'', '"'))
+
+    if( funcionTransaction != "Function transfer(address,uint256)" or
+        cuerpoFuncion['to'].lower() != CUENTA_ADMINISTRADOR.lower() or 
+        cuerpoFuncion['amount'] < 1000000000000000000 or
+        transaction['to'].lower() != DIRECCION_VICOIN.lower() ):
+
+        print("[ERROR] La transaccion existe pero no cumple con los requisitos")
+        return False  
 
     #gas = int( transaccion["gas"], 16) # Hexadecimal to decimal
     #print(gas)
@@ -203,8 +232,8 @@ def comprobarTransaccion(hash, url, clienteBBDD):
 
 def checkHashBBDD(client, hash):
 
-    query = 'SELECT * FROM ' + MEASUREMENT + ' WHERE hash=\'' + hash + '\' ORDER BY time DESC LIMIT 1'
-    print("Querying data: " + query)
+    query = 'SELECT * FROM ' + str(MEASUREMENT) + ' WHERE hash=\'' + str(hash) + '\' ORDER BY time DESC LIMIT 1'
+    print("Querying data: " + str(query))
 
     try:
         # Obtener informacion de la BBDD

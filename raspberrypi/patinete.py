@@ -75,6 +75,7 @@ def main(id):
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(PIN_STATE_SCOOTER, GPIO.OUT)
+        GPIO.setup(PIN_TIMBRE, GPIO.OUT)
     except:
         sys.exit("[ERROR] No se ha podido inicializar el estado del patinete. Revisa el PIN del Rele.")
 

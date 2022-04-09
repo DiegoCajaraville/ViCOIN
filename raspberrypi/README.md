@@ -12,6 +12,11 @@ Escribiremos las siguientes lineas al final del fichero:
 La Raspberry ejecutará el fichero SH especificado, que contendrá la inicialización que nos interese. Importante cambiar los permisos de dicho fichero con el comando `chmod 777 /home/pi/Desktop/script_init.sh` para que sea accesible desde cualquier usuario. El contenido del fichero SH puede ser el siguiete:
 `> python3 /home/pi/Desktop/pagosQR.py &`
 
+## Configuración Cámara
+
+La cámara por defecto se apaga a los 10 minutos. Será necesario insertar el siguiente comando para que nunca se apague:
+`export OPENCV_VIDEOIO_PRIORITY_MSMF=0`
+
 ## getTimePatinete.py
 
 Se debe instalar el paquete de web3:  
