@@ -12,6 +12,7 @@ declare let window:any;
 declare let TruffleContract:any;
 
 
+
 @Component({
   selector: 'app-ticket-bus',
   templateUrl: './ticket-bus.page.html',
@@ -33,6 +34,7 @@ export class TicketBusPage implements OnInit {
     ngOnInit() {
         this.loadMetamask();
         this.loadContract(); 
+        //this.createQRHash("0x86870d8cb62d511df79ecd4ac2ab845cb035c13df28c3e0f4d3f66a9319c0618")
     }
 
     async payment(){
@@ -107,11 +109,19 @@ export class TicketBusPage implements OnInit {
 
     async loadMetamask(){
         if (window.ethereum) {
-            this.metamaskProvider=window.ethereum;
-            const accounts= await this.metamaskProvider.request({ method: "eth_requestAccounts" });
-            this.account=accounts[0];
-            console.log(this.account);
-        }else 
+            this.metamaskProvider = window.ethereum;
+            var accounts = await this.metamaskProvider.request({ method: "eth_requestAccounts" });
+
+            if(Array.isArray(accounts)){
+                this.account = accounts[0];
+            }
+            else {
+                accounts = [accounts.substring(1, accounts.length-1)];
+                this.account = accounts[0];
+            }
+            
+        } 
+        else 
             alert("No ethereum browser is installed. Try it installing MetaMask ");
     }
 
@@ -197,6 +207,7 @@ export class TicketBusPage implements OnInit {
         });
 
     }
+    */
 
     createQRHash( hash ){
 
@@ -219,5 +230,5 @@ export class TicketBusPage implements OnInit {
         });
 
     }
-    */
+    
 }
