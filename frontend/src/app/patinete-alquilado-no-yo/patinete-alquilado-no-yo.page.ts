@@ -1,4 +1,4 @@
-import { getLocaleId } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Patinete } from '../patinete/patinete.model';
@@ -89,7 +89,7 @@ export class PatineteAlquiladoNoYoPage implements OnInit {
                   longitude: values[4]+"",
                   bateria: values[1]+""
                 };
-                this.recargaTiempo();
+               
             }
         },
         error: error => {
@@ -99,10 +99,7 @@ export class PatineteAlquiladoNoYoPage implements OnInit {
   }
 
 
-  async recargaTiempo(){
-
-    
-  }
+  
 
   updateTimer(){
     this.date.setHours(this.hours);

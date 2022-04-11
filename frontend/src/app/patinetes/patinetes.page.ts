@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as L from 'Leaflet';
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Patinete } from '../patinete/patinete.model';
-
+import { Router } from '@angular/router'
 import contratoViCOIN from '../../../contracts/goerli/ViCOIN.json';
 import contratoViCOINSale from '../../../contracts/goerli/ViCOINSale.json';
 import contratoTarifas from '../../../contracts/goerli/Tarifas.json';
@@ -10,7 +10,7 @@ import contratoTarifas from '../../../contracts/goerli/Tarifas.json';
 
 import { PopoverController } from '@ionic/angular';
 import { PopoverComponent } from '../components/popover/popover.component';
-import { VirtualTimeScheduler } from 'rxjs';
+
 
 
 
@@ -47,9 +47,10 @@ export class PatinetesPage implements OnInit {
   totalPatinetes;
   idsDisponibles;
   
-  constructor(public http:HttpClient, private popCtrl: PopoverController) { }
+  constructor(public http:HttpClient, private popCtrl: PopoverController, private router: Router) { }
   clickMenuMoneda(){
-    window.location.href="http://localhost:8100/comprarMoneda";
+    this.router.navigate(['/comprarMoneda']);
+    //window.location.href="http://localhost:8100/comprarMoneda";
   }
   async ngOnInit() {
     
@@ -135,7 +136,9 @@ export class PatinetesPage implements OnInit {
 
 
   onClickMarker(e){
-    window.location.href="http://localhost:8100/patinete/"+e.target.myId;
+    this.router.navigate(['/comprarMoneda']);
+    this.router.navigate(['/patinete/'+e.target.myId]);
+    //window.location.href="http://localhost:8100/patinete/"+e.target.myId;
   }
 
 

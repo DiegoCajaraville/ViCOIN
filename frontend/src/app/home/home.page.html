@@ -3,9 +3,9 @@
     
  
     <ion-title id="logo" style="text-align:center">
-      <a href="http://localhost:8100">
-        <img alt="logo" src="../../assets/icon/logo.png" height="40" id="logo">
-      </a>
+     
+        <img alt="logo" src="../../assets/icon/logo.png" height="40" id="logo" [routerLink]="['/']">
+   
     </ion-title>
 
     <ion-buttons slot="start">
@@ -31,19 +31,17 @@
     <br>
     <ion-row>
       <ion-col>
-        <ion-card>
-          <a href="http://localhost:8100/patinetes" class="card">
-            <img src="../../assets/icon/logoPatinete.png" alt="logoPatinete" class="imagenCard">
-          </a>
+        <ion-card [routerLink]="['/patinetes']">
+          <img src="../../assets/icon/logoPatinete.png" alt="logoPatinete" class="imagenCard">
           <div class="card-title">Alquiler de patinetes</div>
         </ion-card>
       </ion-col>
       <ion-col>
-        <ion-card>
-          <a href="http://localhost:8100/ticket-bus" class="card">
+        <ion-card [routerLink]="['/ticket-bus']">
+          
             <img src="../../assets/icon/autobus.png" alt="logoPatinete" class="imagenCard">
-          </a>
-          <div class="card-title">Ticket-Bus</div>
+          
+          <div class="card-title">Ticket</div>
         </ion-card>
       </ion-col>
 

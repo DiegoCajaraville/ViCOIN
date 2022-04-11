@@ -39,10 +39,8 @@ export class HomePage {
     ngOnInit() {
         this.getDatosBBDD(1);
         this.loadMetamask();
-        console.log("AAAAAAAAAAAAA");
         this.loadContract();
-        console.log("sdfvszdaszdfszd");
-        this.balanceOfCliente();
+     
     }    
 
 
@@ -145,10 +143,5 @@ export class HomePage {
         } catch (error) {
             console.error(error);
         }
-      }
-    
-      async balanceOfCliente(){
-
-        //this.dineroCuenta=await this.ViCOINContract.balanceOf(this.account);
       }
 }

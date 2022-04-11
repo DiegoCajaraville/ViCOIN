@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 
 import contratoViCOIN from '../../../../contracts/goerli/ViCOIN.json';
@@ -28,7 +29,7 @@ export class MenuComponent implements OnInit {
     TarifasContract;
     monedaCliente;
     
-    constructor() { }
+    constructor(private router: Router) { }
 
     async ngOnInit() {
         this.loadMetamask();
@@ -36,7 +37,8 @@ export class MenuComponent implements OnInit {
     }
 
     clickMenuMoneda(){
-        window.location.href="http://localhost:8100/comprarMoneda";
+        this.router.navigate(['/comprarMoneda']);
+        //window.location.href="http://localhost:8100/comprarMoneda";
     }
 
     async loadMetamask(){

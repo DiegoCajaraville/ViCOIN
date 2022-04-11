@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router } from '@angular/router';
 
 import contratoViCOIN from '../../../../contracts/goerli/ViCOIN.json';
 import contratoViCOINSale from '../../../../contracts/goerli/ViCOINSale.json';
@@ -35,7 +35,7 @@ export class PopoverComponent implements OnInit {
   idsDisponibles;
 
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
     this.loadMetamask();
@@ -104,7 +104,8 @@ export class PopoverComponent implements OnInit {
     //if(this.account==this.alquiladoAddress){
     //  window.location="http://localhost:8100/patineteYo/"+this.idPatinete;
     //}else{
-      window.location="http://localhost:8100/patineteNoYo/"+this.idPatinete;
+      this.router.navigate(['/patineteNoYo']);
+      //window.location="http://localhost:8100/patineteNoYo/"+this.idPatinete;
     //}
   }
 }
