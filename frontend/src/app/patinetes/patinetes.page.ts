@@ -27,7 +27,7 @@ declare let TruffleContract:any;
 })
 
 export class PatinetesPage implements OnInit {
-
+  route=this.router;
   account;
   ViCOIN;
   ViCOINSale;
@@ -38,7 +38,7 @@ export class PatinetesPage implements OnInit {
   TarifasContract;
   a;
   PatinetesDisponibles;
-  map;
+  private map;
   tarifa;
 
   //Acceder a esta variable para ver todos los patinetes disponibles
@@ -47,18 +47,14 @@ export class PatinetesPage implements OnInit {
   totalPatinetes;
   idsDisponibles;
   
-  constructor(public http:HttpClient, private popCtrl: PopoverController, private router: Router) { }
+  constructor(public http:HttpClient, private popCtrl: PopoverController, public router: Router) { }
   clickMenuMoneda(){
     this.router.navigate(['/comprarMoneda']);
     //window.location.href="http://localhost:8100/comprarMoneda";
   }
   async ngOnInit() {
-    
-
     this.loadMetamask();
-
     this.loadContract();
-
     //Funcion para pillar los datos de la base de datos con los ids en PatinetesDisponibles.
 
     
@@ -136,8 +132,12 @@ export class PatinetesPage implements OnInit {
 
 
   onClickMarker(e){
-    this.router.navigate(['/comprarMoneda']);
-    this.router.navigate(['/patinete/'+e.target.myId]);
+    var router1=e.target.myRouter;
+    //e.target.map.off();
+    //  e.target.map.remove();
+    //var container = e.target.L.DomUtil.get('map'); 
+    //container._leaflet_id = null;
+    router1.navigate(['/patinete/'+e.target.myId]);
     //window.location.href="http://localhost:8100/patinete/"+e.target.myId;
   }
 
@@ -175,6 +175,9 @@ export class PatinetesPage implements OnInit {
                
                   var marker = L.marker([values[3], values[4]]).on('click', this.onClickMarker);
                   marker.myId=patinete;
+                  marker.myRouter=this.router;
+                  marker.map=this.map;
+                  //marker.L=L;
                   marker.addTo(this.map);
                 
                 

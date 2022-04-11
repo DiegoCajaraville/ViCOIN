@@ -39,7 +39,7 @@ export class PatinetePage implements OnInit {
   patinetesComprados;
   dineroCliente;
   tarifa;
-  map;
+  private map2;
   tarifaSeleccionada;
   tarifa1=18;
   tarifa2=15;
@@ -60,8 +60,9 @@ export class PatinetePage implements OnInit {
     this.id=this.getPatinete();
     
 
-
-    this.map = L.map('map').setView([42.262539326354435, -8.748173066323389], 16);
+ 
+    this.map2 = L.map('map2').setView([42.262539326354435, -8.748173066323389], 16);
+    
     L.Icon.Default.ImagePath = "../../assests/icon/";
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -70,8 +71,10 @@ export class PatinetePage implements OnInit {
       tileSize: 512,
       zoomOffset: -1,
       accessToken: 'your.mapbox.access.token'
-    }).addTo(this.map);
+    }).addTo(this.map2);
     //Llamar a la base de datos para obtener los datos del patinete seleccionado
+    
+
     this.getDatosBBDD(this.id);
 
   }
@@ -308,7 +311,7 @@ export class PatinetePage implements OnInit {
                   bateria: values[1]+""
                 };
                 var marker = L.marker([values[3], values[4]]);
-                marker.addTo(this.map);
+                marker.addTo(this.map2);
             }
         },
         error: error => {
