@@ -19,6 +19,17 @@
 
 
 <ion-content>
+
+  <ion-item>      
+    <ion-select placeholder="Selecciona el servicio" [(ngModel)]="tarifa">
+      <ion-select-option value="1">Vitrasa</ion-select-option>
+      <ion-select-option value="2">Cinesa</ion-select-option>
+      <ion-select-option value="3">Taxi</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+
+
   <div class="center-button" (click)="payment()" >
     <div class="round-button" >
         <div class="round-button-circle" >
