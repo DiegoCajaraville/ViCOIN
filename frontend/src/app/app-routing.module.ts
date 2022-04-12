@@ -12,6 +12,11 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'admin',
+    redirectTo: 'admin',
+    pathMatch: 'full'
+  },
+  {
     path: 'patinetes',
     redirectTo: 'patinetes',
     pathMatch: 'full'
@@ -29,6 +34,10 @@ const routes: Routes = [
   {
     path: 'patinetes',
     loadChildren: () => import('./patinetes/patinetes.module').then( m => m.PatinetesPageModule)
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
   },
   {
     path: 'patinete/:id',
@@ -57,6 +66,10 @@ const routes: Routes = [
   {
     path: 'patinete-alquilado-no-yo',
     loadChildren: () => import('./patinete-alquilado-no-yo/patinete-alquilado-no-yo.module').then( m => m.PatineteAlquiladoNoYoPageModule)
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
   }
 ];
 

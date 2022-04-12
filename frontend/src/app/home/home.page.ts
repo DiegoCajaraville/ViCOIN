@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HomeService } from './home.service';
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
-
+import { Router } from '@angular/router';
 import contratoViCOIN from '../../../contracts/goerli/ViCOIN.json';
 import contratoViCOINSale from '../../../contracts/goerli/ViCOINSale.json';
 import contratoTarifas from '../../../contracts/goerli/Tarifas.json';
@@ -35,7 +35,7 @@ export class HomePage {
     //Cuenta seleccionada por el usuario
  
 
-    constructor(private HomeService: HomeService, public http:HttpClient ) {}
+    constructor(private HomeService: HomeService, public http:HttpClient, private router: Router) {}
     ngOnInit() {
         this.getDatosBBDD(1);
         this.loadMetamask();
@@ -144,4 +144,14 @@ export class HomePage {
             console.error(error);
         }
       }
+
+
+    clickAdmin(){
+        if(this.account==("0xEC1b2cBF852DbeA58C6B489779F4849E67EcfA0D").toLowerCase()){
+            this.router.navigate(['/admin']);
+        }else{
+            //PopOver error no eres admin
+            alert("snd");
+        }
+    }
 }

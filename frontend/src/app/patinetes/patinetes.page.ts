@@ -7,7 +7,6 @@ import contratoViCOIN from '../../../contracts/goerli/ViCOIN.json';
 import contratoViCOINSale from '../../../contracts/goerli/ViCOINSale.json';
 import contratoTarifas from '../../../contracts/goerli/Tarifas.json';
 
-
 import { PopoverController } from '@ionic/angular';
 import { PopoverComponent } from '../components/popover/popover.component';
 
