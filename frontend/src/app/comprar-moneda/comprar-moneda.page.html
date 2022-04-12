@@ -6,23 +6,36 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" color="primary">
+<ion-content  color="primary" id="mainContainer">
   
-  <div id="container">
-    <ion-row>
-      <ion-col >
-        <ion-card>
-          <img src="../../assets/icon/bloque.png" alt="Bloque" height="500" >
-          <div class="card-title">Comprar moneda</div>
-          <ion-label>$VICs: {{dineroCliente}}</ion-label>
-          <br>
-          <input #precioSeleccionado type="number">
-          <br>
-          <ion-label>Precio Vic: {{precio}}</ion-label>
-          <br>
+
+  <ion-card>
+
+    <ion-card-header>
+      <ion-card-title class="title">Comprar moneda</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content style="text-align: center;">
+      <ion-item class="block">
+        <img src="../../assets/icon/bloque.png" alt="Bloque" height="500">
+      </ion-item>
+      <ion-item class="items">
+        <ion-label>$VICs: {{dineroCliente}}</ion-label>
+      </ion-item>
+      
+      <ion-item class="items">
+        <ion-label>Precio Vic: {{precio}}</ion-label>
+      </ion-item>
+      <ion-item class="input">
+        <input #precioSeleccionado type="number" placeholder="Seleccione cantidad">
+      </ion-item>
+      <div class="button">
+        <ion-item class="button">
           <ion-button (click)="comprarMoneda(precioSeleccionado.value)">Comprar</ion-button>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </div>
+        </ion-item>
+      </div>
+    </ion-card-content>
+
+  </ion-card>
+  
 </ion-content>

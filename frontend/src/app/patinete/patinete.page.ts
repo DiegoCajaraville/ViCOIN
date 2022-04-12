@@ -62,7 +62,9 @@ export class PatinetePage implements OnInit {
 
  
     this.map2 = L.map('map2').setView([42.262539326354435, -8.748173066323389], 16);
-    
+    setTimeout(function () {
+      window.dispatchEvent(new Event('resize'));
+    }, 1000);
     L.Icon.Default.ImagePath = "../../assests/icon/";
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -72,12 +74,15 @@ export class PatinetePage implements OnInit {
       zoomOffset: -1,
       accessToken: 'your.mapbox.access.token'
     }).addTo(this.map2);
-    //Llamar a la base de datos para obtener los datos del patinete seleccionado
     
-
+    
     this.getDatosBBDD(this.id);
 
   }
+
+
+
+  
 
 
 
