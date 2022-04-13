@@ -10,6 +10,22 @@
 </ion-header>
 
 
-<ion-content [fullscreen]="true" color="primary">
+<ion-content [fullscreen]="true" color="primary" id="mainContainer">
 
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Administrador</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div>
+        <ion-item>
+          <ion-button (click)="fund()">Fund</ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-button (click)="supply()">More supply</ion-button>
+        </ion-item>
+      </div> 
+    </ion-card-content>
+  </ion-card>
 </ion-content>

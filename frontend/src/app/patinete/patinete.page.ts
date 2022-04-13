@@ -1,22 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Patinete } from '../patinete/patinete.model';
 
+import { DatabaseService } from '../services/database.service';
+import { ContractsService } from '../services/contracts.service';
 
-import * as L from 'Leaflet';
+import L from 'Leaflet';
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 
 import contratoViCOIN from '../../../contracts/goerli/ViCOIN.json';
 import contratoViCOINSale from '../../../contracts/goerli/ViCOINSale.json';
 import contratoTarifas from '../../../contracts/goerli/Tarifas.json';
 
-
-
-
-
-
 declare let window:any;
 declare let TruffleContract:any;
-
 
 @Component({
   selector: 'app-patinete',
@@ -47,15 +43,24 @@ export class PatinetePage implements OnInit {
   tarifa4=5;
   tarifaDemo=1;
   id;
-  constructor(public http:HttpClient) {}
+  constructor(public http:HttpClient, private contractsService: ContractsService, private databaseService: DatabaseService) {}
  
   ngOnInit() {
     
+    //this.contractsService.loadMetamask();
 
-
-    this.loadMetamask();
-    this.loadContract();
+    this.contractsService.loadMetamask();
+    this.contractsService.loadContract();
     
+    var j = this.contractsService.TarifasContract.getPatinetes();
+    this.patinetesComprados = j.toString();
+    var b= this.contractsService.ViCOINContract.allowance(this.account,this.TarifasContract.address);
+    this.allowRent= b/Math.pow(10,18);
+    var a = this.contractsService.ViCOINContract.balanceOf(this.account);
+    this.dineroCliente = a/Math.pow(10,18);
+
+
+
 
     this.id=this.getPatinete();
     
@@ -76,72 +81,14 @@ export class PatinetePage implements OnInit {
     }).addTo(this.map2);
     
     
-    this.getDatosBBDD(this.id);
+    this.databaseService.getDatosBBDD(this.id);
 
   }
-
-
-
   
-
-
-
   getPatinete(){
     var url = (window.location+"").split('/');
     return url[4];
   }
-
-  async loadMetamask(){
-    if (window.ethereum) {
-      try{
-        this.metamaskProvider=window.ethereum;
-        
-        const accounts= await this.metamaskProvider.request({ method: "eth_requestAccounts" });
-        
-        if(accounts.length==0){
-          alert("Iniciar sesión en metamask");
-        }else{
-          this.account=accounts[0];
-          console.log(this.account);
-        }
-      }catch(error){
-        if(error.code===4001){
-          alert("123");
-        }
-      }
-    }else 
-        alert("No ethereum browser is installed. Try it installing MetaMask ");
-  } 
-
-
-  async loadContract(){
-    try{
-        //Creamos la estructura del contrato
-        this.ViCOIN=TruffleContract(contratoViCOIN);
-        this.ViCOINSale = TruffleContract(contratoViCOINSale);
-        this.Tarifas = TruffleContract(contratoTarifas);
-        
-        // Nos conectamos al contrato a través de la cuenta del wallet (Metamask)
-        this.ViCOIN.setProvider(this.metamaskProvider);
-        this.ViCOINSale.setProvider(this.metamaskProvider);
-        this.Tarifas.setProvider(this.metamaskProvider);
-
-        this.ViCOINSaleContract = await this.ViCOINSale.deployed();
-        this.TarifasContract = await this.Tarifas.deployed();
-        this.ViCOINContract= await this.ViCOIN.at('0x30FeD49F1808F83a2d1b4cf26C275DE66E4eE950');
-        var j = await this.TarifasContract.getPatinetes();
-        this.patinetesComprados = j.toString();
-        var b= await this.ViCOINContract.allowance(this.account,this.TarifasContract.address);
-        this.allowRent= b/Math.pow(10,18);
-        var a = await this.ViCOINContract.balanceOf(this.account);
-        this.dineroCliente = a/Math.pow(10,18);
-    } catch (error) {
-        console.error(error);
-    }
-  }
-
-
-
 
   async rent(){
     console.log("AllowRent: "+this.allowRent+" Tarifa: "+this.tarifa);

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as L from 'Leaflet';
+import L from 'Leaflet';
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Patinete } from '../patinete/patinete.model';
 import { Router } from '@angular/router'

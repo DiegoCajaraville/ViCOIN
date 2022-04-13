@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { VirtualTimeScheduler } from 'rxjs';
-
-import { HomeService } from '../home/home.service';
+import { ContractsService } from '../services/contracts.service';
+import { DatabaseService } from '../services/database.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,29 +9,27 @@ export class ComprarMonedaService {
   dineroTienda;
   precio;
   dineroCliente;
-  constructor(private HomeService: HomeService) { }
+
+
+  constructor(private contractsService: ContractsService, private databaseService: DatabaseService) { }
   async precioVic(){
-    this.precio=this.HomeService.ViCOINSaleContract.tokenPrice();
+    this.precio=this.contractsService.ViCOINSaleContract.tokenPrice();
     return this.precioVic;
   }
   async inicio(){
-    this.HomeService.loadMetamask();
-    this.HomeService.loadContract();
-    //this.dineroCliente=this.HomeService.balanceOfCliente();
+    this.contractsService.loadMetamask();
+    this.contractsService.loadContract();
+    this.dineroCliente= await this.contractsService.ViCOINContract.balanceOf(this.contractsService.account);
   }
-
   async balanceOfTienda(monedaRequerida){
-    
-    this.dineroTienda=await this.HomeService.ViCOINContract.balanceOf(this.HomeService.ViCOINSale.address);
+    this.dineroTienda=await this.contractsService.ViCOINContract.balanceOf(this.contractsService.ViCOINSale.address);
     if(this.dineroTienda-monedaRequerida){
       //Adquirir Vic
-      this.HomeService.ViCOINSaleContract.buyViCOINs(monedaRequerida*(Math.pow(10,18)),{value: this.precio});
-
-
+      this.contractsService.ViCOINSaleContract.buyViCOINs(monedaRequerida*(Math.pow(10,18)),{value: this.precio});
+      this.dineroCliente= await this.contractsService.ViCOINContract.balanceOf(this.contractsService.account);
 
     }else{
       alert("No hay moneda suficiente para comprar");
-      return;
     }
   }
 }

@@ -12,4 +12,17 @@ export class AdminPage implements OnInit {
   ngOnInit() {
   }
 
+
+
+
+
+
+  fund(){
+
+  }
+
+  supply(){
+    
+  }
+
 }
