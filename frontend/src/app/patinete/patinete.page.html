@@ -24,14 +24,14 @@
 
 
 
-<ion-content id="mainContainer">
+<ion-content id="mainContainer" color="primary">
   <ion-card class="transparent-card">
  
     <ion-card-header>
       <ion-card-title class="title">Patinete {{id}}</ion-card-title>
     </ion-card-header>
     
-  
+   
    
     <ion-card-content>
       <ion-item>
@@ -39,18 +39,22 @@
           <div #map2 id="map2" style="height:400px;"></div>
         </div>
       </ion-item>
-      <ion-item>      
-        <ion-select placeholder="Selecciona la tarifa" [(ngModel)]="tarifa">
-          <ion-select-option value="1">1 hora = 18ViCs</ion-select-option>
-          <ion-select-option value="2">45 minutos = 15VICs</ion-select-option>
-          <ion-select-option value="3">30 minutos = 10VICs</ion-select-option>
-          <ion-select-option value="4">15 minutos = 5 VICs</ion-select-option>
-          <ion-select-option value="5">3 minutos = 1ViCs</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
+      <div id="select">
+
+     
+        <ion-item>      
+          <ion-select placeholder="Selecciona la tarifa" [(ngModel)]="tarifa">
+            <ion-select-option value="1">1 hora = 18ViCs</ion-select-option>
+            <ion-select-option value="2">45 minutos = 15VICs</ion-select-option>
+            <ion-select-option value="3">30 minutos = 10VICs</ion-select-option>
+            <ion-select-option value="4">15 minutos = 5 VICs</ion-select-option>
+            <ion-select-option value="5">3 minutos = 1ViCs</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+      <div id="button1">
         <ion-button (click)="rent()" id="rentButton">Alquilar</ion-button>
-      </ion-item>
+      </div>
     </ion-card-content>
 
    

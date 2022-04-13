@@ -1,46 +1,99 @@
-#mainContainer{
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
+@media screen and (min-width: 1000px) {
+
+    #mainContainer{
+        height: 100%;
+        width: 100%;
+    }
+    ion-card{
+        margin-top: 5%;
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        height: 75%;
+        width: 30%;
+    }
+
+    .title{
+        top: 36%;
+        font-size: 2.0em;
+        width: 100%;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    #mapDiv {
+        flex: 1;
+    }
+    #map{
+        height: 100%;
+        width: 100%;
+        z-index: 0;
+        max-height: none;
+    }
+
+
+
+    .select{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .button{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
-ion-card {
-    position: relative;
-    text-align: left;
-}
+@media screen and (max-width: 639px){
+    #mainContainer{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+    }
+    
+    ion-card {
+        position: relative;
+        text-align: left;
+    }
+      
+    .title{
+       
+        top: 36%;
+        font-size: 2.0em;
+        width: 100%;
+        font-weight: bold;
+        //color: #fff;
+    }
+    
+    .card-subtitle {
+        font-size: 1.0em;
+        position: absolute;
+        top: 52%;
+        width: 100%;
+        //color: #fff;
+    }
+    
   
-.card-title {
-    position: absolute;
-    top: 36%;
-    font-size: 2.0em;
-    width: 100%;
-    font-weight: bold;
-    //color: #fff;
+    #mapDiv {
+        flex: 1;
+    }
+    #map{
+        height: 100%;
+        width: 100%;
+        z-index: 0;
+        max-height: none;
+    }
+    
+    
+    .title{
+        text-align: center;
+    }
+    .button{
+        display: block;
+        margin-left: auto;
+        margin-right: auto; 
+    }
 }
 
-.card-subtitle {
-    font-size: 1.0em;
-    position: absolute;
-    top: 52%;
-    width: 100%;
-    //color: #fff;
-}
-
-.transparent-card{
-    background-color: transparent;
-}
-#mapDiv {
-    flex: 1;
-}
-#map{
-    height: 100%;
-    width: 100%;
-    z-index: 0;
-    max-height: none;
-}
-
-
-.title{
-    text-align: center;
-}

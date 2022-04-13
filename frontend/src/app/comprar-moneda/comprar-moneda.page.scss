@@ -1,58 +1,88 @@
-#mainContainer{
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
+@media screen and (min-width: 1000px) {
+
+  #mainContainer{
+    width: 100%;
+    height: 100%;
+  }
+
+  ion-card{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 95%;
+    width: 30%;
+  }
+  .title{
+    text-align: center;
+  }
+
+  .items{
+    
+    text-align: center;
+  }
+
+  .input1{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .button1{
+    text-align: center;
+  }
+ 
 }
 
 
-ion-card img {
-  border-radius: 10px;
-  display: block;
-  width: 100%;
-  height: 100% !important;
-}
-.delete{
-  margin-left: 45px;
-  margin-top: 10px; 
-}
-.favCard{
-  width: 320px;
-  height: 230px;
-  border-radius: 10px;
-  box-shadow: -1px 3px 5px 0px rgba(0,0,0,0.75);
-  margin: auto;
-  margin-top: 30px;
-  margin-bottom: 90px;
-  overflow: visible;
-}
-.info{
-  z-index: 9;
-  border-radius: 50px;
-  -webkit-box-shadow: -1px 10px 5px 0px rgba(0,0,0,0.75);
-  box-shadow: -1px 10px 5px 0px rgba(0,0,0,0.75);
-  margin-top: -12%;
-  z-index: 3;
-  position: absolute;
-  margin-left: 50px;
-  width: 220px;
-  background-color: white;
+
+
+@media screen and (max-width: 639px){
+  #mainContainer{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+  }
+
+
+  ion-card img {
+    border-radius: 10px;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+
+  .title{
+    text-align: center;
+  }
+  
+  .items{
+    text-align: center;
+  }
+  
+  
+  .input1{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+ 
+  }
+  
+  .button1{
+    text-align: center;
+  }
 }
 
 
-.title{
-  text-align: center;
-}
-
-.items{
-  text-align: center;
-}
 
 
-.input{
-  text-align: center;
-}
 
-.button{
-  text-align: center;
-}
+
+
+
+
+
+
+
+
