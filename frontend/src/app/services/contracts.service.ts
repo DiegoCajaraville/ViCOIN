@@ -29,25 +29,33 @@ export class ContractsService {
     this.loadContract();
     
    }
-
-
+   
   async loadMetamask(){
     if (window.ethereum) {
-      try{
-        this.metamaskProvider=window.ethereum;
-        
-        const accounts= await this.metamaskProvider.request({ method: "eth_requestAccounts" });
-        
-        if(accounts.length==0){
-          alert("Iniciar sesión en metamask");
-        }else{
-          this.account=accounts[0];
+
+        try{
+
+            this.metamaskProvider=window.ethereum;
+            var accounts = await this.metamaskProvider.request({ method: "eth_requestAccounts" });
+
+            if( accounts.length == 0 )
+                alert("Iniciar sesión en metamask");
+
+            else{
+                // Debido a bug con AlphaWallet
+                if(Array.isArray(accounts))
+                    this.account = accounts[0];
+                else {
+                    accounts = [accounts.substring(1, accounts.length-1)];
+                    this.account = accounts[0];
+                }
+            }
+
+        } catch(error){
+            if(error.code===4001){
+                alert("123");
+            }
         }
-      }catch(error){
-        if(error.code===4001){
-          alert("123");
-        }
-      }
     }else 
         alert("No ethereum browser is installed. Try it installing MetaMask ");
   }

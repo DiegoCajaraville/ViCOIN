@@ -4,7 +4,8 @@ import { Patinete } from '../patinete/patinete.model';
 import { DatabaseService } from '../services/database.service';
 import { ContractsService } from '../services/contracts.service';
 
-import L from 'Leaflet';
+//@ts-ignore
+import L from 'leaflet';
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 
 
@@ -60,6 +61,7 @@ export class PatinetePage implements OnInit {
     setTimeout(function () {
       window.dispatchEvent(new Event('resize'));
     }, 1000);
+    //@ts-ignore
     L.Icon.Default.ImagePath = "../../assests/icon/";
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -72,7 +74,7 @@ export class PatinetePage implements OnInit {
     
     
     var values = await this.databaseService.getDatosBBDD(this.id);
-    var marker =new  L.marker([values[3], values[4]]).addTo(this.map2);
+    var marker = L.marker([values[3], values[4]]).addTo(this.map2);
   }
   
   getPatinete(){

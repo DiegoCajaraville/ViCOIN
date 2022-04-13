@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import L from 'Leaflet';
+//@ts-ignore
+import L from 'leaflet';
 
 import { Patinete } from '../patinete/patinete.model';
 import { Router } from '@angular/router'
@@ -45,7 +46,8 @@ export class PatinetesPage implements OnInit {
   async continuacion(){
     try{
       //var b = await this.contractsService.TarifasContract.getPatinetes();
-      this.map = new L.map('map').setView([42.22912736762485, -8.726044981888979], 16);
+      this.map = L.map('map').setView([42.22912736762485, -8.726044981888979], 16);
+      //@ts-ignore
       L.Icon.Default.ImagePath = "../../assests/icon/";
       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
           attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -72,8 +74,10 @@ export class PatinetesPage implements OnInit {
           bateria: values[1]+""
         });
        
-        var marker =new  L.marker([values[3], values[4]]).on('click', this.onClickMarker);
+        var marker = L.marker([values[3], values[4]]).on('click', this.onClickMarker);
+        //@ts-ignore
         marker.myId=this.PatinetesDisponibles[c];
+        //@ts-ignore
         marker.myRouter=this.router;
         
         
