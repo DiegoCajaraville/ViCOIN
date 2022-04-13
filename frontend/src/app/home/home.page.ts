@@ -11,15 +11,17 @@ import { ContractsService } from '../services/contracts.service';
 })
 
 export class HomePage {
-    account;
+
     constructor(private contractsService: ContractsService, private databaseService: DatabaseService, private router: Router) {}
     ngOnInit() {
         this.contractsService.loadMetamask();
+        this.contractsService.loadContract();
+        this.databaseService.getDatosBBDD(0);
     }    
 
     clickAdmin(){
         
-        if(this.account==("0xEC1b2cBF852DbeA58C6B489779F4849E67EcfA0D").toLowerCase()){
+        if(this.contractsService.account==("0xEC1b2cBF852DbeA58C6B489779F4849E67EcfA0D").toLowerCase()){
             this.router.navigate(['/admin']);
         }else{
             //PopOver error no eres admin

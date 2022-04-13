@@ -1,14 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
-import contratoViCOIN from '../../../../contracts/goerli/ViCOIN.json';
-import contratoViCOINSale from '../../../../contracts/goerli/ViCOINSale.json';
-import contratoTarifas from '../../../../contracts/goerli/Tarifas.json';
+import { DatabaseService } from 'src/app/services/database.service';
+import { ContractsService } from 'src/app/services/contracts.service';
 
 
-
-declare let window:any;
-declare let TruffleContract:any;
 
 @Component({
   selector: 'app-popover',
@@ -20,14 +15,7 @@ export class PopoverComponent implements OnInit {
 
   idPatinete;
   alquiladoAddress;
-  account;
-  ViCOIN;
-  ViCOINSale;
-  Tarifas;
-  metamaskProvider;
-  ViCOINContract;
-  ViCOINSaleContract;
-  TarifasContract;
+  
   a;
   PatinetesDisponibles;
 
@@ -35,48 +23,26 @@ export class PopoverComponent implements OnInit {
   idsDisponibles;
 
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private databaseService: DatabaseService, private contractsService: ContractsService) { }
 
-  ngOnInit() {
-    this.loadMetamask();
-    this.loadContract();
- 
+  async ngOnInit() {
+    this.contractsService.loadMetamask();
+    await this.contractsService.loadContract();
+    this.continuacion();
   }
 
 
   
 
-  async loadMetamask(){
-    if (window.ethereum) {
-        this.metamaskProvider=window.ethereum;
-        const accounts= await this.metamaskProvider.request({ method: "eth_requestAccounts" });
-        this.account=accounts[0];
-        console.log(this.account);
-    }else 
-        alert("No ethereum browser is installed. Try it installing MetaMask ");
-  }
 
-  async loadContract(){
+  async continuacion(){
     try{
-      //Creamos la estructura del contrato
-      this.ViCOIN=TruffleContract(contratoViCOIN);
-      this.ViCOINSale = TruffleContract(contratoViCOINSale);
-      this.Tarifas = TruffleContract(contratoTarifas);
-      
-      // Nos conectamos al contrato a través de la cuenta del wallet (Metamask)
-      this.ViCOIN.setProvider(this.metamaskProvider);
-      this.ViCOINSale.setProvider(this.metamaskProvider);
-      this.Tarifas.setProvider(this.metamaskProvider);
-
-      this.ViCOINSaleContract = await this.ViCOINSale.deployed();
-      this.TarifasContract =await  this.Tarifas.deployed();
-      this.ViCOINContract= await this.ViCOIN.at('0x30FeD49F1808F83a2d1b4cf26C275DE66E4eE950');
-      this.PatinetesDisponibles=this.TarifasContract.getPatinetes();
+      this.PatinetesDisponibles=this.contractsService.TarifasContract.getPatinetes();
       var mostrar=true;
   
-      this.idsDisponibles = await this.TarifasContract.getPatinetes();
+      this.idsDisponibles = await this.contractsService.TarifasContract.getPatinetes();
       console.log("ids disponibles: "+this.idsDisponibles.toString());
-      this.totalPatinetes = await this.TarifasContract.totalPatinetes();
+      this.totalPatinetes = await this.contractsService.TarifasContract.totalPatinetes();
       console.log("total patinetes: "+this.totalPatinetes.toNumber());
 
 

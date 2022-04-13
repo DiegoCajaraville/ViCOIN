@@ -1,23 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import L from 'Leaflet';
-import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
+
 import { Patinete } from '../patinete/patinete.model';
 import { Router } from '@angular/router'
-import contratoViCOIN from '../../../contracts/goerli/ViCOIN.json';
-import contratoViCOINSale from '../../../contracts/goerli/ViCOINSale.json';
-import contratoTarifas from '../../../contracts/goerli/Tarifas.json';
+
 
 import { PopoverController } from '@ionic/angular';
 import { PopoverComponent } from '../components/popover/popover.component';
 
-
-
-
-
-
-
-declare let window:any;
-declare let TruffleContract:any;
+import { ContractsService } from '../services/contracts.service'; 
+import { DatabaseService } from '../services/database.service';
 
 @Component({
   selector: 'app-patinetes',
@@ -27,15 +19,6 @@ declare let TruffleContract:any;
 
 export class PatinetesPage implements OnInit {
   route=this.router;
-  account;
-  ViCOIN;
-  ViCOINSale;
-  Tarifas;
-  metamaskProvider;
-  ViCOINContract;
-  ViCOINSaleContract;
-  TarifasContract;
-  a;
   PatinetesDisponibles;
   private map;
   tarifa;
@@ -46,56 +29,23 @@ export class PatinetesPage implements OnInit {
   totalPatinetes;
   idsDisponibles;
   
-  constructor(public http:HttpClient, private popCtrl: PopoverController, public router: Router) { }
+  constructor(private popCtrl: PopoverController, public router: Router, private contractsService: ContractsService, private databaseService: DatabaseService) { }
   clickMenuMoneda(){
     this.router.navigate(['/comprarMoneda']);
-    //window.location.href="http://localhost:8100/comprarMoneda";
   }
-  async ngOnInit() {
-    this.loadMetamask();
-    this.loadContract();
-    //Funcion para pillar los datos de la base de datos con los ids en PatinetesDisponibles.
-
-    
-
+  async ngOnInit() {    
+    this.contractsService.loadMetamask();
+    await this.contractsService.loadContract();
+    this.PatinetesDisponibles = await this.contractsService.TarifasContract.getPatinetes();
+    this.continuacion();
   }
 
-  async loadMetamask(){
-    if (window.ethereum) {
-        this.metamaskProvider=window.ethereum;
-        const accounts= await this.metamaskProvider.request({ method: "eth_requestAccounts" });
-        this.account=accounts[0];
-        console.log(this.account);
-    }else 
-        alert("No ethereum browser is installed. Try it installing MetaMask ");
-  }
+  
 
-  async loadContract(){
+  async continuacion(){
     try{
-      //Creamos la estructura del contrato
-      this.ViCOIN=TruffleContract(contratoViCOIN);
-      this.ViCOINSale = TruffleContract(contratoViCOINSale);
-      this.Tarifas = TruffleContract(contratoTarifas);
-      
-      // Nos conectamos al contrato a través de la cuenta del wallet (Metamask)
-      this.ViCOIN.setProvider(this.metamaskProvider);
-      this.ViCOINSale.setProvider(this.metamaskProvider);
-      this.Tarifas.setProvider(this.metamaskProvider);
-
-      this.ViCOINSaleContract = await this.ViCOINSale.deployed();
-      this.TarifasContract =await  this.Tarifas.deployed();
-      this.ViCOINContract= await this.ViCOIN.at('0x30FeD49F1808F83a2d1b4cf26C275DE66E4eE950');
-      this.PatinetesDisponibles= await this.TarifasContract.getPatinetes();
-  
-      
-        
-    
-      for(var c=0;c<this.PatinetesDisponibles.length;c++){
-        console.log(this.PatinetesDisponibles[c].toNumber());
-        this.getDatosBBDD(this.PatinetesDisponibles[c].toNumber());
-      }
-  
-      this.map = L.map('map').setView([42.22912736762485, -8.726044981888979], 16);
+      //var b = await this.contractsService.TarifasContract.getPatinetes();
+      this.map = new L.map('map').setView([42.22912736762485, -8.726044981888979], 16);
       L.Icon.Default.ImagePath = "../../assests/icon/";
       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
           attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -105,6 +55,33 @@ export class PatinetesPage implements OnInit {
           zoomOffset: -1,
           accessToken: 'your.mapbox.access.token'
         }).addTo(this.map);
+
+        
+      console.log(this.PatinetesDisponibles.length);
+      for(var c=1;c<this.PatinetesDisponibles.length;c++){
+
+        console.log(this.PatinetesDisponibles[c].toNumber());
+        
+        var values =await  this.databaseService.getDatosBBDD(this.PatinetesDisponibles[c].toNumber());
+
+        console.log(values);
+        this.patinetes.push({
+          id: this.PatinetesDisponibles[c]+"",
+          latitude: values[3]+"",
+          longitude: values[4]+"",
+          bateria: values[1]+""
+        });
+       
+        var marker =new  L.marker([values[3], values[4]]).on('click', this.onClickMarker);
+        marker.myId=this.PatinetesDisponibles[c];
+        marker.myRouter=this.router;
+        
+        
+        marker.addTo(this.map);
+      }
+
+      console.log("mE CNSDFBVJKNSDFNVJKSDN");
+      
   
   
       
@@ -117,80 +94,15 @@ export class PatinetesPage implements OnInit {
 
 
   async patinetesAlquilados(){
-    //Crear popUp
-    
-    //popUp
     const popover= this.popCtrl.create({
       component: PopoverComponent
     })
     return (await popover).present();
   }
 
-
-
-
-
   onClickMarker(e){
+
     var router1=e.target.myRouter;
-    //e.target.map.off();
-    //  e.target.map.remove();
-    //var container = e.target.L.DomUtil.get('map'); 
-    //container._leaflet_id = null;
     router1.navigate(['/patinete/'+e.target.myId]);
-    //window.location.href="http://localhost:8100/patinete/"+e.target.myId;
-  }
-
-
-  getDatosBBDD(patinete){
-
-    //console.log("Realizar busqueda BBDD")
-    //console.log('SELECT * FROM patinetes WHERE idPatinete=\'' + patinete + '\' ORDER BY time DESC LIMIT 1')
-
-    var headers = new HttpHeaders({ 'Authorization': 'Token admin:lproPassword' })
-
-    var params = new HttpParams();
-    params=params.set('db', 'ViCOIN');
-    params=params.set('q', 'SELECT * FROM patinetes WHERE idPatinete=\'' + patinete + '\' ORDER BY time DESC LIMIT 1');
-
-    this.http.get<any>("http://ec2-44-201-180-246.compute-1.amazonaws.com:8086/query?pretty=true", {
-        params, 
-        headers
-    }).subscribe({
-        next: data => {
-
-            if(data.results[0].series == null)
-                console.log("No hay registros de este patinete")
-            else{
-                
-                var keys = data.results[0].series[0].columns;
-                var values = data.results[0].series[0].values[0];
-              
-                this.patinetes.push({
-                  id: patinete+"",
-                  latitude: values[3]+"",
-                  longitude: values[4]+"",
-                  bateria: values[1]+""
-                });
-               
-                  var marker = L.marker([values[3], values[4]]).on('click', this.onClickMarker);
-                  marker.myId=patinete;
-                  marker.myRouter=this.router;
-                  marker.map=this.map;
-                  //marker.L=L;
-                  marker.addTo(this.map);
-                
-                
-                //for(var i=0; i<keys.length; i++){
-                    //console.log(keys[i] + " = " + values[i]);
-                //}
-
-
-            }
-        },
-        error: error => {
-            console.error('Ha ocurrido un error al obtener la información de la BBDD', error);
-        }
-    })
-  }
-  
+  }  
 }

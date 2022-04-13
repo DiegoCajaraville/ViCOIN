@@ -2,17 +2,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Patinete } from '../patinete/patinete.model';
-import contratoViCOIN from '../../../contracts/goerli/ViCOIN.json';
-import contratoViCOINSale from '../../../contracts/goerli/ViCOINSale.json';
-import contratoTarifas from '../../../contracts/goerli/Tarifas.json';
+import { ContractsService } from '../services/contracts.service';
+import { DatabaseService } from '../services/database.service';
 
-
-
-
-
-
-declare let window:any;
-declare let TruffleContract:any;
 @Component({
   selector: 'app-patinete-alquilado-no-yo',
   templateUrl: './patinete-alquilado-no-yo.page.html',
@@ -21,14 +13,6 @@ declare let TruffleContract:any;
 export class PatineteAlquiladoNoYoPage implements OnInit {
 
 
-  account;
-  ViCOIN;
-  ViCOINSale;
-  Tarifas;
-  metamaskProvider;
-  ViCOINContract;
-  ViCOINSaleContract;
-  TarifasContract;
 
 
   public hours: number=0;
@@ -46,20 +30,16 @@ export class PatineteAlquiladoNoYoPage implements OnInit {
   private id;
   patinete: Patinete;
   tiempoRestante;
-  constructor(public http:HttpClient) { }
+  constructor(public http:HttpClient, private contractsService: ContractsService, private databaseService: DatabaseService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
 
-    this.loadMetamask();
-    this.loadContract();
+    this.contractsService.loadMetamask();
+    await this.contractsService.loadContract();
 
     //obtener el id del patinete de la url
     this.id=this.getId();
     //Obtener los datos del patinete de la base de datos
-    this.getDatosBBDD(this.id);
-   
-   
-
   }
 
   
@@ -68,38 +48,6 @@ export class PatineteAlquiladoNoYoPage implements OnInit {
     return url[4];
   }
 
-  getDatosBBDD(patinete){
-    var headers = new HttpHeaders({ 'Authorization': 'Token admin:lproPassword' })
-    var params = new HttpParams();
-    params=params.set('db', 'ViCOIN');
-    params=params.set('q', 'SELECT * FROM patinetes WHERE idPatinete=\'' + patinete + '\' ORDER BY time DESC LIMIT 1');
-    this.http.get<any>("http://ec2-44-201-180-246.compute-1.amazonaws.com:8086/query?pretty=true", {
-        params, 
-        headers
-    }).subscribe({
-        next: data => {
-            if(data.results[0].series == null)
-                console.log("No hay registros de este patinete")
-            else{
-                var keys = data.results[0].series[0].columns;
-                var values = data.results[0].series[0].values[0];
-                this.patinete={
-                  id: patinete+"",
-                  latitude: values[3]+"",
-                  longitude: values[4]+"",
-                  bateria: values[1]+""
-                };
-               
-            }
-        },
-        error: error => {
-            console.error('Ha ocurrido un error al obtener la información de la BBDD', error);
-        }
-    })
-  }
-
-
-  
 
   updateTimer(){
     this.date.setHours(this.hours);
@@ -141,46 +89,13 @@ export class PatineteAlquiladoNoYoPage implements OnInit {
     }
   }
 
-  async loadMetamask(){
-    if (window.ethereum) {
-      try{
-        this.metamaskProvider=window.ethereum;
-        
-        const accounts= await this.metamaskProvider.request({ method: "eth_requestAccounts" });
-        
-        if(accounts.length==0){
-          alert("Iniciar sesión en metamask");
-        }else{
-          this.account=accounts[0];
-          console.log(this.account);
-        }
-      }catch(error){
-        if(error.code===4001){
-          alert("123");
-        }
-      }
-    }else 
-        alert("No ethereum browser is installed. Try it installing MetaMask ");
-  } 
 
 
-  async loadContract(){
+  async continuacion(){
     try{
-        //Creamos la estructura del contrato
-        this.ViCOIN=TruffleContract(contratoViCOIN);
-        this.ViCOINSale = TruffleContract(contratoViCOINSale);
-        this.Tarifas = TruffleContract(contratoTarifas);
-        
-        // Nos conectamos al contrato a través de la cuenta del wallet (Metamask)
-        this.ViCOIN.setProvider(this.metamaskProvider);
-        this.ViCOINSale.setProvider(this.metamaskProvider);
-        this.Tarifas.setProvider(this.metamaskProvider);
-
-        this.ViCOINSaleContract = await this.ViCOINSale.deployed();
-        this.TarifasContract = await this.Tarifas.deployed();
-        this.ViCOINContract= await this.ViCOIN.at('0x30FeD49F1808F83a2d1b4cf26C275DE66E4eE950');
-        var j = await this.TarifasContract.getPatinetes();
-        this.tiempoRestante =  await this.TarifasContract.remaining(this.id);
+       
+        var j = await this.contractsService.TarifasContract.getPatinetes();
+        this.tiempoRestante =  await this.contractsService.TarifasContract.remaining(this.id);
 
         console.log(this.tiempoRestante.toNumber());
         this.hours=(Math.floor(this.tiempoRestante / 0xE10));

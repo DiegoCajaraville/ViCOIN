@@ -1,14 +1,6 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { ComprarMonedaService } from './comprar-moneda.service';
+import { Component, OnInit } from '@angular/core';
 
-import contratoViCOIN from '../../../contracts/goerli/ViCOIN.json';
-import contratoViCOINSale from '../../../contracts/goerli/ViCOINSale.json';
-import contratoTarifas from '../../../contracts/goerli/Tarifas.json';
-
-
-declare let window:any;
-declare let TruffleContract:any;
-
+import { ContractsService } from '../services/contracts.service';
 
 
 @Component({
@@ -18,90 +10,30 @@ declare let TruffleContract:any;
 })
 export class ComprarMonedaPage implements OnInit {
   precio=0.01;
-  
-
   dineroCliente;
-
   disponibleAdmin;
-  
 
-  account;
-  ViCOIN;
-  ViCOINSale;
-  Tarifas;
-  metamaskProvider;
-  ViCOINContract;
-  ViCOINSaleContract;
-  TarifasContract;
-  a;
-
-  constructor(private ComprarMonedaService: ComprarMonedaService) { }
+  constructor(private contractsService: ContractsService) { }
   
-  ngOnInit() {
-    this.loadMetamask();
-    this.loadContract();
+  async ngOnInit() {
+    this.contractsService.loadMetamask();
+    await this.contractsService.loadContract();
+    var a= await this.contractsService.ViCOINContract.balanceOf(this.contractsService.account);
+    this.dineroCliente = a/Math.pow(10,18);
   }
 
   async comprarMoneda(precioSeleccionado){
-    //El precio del vic fijo?
-    
-    var address = this.ViCOINSaleContract.address; 
-    
+    var address = this.contractsService.ViCOINSaleContract.address; 
     console.log(address);
-    this.disponibleAdmin = await this.ViCOINContract.balanceOf(address);
+    this.disponibleAdmin = await this.contractsService.ViCOINContract.balanceOf(address);
     console.log(this.disponibleAdmin.toString());
     console.log(precioSeleccionado);
     if( (this.disponibleAdmin-precioSeleccionado*Math.pow(10,18)) >0 ){
       //Se puede comprar
-      
       var b=this.precio*precioSeleccionado*Math.pow(10,18);   
       var c=(precioSeleccionado*Math.pow(10,18));
-      this.ViCOINSaleContract.buyViCOINS(c.toString(),{from: this.account,value: b.toString()}).once(
-        alert("Realizando compra")
-      );
+      this.contractsService.ViCOINSaleContract.buyViCOINS(c.toString(),{from: this.contractsService.account,value: b.toString()});
       alert("Compra realizada");
-
-    }
-  }
-
-
-
-
-  async loadMetamask(){
-    if (window.ethereum) {
-        this.metamaskProvider=window.ethereum;
-        const accounts= await this.metamaskProvider.request({ method: "eth_requestAccounts" });
-        this.account=accounts[0];
-        console.log(this.account);
-    }else 
-        alert("No ethereum browser is installed. Try it installing MetaMask ");
-  }
-
-
-
-  async loadContract(){
-    try{
-        //Creamos la estructura del contrato
-        this.ViCOIN=TruffleContract(contratoViCOIN);
-        this.ViCOINSale = TruffleContract(contratoViCOINSale);
-        this.Tarifas = TruffleContract(contratoTarifas);
-        
-        // Nos conectamos al contrato a través de la cuenta del wallet (Metamask)
-        this.ViCOIN.setProvider(this.metamaskProvider);
-        this.ViCOINSale.setProvider(this.metamaskProvider);
-        this.Tarifas.setProvider(this.metamaskProvider);
-
-        this.ViCOINSaleContract = await this.ViCOINSale.deployed();
-        this.TarifasContract =await  this.Tarifas.deployed();
-        this.ViCOINContract= await this.ViCOIN.at('0x30FeD49F1808F83a2d1b4cf26C275DE66E4eE950');
-        
-        const beta= this.ViCOINContract.address;
-        var alfa= await this.ViCOINContract.balanceOf(beta);
-        this.a = await this.ViCOINContract.balanceOf(this.account);
-        this.dineroCliente = this.a/Math.pow(10,18);
-        console.log(this.dineroCliente);
-    } catch (error) {
-        console.error(error);
     }
   }
 }

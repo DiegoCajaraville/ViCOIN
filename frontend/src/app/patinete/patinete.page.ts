@@ -7,9 +7,7 @@ import { ContractsService } from '../services/contracts.service';
 import L from 'Leaflet';
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 
-import contratoViCOIN from '../../../contracts/goerli/ViCOIN.json';
-import contratoViCOINSale from '../../../contracts/goerli/ViCOINSale.json';
-import contratoTarifas from '../../../contracts/goerli/Tarifas.json';
+
 
 declare let window:any;
 declare let TruffleContract:any;
@@ -24,14 +22,6 @@ export class PatinetePage implements OnInit {
   tiempoRestante;
   usuarioActual;
   allowRent;
-  account;
-  ViCOIN;
-  ViCOINSale;
-  Tarifas;
-  metamaskProvider;
-  ViCOINContract;
-  ViCOINSaleContract;
-  TarifasContract;
   patinetesComprados;
   dineroCliente;
   tarifa;
@@ -45,18 +35,18 @@ export class PatinetePage implements OnInit {
   id;
   constructor(public http:HttpClient, private contractsService: ContractsService, private databaseService: DatabaseService) {}
  
-  ngOnInit() {
+  async ngOnInit() {
     
     //this.contractsService.loadMetamask();
 
     this.contractsService.loadMetamask();
-    this.contractsService.loadContract();
+    await this.contractsService.loadContract();
     
     var j = this.contractsService.TarifasContract.getPatinetes();
     this.patinetesComprados = j.toString();
-    var b= this.contractsService.ViCOINContract.allowance(this.account,this.TarifasContract.address);
+    var b= this.contractsService.ViCOINContract.allowance(this.contractsService.account,this.contractsService.TarifasContract.address);
     this.allowRent= b/Math.pow(10,18);
-    var a = this.contractsService.ViCOINContract.balanceOf(this.account);
+    var a = this.contractsService.ViCOINContract.balanceOf(this.contractsService.account);
     this.dineroCliente = a/Math.pow(10,18);
 
 
@@ -81,8 +71,8 @@ export class PatinetePage implements OnInit {
     }).addTo(this.map2);
     
     
-    this.databaseService.getDatosBBDD(this.id);
-
+    var values = await this.databaseService.getDatosBBDD(this.id);
+    var marker =new  L.marker([values[3], values[4]]).addTo(this.map2);
   }
   
   getPatinete(){
@@ -95,8 +85,8 @@ export class PatinetePage implements OnInit {
     if(this.tarifa==1){
       if(this.allowRent >= this.tarifa1){
         alert("Realizando alquiler");
-        await this.TarifasContract.tarifa1(this.patinete.id,{
-          from: this.account,
+        await this.contractsService.TarifasContract.tarifa1(this.patinete.id,{
+          from: this.contractsService.account,
         });
         alert("Alquiler completado");
       }else{
@@ -110,12 +100,12 @@ export class PatinetePage implements OnInit {
         //}
         var c=dineroApprove*Math.pow(10,18);
         
-        await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
-          from: this.account,
+        await this.contractsService.ViCOINContract.approve(this.contractsService.TarifasContract.address, BigInt(c),{
+          from: this.contractsService.account,
         });
         alert("Realizando alquiler");
-        await this.TarifasContract.tarifa1(this.patinete.id,{
-          from: this.account,
+        await this.contractsService.TarifasContract.tarifa1(this.patinete.id,{
+          from: this.contractsService.account,
         });
      
         alert("Alquiler Completado");
@@ -123,13 +113,13 @@ export class PatinetePage implements OnInit {
     }else if(this.tarifa==2){
       if(this.allowRent >= this.tarifa2){
         alert("Realizando alquiler");
-        await this.TarifasContract.tarifa2(this.patinete.id,{
-          from: this.account,
+        await this.contractsService.TarifasContract.tarifa2(this.patinete.id,{
+          from: this.contractsService.account,
         });
         alert("Alquiler completado");
       }else{
         alert("Approve the money");
-        //Aprobar solo el dinero que sea necesario+
+        //Aprobar solo el dinero que sea necesario
         var dineroApprove=this.tarifa1-this.allowRent;
         //Comprobar que tiene dinero suficiente para poder hacer el approve
         //if(dineroApprove>this.dineroCliente){
@@ -138,12 +128,12 @@ export class PatinetePage implements OnInit {
         //}
         var c=dineroApprove*Math.pow(10,18);
         
-        await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
-          from: this.account,
+        await this.contractsService.ViCOINContract.approve(this.contractsService.TarifasContract.address, BigInt(c),{
+          from: this.contractsService.account,
         });
         alert("Realizando alquiler");
-        await this.TarifasContract.tarifa2(this.patinete.id,{
-          from: this.account,
+        await this.contractsService.TarifasContract.tarifa2(this.patinete.id,{
+          from: this.contractsService.account,
         });
 
         
@@ -152,13 +142,13 @@ export class PatinetePage implements OnInit {
     }else if(this.tarifa==3){
       if(this.allowRent >= this.tarifa3){
         alert("Realizando alquiler");
-        await this.TarifasContract.tarifa3(this.patinete.id,{
-          from: this.account,
+        await this.contractsService.TarifasContract.tarifa3(this.patinete.id,{
+          from: this.contractsService.account,
         });
         alert("Alquiler completado");
       }else{
         alert("Approve the money");
-        //Aprobar solo el dinero que sea necesario+
+        //Aprobar solo el dinero que sea necesario
         var dineroApprove=this.tarifa1-this.allowRent;
         //Comprobar que tiene dinero suficiente para poder hacer el approve
         //if(dineroApprove>this.dineroCliente){
@@ -167,12 +157,12 @@ export class PatinetePage implements OnInit {
         //}
         var c=dineroApprove*Math.pow(10,18);
         
-        await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
-          from: this.account,
+        await this.contractsService.ViCOINContract.approve(this.contractsService.TarifasContract.address, BigInt(c),{
+          from: this.contractsService.account,
         });
         alert("Realizando alquiler");
-        await this.TarifasContract.tarifa3(this.patinete.id,{
-          from: this.account,
+        await this.contractsService.TarifasContract.tarifa3(this.patinete.id,{
+          from: this.contractsService.account,
         });
         
         alert("Alquiler completado");
@@ -180,13 +170,13 @@ export class PatinetePage implements OnInit {
     }else if(this.tarifa==4){
       if(this.allowRent >= this.tarifa4){
         alert("Realizando alquiler");
-        await this.TarifasContract.tarifa4(this.patinete.id,{
-          from: this.account,
+        await this.contractsService.TarifasContract.tarifa4(this.patinete.id,{
+          from: this.contractsService.account,
         });
         alert("Alquiler completado");
       }else{
         alert("Approve the money");
-        //Aprobar solo el dinero que sea necesario+
+        //Aprobar solo el dinero que sea necesario
         var dineroApprove=this.tarifa1-this.allowRent;
         //Comprobar que tiene dinero suficiente para poder hacer el approve
         //if(dineroApprove>this.dineroCliente){
@@ -195,12 +185,12 @@ export class PatinetePage implements OnInit {
         //}
         var c=dineroApprove*Math.pow(10,18);
         
-        await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
-          from: this.account,
+        await this.contractsService.ViCOINContract.approve(this.contractsService.TarifasContract.address, BigInt(c),{
+          from: this.contractsService.account,
         });
         alert("Realizando alquiler");
-        await this.TarifasContract.tarifa4(this.patinete.id,{
-          from: this.account,
+        await this.contractsService.TarifasContract.tarifa4(this.patinete.id,{
+          from: this.contractsService.account,
         });
         
         alert("Alquiler completado");
@@ -209,13 +199,13 @@ export class PatinetePage implements OnInit {
       console.log("abc"+this.allowRent);
       if(this.allowRent >= this.tarifaDemo){
         alert("Realizando alquiler");
-        await this.TarifasContract.tarifaDemo(this.patinete.id,{
-          from: this.account,
+        await this.contractsService.TarifasContract.tarifaDemo(this.patinete.id,{
+          from: this.contractsService.account,
         });
         alert("Alquiler completado");
       }else{
         alert("Approve the money");
-        //Aprobar solo el dinero que sea necesario+
+        //Aprobar solo el dinero que sea necesario
         var dineroApprove=this.tarifa1-this.allowRent;
         //Comprobar que tiene dinero suficiente para poder hacer el approve
         //if(dineroApprove>this.dineroCliente){
@@ -224,14 +214,14 @@ export class PatinetePage implements OnInit {
         //}
         var c=dineroApprove*Math.pow(10,18);
         
-        await this.ViCOINContract.approve(this.TarifasContract.address, BigInt(c),{
-          from: this.account,
+        await this.contractsService.ViCOINContract.approve(this.contractsService.TarifasContract.address, BigInt(c),{
+          from: this.contractsService.account,
         });
         console.log(c);
         alert("Realizando alquiler");
 
-        await this.TarifasContract.tarifaDemo(this.patinete.id,{
-          from: this.account,
+        await this.contractsService.TarifasContract.tarifaDemo(this.patinete.id,{
+          from: this.contractsService.account,
         });
         
         alert("Alquiler completado");
