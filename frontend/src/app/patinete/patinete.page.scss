@@ -64,16 +64,9 @@
         font-size: 2.0em;
         width: 100%;
         font-weight: bold;
-        //color: #fff;
+
     }
     
-    .card-subtitle {
-        font-size: 1.0em;
-        position: absolute;
-        top: 52%;
-        width: 100%;
-        //color: #fff;
-    }
     
   
     #mapDiv {
@@ -84,11 +77,6 @@
         width: 100%;
         z-index: 0;
         max-height: none;
-    }
-    
-    
-    .title{
-        text-align: center;
     }
     .button{
         display: block;
