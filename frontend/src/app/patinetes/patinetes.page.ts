@@ -59,14 +59,14 @@ export class PatinetesPage implements OnInit {
         }).addTo(this.map);
 
         
-      console.log(this.PatinetesDisponibles.length);
+      //console.log(this.PatinetesDisponibles.length);
       for(var c=1;c<this.PatinetesDisponibles.length;c++){
 
-        console.log(this.PatinetesDisponibles[c].toNumber());
+        //console.log(this.PatinetesDisponibles[c].toNumber());
         
         var values =await  this.databaseService.getDatosBBDD(this.PatinetesDisponibles[c].toNumber());
 
-        console.log(values);
+        //console.log(values);
         this.patinetes.push({
           id: this.PatinetesDisponibles[c]+"",
           latitude: values[3]+"",
@@ -79,16 +79,8 @@ export class PatinetesPage implements OnInit {
         marker.myId=this.PatinetesDisponibles[c];
         //@ts-ignore
         marker.myRouter=this.router;
-        
-        
         marker.addTo(this.map);
-      }
-
-      console.log("mE CNSDFBVJKNSDFNVJKSDN");
-      
-  
-  
-      
+      }  
     }catch (error) {
       console.error(error);
     } 

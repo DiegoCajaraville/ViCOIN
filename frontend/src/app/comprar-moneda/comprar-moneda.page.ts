@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { AlertController } from '@ionic/angular';
 import { ContractsService } from '../services/contracts.service';
 
 
@@ -13,7 +13,7 @@ export class ComprarMonedaPage implements OnInit {
   dineroCliente;
   disponibleAdmin;
 
-  constructor(private contractsService: ContractsService) { }
+  constructor(private contractsService: ContractsService, private alertCtrl: AlertController) { }
   
   async ngOnInit() {
     this.contractsService.loadMetamask();
@@ -33,7 +33,14 @@ export class ComprarMonedaPage implements OnInit {
       var b=this.precio*precioSeleccionado*Math.pow(10,18);   
       var c=(precioSeleccionado*Math.pow(10,18));
       this.contractsService.ViCOINSaleContract.buyViCOINS(c.toString(),{from: this.contractsService.account,value: b.toString()});
-      alert("Compra realizada");
+      
+      const alert = await this.alertCtrl.create({
+        header: 'Realizando Compra',
+        backdropDismiss: true,
+        buttons: ['Ok']
+      });
+      await alert.present();
+
     }
   }
 }

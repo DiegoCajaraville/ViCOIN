@@ -27,13 +27,13 @@ export class DatabaseService {
     var params = new HttpParams();
     params=params.set('db', 'ViCOIN');
     params=params.set('q', 'SELECT * FROM patinetes WHERE idPatinete=\'' + patinete + '\' ORDER BY time DESC LIMIT 1');
-    console.log("a");
+  
     var data= await this.http.get<any>("http://ec2-44-201-180-246.compute-1.amazonaws.com:8086/query?pretty=true", {
         params, 
         headers
     }).toPromise();
 
-    console.log("b");
+
     if(data.results[0].series == null)
         console.log("No hay registros de este patinete");
     else{

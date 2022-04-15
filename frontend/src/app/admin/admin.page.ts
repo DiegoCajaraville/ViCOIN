@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from '../services/database.service';
 import { ContractsService } from '../services/contracts.service';
-import { Data } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 
 @Component({
@@ -11,7 +11,10 @@ import { Data } from '@angular/router';
 })
 export class AdminPage implements OnInit {
 
-  constructor(private contractsService: ContractsService, private databaseService: DatabaseService) { }
+
+  precioSeleccionado;
+
+  constructor(private contractsService: ContractsService, private databaseService: DatabaseService, private alertCtrl: AlertController) { }
 
   async ngOnInit() {
     this.contractsService.loadMetamask();
@@ -19,12 +22,23 @@ export class AdminPage implements OnInit {
   }
 
 
-  fund(){
-
+  async fund(){
+    //await this.contractsService.ViCOINSaleContract.getFunds();
+    const alert = await this.alertCtrl.create({
+      header: 'Fondos recogidos:',
+      subHeader: 'SubHeader',
+    });
+  
+    await alert.present();
   }
 
-  supply(){
-    
+  async supply(){
+    var dinero= this.precioSeleccionado*Math.pow(10,18);
+    this.contractsService.ViCOINSaleContract.moreSuply(dinero);
+    const alert = await this.alertCtrl.create({
+      header: 'Moneda añadida',
+      subHeader: 'Total restante: ',
+    });
   }
 
 }

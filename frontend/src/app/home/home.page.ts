@@ -20,12 +20,8 @@ export class HomePage {
     }    
 
     clickAdmin(){
-        
         if(this.contractsService.account==("0xEC1b2cBF852DbeA58C6B489779F4849E67EcfA0D").toLowerCase()){
             this.router.navigate(['/admin']);
-        }else{
-            //PopOver error no eres admin
-            alert("snd");
         }
     }
 }

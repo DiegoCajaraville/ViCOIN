@@ -101,7 +101,7 @@ export class PatineteAlquiladoNoYoPage implements OnInit {
         this.hours=(Math.floor(this.tiempoRestante / 0xE10));
         this.minutes=(Math.floor(this.tiempoRestante / 0x3C ) % 0x3C);
         this.seconds=(Math.round(this.tiempoRestante % 0x3C));
-        console.log("Horas: "+this.hours+" Minutos: "+this.minutes+" Segundos: "+this.seconds);
+        //console.log("Horas: "+this.hours+" Minutos: "+this.minutes+" Segundos: "+this.seconds);
         this.start();
     } catch (error) {
         console.error(error);

@@ -1,20 +1,73 @@
 @media screen and (min-width: 1000px) {
-
-
+    #mainContainer{
+        width: 100%;
+        height: 100%;
+      }
+      ion-card{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        height: 95%;
+        width: 30%;
+      }
+      .title{
+        font-size: 2.0em;
+        text-align: center;
+        font-weight: bold;
+      }
+    
+      .items{
+        font-weight: bold;
+        text-align: center;
+      }
+    
+      .input1{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    
+      .button1{
+        text-align: center;
+      }
 }
 
 
 @media screen and (max-width: 639px){
-
+    #mainContainer{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+      }
     
-}
-
-
-.title{
-       
-    top: 36%;
-    font-size: 2.0em;
-    width: 100%;
-    font-weight: bold;
-
+    
+      ion-card img {
+        border-radius: 10px;
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    
+    
+      .title{
+        text-align: center;
+      }
+      
+      .items{
+        text-align: center;
+      }
+      
+      
+      .input1{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+     
+      }
+      
+      .button1{
+        text-align: center;
+      }
+    
 }

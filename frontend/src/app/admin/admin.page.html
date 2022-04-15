@@ -15,17 +15,28 @@
 
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Administrador</ion-card-title>
+      <ion-card-title class="title">Administrador</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <div>
-        <ion-item>
+      <ion-item>
+        <div class="button1">
           <ion-button (click)="fund()">Fund</ion-button>
-        </ion-item>
-        <ion-item>
+        </div>
+    </ion-item>
+
+
+        <div class="input1">
+          <ion-item class="input1"> 
+            <div class="input1">
+              <input #precioSeleccionado type="number" placeholder="Seleccione cantidad">
+            </div>
+          </ion-item>
+        </div>
+
+
+        <div class="button1">
           <ion-button (click)="supply()">More supply</ion-button>
-        </ion-item>
-      </div> 
+        </div>
     </ion-card-content>
   </ion-card>
 </ion-content>

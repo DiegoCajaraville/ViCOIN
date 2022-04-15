@@ -16,7 +16,6 @@ export class PopoverComponent implements OnInit {
   idPatinete;
   alquiladoAddress;
   
-  a;
   PatinetesDisponibles;
 
   totalPatinetes;
@@ -24,7 +23,7 @@ export class PopoverComponent implements OnInit {
 
 
   constructor(private router: Router, private databaseService: DatabaseService, private contractsService: ContractsService) { }
-
+  
   async ngOnInit() {
     this.contractsService.loadMetamask();
     await this.contractsService.loadContract();
