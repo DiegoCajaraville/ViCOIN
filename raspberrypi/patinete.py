@@ -9,6 +9,7 @@ from influxdb import InfluxDBClient
 from gps import *
 from web3 import Web3
 import RPi.GPIO as GPIO
+import Adafruit_DHT
 
 # VARIABLES GLOBALES
 HOST = 'ec2-44-201-180-246.compute-1.amazonaws.com'
@@ -23,9 +24,14 @@ CHAIN_ID = '5' # (Ropsten = 3, Rinkeby = 4, Goerli = 5)
 
 SAVE_DATA = 10
 CHECK_BLOCKCHAIN = 30
+CHECK_TEMPERATURE = 15
 
 PIN_STATE_SCOOTER = 21
 PIN_TIMBRE = 23
+PIN_TEMPERATURE = 1
+PIN_VENTILADOR = 1
+
+TEMPERATURA_MAX = 30
 
 ###########################################################################################
 
@@ -35,16 +41,16 @@ def main(id):
     
     if( CHAIN_ID == '3'):
         infura_url = 'https://ropsten.infura.io/v3/' + URI_INFURA
-        rutaTarifas = 'contracts/ropsten/Tarifas.json'
+        rutaTarifas = '/home/pi/Desktop/contracts/ropsten/Tarifas.json'
     elif( CHAIN_ID == '4'):
         infura_url = 'https://rinkeby.infura.io/v3/' + URI_INFURA
-        rutaTarifas = 'contracts/rinkeby/Tarifas.json'
+        rutaTarifas = '/home/pi/Desktop/contracts/rinkeby/Tarifas.json'
     elif( CHAIN_ID == '5'):
         infura_url = 'https://goerli.infura.io/v3/' + URI_INFURA
-        rutaTarifas = 'contracts/goerli/Tarifas.json'
+        rutaTarifas = '/home/pi/Desktop/contracts/goerli/Tarifas.json'
     else:
         infura_url = 'https://goerli.infura.io/v3/' + URI_INFURA
-        rutaTarifas = 'contracts/goerli/Tarifas.json'
+        rutaTarifas = '/home/pi/Desktop/contracts/goerli/Tarifas.json'
 
     try:
         print("[INFO] Inicializando datos BBDD")
@@ -76,6 +82,7 @@ def main(id):
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(PIN_STATE_SCOOTER, GPIO.OUT)
         GPIO.setup(PIN_TIMBRE, GPIO.OUT)
+        GPIO.setup(PIN_VENTILADOR, GPIO.OUT)
     except:
         sys.exit("[ERROR] No se ha podido inicializar el estado del patinete. Revisa el PIN del Rele.")
 
@@ -91,6 +98,10 @@ def main(id):
     ## Tiempo que pasa entre cada llamada a la Blockchain   -> CHECK_BLOCKCHAIN segundos
     hiloInfura = threading.Thread(target=updateState, args=(contract, id,))
     hiloInfura.start()
+
+    ## Tiempo que pasa cada vez que comprobamos la temperatura   -> CHECK_TEMPERATURE segundos
+    hiloTemperatura = threading.Thread(target=checkTemperature, args=())
+    hiloTemperatura.start()
 
 
 ###########################################################################################
@@ -217,6 +228,26 @@ def getDataGPS(gpsd):
     except:
         print("[ERROR] Error al obtener información del GPS")
         return [None, None, None]
+
+
+###########################################################################################
+
+def checkTemperature():
+
+    sensor = Adafruit_DHT.DHT11
+    GPIO.output(PIN_VENTILADOR, False)
+
+    while True:
+
+        humedad, temperatura = Adafruit_DHT.read_retry(sensor, PIN_TEMPERATURE)
+        print("[INFO] La temperatura actual es: " + str(temperatura))
+
+        if( temperatura >= TEMPERATURA_MAX ):
+            GPIO.output(PIN_VENTILADOR, True)
+        else:
+            GPIO.output(PIN_VENTILADOR, False)
+
+        time.sleep(CHECK_TEMPERATURE)
 
 
 ###########################################################################################
