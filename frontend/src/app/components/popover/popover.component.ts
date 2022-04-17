@@ -64,13 +64,6 @@ export class PopoverComponent implements OnInit {
   patineteAlquiladoInfo(id){
     //Comprobar si la persona que quiere ver los datos del patinete es la persona que lo ha alquilado o es otra persona
     this.idPatinete=id;
-    //var a=this.TarifasContract();
-    //this.alquiladoAddress= a.toString();
-    //if(this.account==this.alquiladoAddress){
-    //  window.location="http://localhost:8100/patineteYo/"+this.idPatinete;
-    //}else{
-      this.router.navigate(['/patineteNoYo/'+this.idPatinete]);
-      //window.location="http://localhost:8100/patineteNoYo/"+this.idPatinete;
-    //}
+    this.router.navigate(['/patineteNoYo/'+this.idPatinete]);  
   }
 }

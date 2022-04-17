@@ -10,9 +10,6 @@ import L from 'leaflet';
 
 
 
-declare let window:any;
-declare let TruffleContract:any;
-
 @Component({
   selector: 'app-patinete',
   templateUrl: './patinete.page.html',
@@ -38,7 +35,7 @@ export class PatinetePage implements OnInit {
  
   async ngOnInit() {
     
-    //this.contractsService.loadMetamask();
+    this.contractsService.loadMetamask();
 
     this.contractsService.loadMetamask();
     await this.contractsService.loadContract();
@@ -46,7 +43,7 @@ export class PatinetePage implements OnInit {
     var j = this.contractsService.TarifasContract.getPatinetes();
     this.patinetesComprados = j.toString();
     var b= await this.contractsService.ViCOINContract.allowance(this.contractsService.account,this.contractsService.TarifasContract.address);
-    console.log("hola mundo");
+    
     this.allowRent= b/Math.pow(10,18);
     var a = this.contractsService.ViCOINContract.balanceOf(this.contractsService.account);
     this.dineroCliente = a/Math.pow(10,18);
@@ -108,11 +105,7 @@ export class PatinetePage implements OnInit {
         alert2.present();
         //Aprobar solo el dinero que sea necesario
         var dineroApprove=this.tarifa1-this.allowRent;
-        //Comprobar que tiene dinero suficiente para poder hacer el approve
-        //if(dineroApprove>this.dineroCliente){
-        //  alert("No tiene dinero suficiente");
-        //  return;
-        //}
+        
         var c=dineroApprove*Math.pow(10,18);
         
         await this.contractsService.ViCOINContract.approve(this.contractsService.TarifasContract.address, BigInt(c),{
@@ -136,11 +129,7 @@ export class PatinetePage implements OnInit {
         alert2.present();
         //Aprobar solo el dinero que sea necesario
         var dineroApprove=this.tarifa1-this.allowRent;
-        //Comprobar que tiene dinero suficiente para poder hacer el approve
-        //if(dineroApprove>this.dineroCliente){
-        //  alert("No tiene dinero suficiente");
-        //  return;
-        //}
+       
         var c=dineroApprove*Math.pow(10,18);
         
         await this.contractsService.ViCOINContract.approve(this.contractsService.TarifasContract.address, BigInt(c),{
@@ -162,11 +151,7 @@ export class PatinetePage implements OnInit {
         alert2.present();
         //Aprobar solo el dinero que sea necesario
         var dineroApprove=this.tarifa1-this.allowRent;
-        //Comprobar que tiene dinero suficiente para poder hacer el approve
-        //if(dineroApprove>this.dineroCliente){
-        //  alert("No tiene dinero suficiente");
-        //  return;
-        //}
+       
         var c=dineroApprove*Math.pow(10,18);
         
         await this.contractsService.ViCOINContract.approve(this.contractsService.TarifasContract.address, BigInt(c),{
@@ -188,11 +173,7 @@ export class PatinetePage implements OnInit {
         alert2.present();
         //Aprobar solo el dinero que sea necesario
         var dineroApprove=this.tarifa1-this.allowRent;
-        //Comprobar que tiene dinero suficiente para poder hacer el approve
-        //if(dineroApprove>this.dineroCliente){
-        //  alert("No tiene dinero suficiente");
-        //  return;
-        //}
+        
         var c=dineroApprove*Math.pow(10,18);
         
         await this.contractsService.ViCOINContract.approve(this.contractsService.TarifasContract.address, BigInt(c),{
@@ -215,11 +196,7 @@ export class PatinetePage implements OnInit {
         alert2.present();
         //Aprobar solo el dinero que sea necesario
         var dineroApprove=this.tarifa1-this.allowRent;
-        //Comprobar que tiene dinero suficiente para poder hacer el approve
-        //if(dineroApprove>this.dineroCliente){
-        //  alert("No tiene dinero suficiente");
-        //  return;
-        //}
+        
         console.log(dineroApprove);
         var c=dineroApprove*Math.pow(10,18);
         

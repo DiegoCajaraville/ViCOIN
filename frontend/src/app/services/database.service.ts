@@ -41,9 +41,9 @@ export class DatabaseService {
         var keys = data.results[0].series[0].columns;
         var values = data.results[0].series[0].values[0];
         
-        for(var i=0; i<keys.length; i++){
-            console.log(keys[i] + " = " + values[i]);
-        }
+        //for(var i=0; i<keys.length; i++){
+          //  console.log(keys[i] + " = " + values[i]);
+        //}
         return values;
     } 
   }

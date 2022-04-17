@@ -16,9 +16,7 @@ export class HomePage {
     ngOnInit() {
         this.contractsService.loadMetamask();
         this.contractsService.loadContract();
-        this.databaseService.getDatosBBDD(0);
     }    
-
     clickAdmin(){
         if(this.contractsService.account==("0x76A431B17560D46dE8430435001cBC66ae04De46").toLowerCase()){
             this.router.navigate(['/admin']);
