@@ -12,22 +12,22 @@
 
 </ion-header>
 
-<ion-content [fullscreen]="true" color="primary">
-  <div class="content" [class.move]="animate">
-    <div class="content-timer">
-      <div class="content-h">
-        <div class="time"> {{hours | number:'2.0'}} <span>h</span></div>
-      </div>
+<ion-content [fullscreen]="true" color="primary" class="body">
+    <div class="content" [class.move]="animate">
+      <div class="content-timer">
+        <div class="content-h">
+          <div class="time"> {{hours | number:'2.0'}} <span>h</span></div>
+        </div>
 
-      <div class="content-m">
-        <div class="time"> {{minutes | number:'2.0'}} <span>m</span></div>
-      </div>
+        <div class="content-m">
+          <div class="time"> {{minutes | number:'2.0'}} <span>m</span></div>
+        </div>
 
-      <div class="content-s">
-        <div class="time"> {{seconds | number:'2.0'}} <span>s</span></div>
+        <div class="content-s">
+          <div class="time"> {{seconds | number:'2.0'}} <span>s</span></div>
+        </div>
       </div>
     </div>
-  </div>
 
 </ion-content>
 

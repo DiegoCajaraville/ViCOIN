@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DatabaseService } from '../services/database.service';
 import { ContractsService } from '../services/contracts.service';
-
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +12,7 @@ import { ContractsService } from '../services/contracts.service';
 
 export class HomePage {
 
-    constructor(private contractsService: ContractsService, private databaseService: DatabaseService, private router: Router) {}
+    constructor(private contractsService: ContractsService, private databaseService: DatabaseService, private router: Router, private http: HttpClient) {}
     ngOnInit() {
         this.contractsService.loadMetamask();
         this.contractsService.loadContract();
@@ -20,7 +20,7 @@ export class HomePage {
     }    
 
     clickAdmin(){
-        if(this.contractsService.account==("0xEC1b2cBF852DbeA58C6B489779F4849E67EcfA0D").toLowerCase()){
+        if(this.contractsService.account==("0x76A431B17560D46dE8430435001cBC66ae04De46").toLowerCase()){
             this.router.navigate(['/admin']);
         }
     }

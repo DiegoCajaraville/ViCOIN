@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from '../services/database.service';
 import { ContractsService } from '../services/contracts.service';
 import { AlertController } from '@ionic/angular';
-
+import { AdminService } from './admin.service';
 
 @Component({
   selector: 'app-admin',
@@ -12,29 +12,37 @@ import { AlertController } from '@ionic/angular';
 export class AdminPage implements OnInit {
 
 
-  precioSeleccionado;
+  
+  peticion;
 
-  constructor(private contractsService: ContractsService, private databaseService: DatabaseService, private alertCtrl: AlertController) { }
+  constructor(private adminService: AdminService,private contractsService: ContractsService, private databaseService: DatabaseService, private alertCtrl: AlertController) { }
 
   async ngOnInit() {
     this.contractsService.loadMetamask();
     await this.contractsService.loadContract();
+    this.adminService.peticion().subscribe((resp:any) =>{
+      this.peticion=resp.result/Math.pow(10,18);
+    });
   }
 
 
   async fund(){
-    //await this.contractsService.ViCOINSaleContract.getFunds();
+    await this.contractsService.ViCOINSaleContract.getFunds({from: this.contractsService.account});
     const alert = await this.alertCtrl.create({
       header: 'Fondos recogidos:',
-      subHeader: 'SubHeader',
+      backdropDismiss: true,
+      buttons: ['Ok']
     });
   
     await alert.present();
   }
 
-  async supply(){
-    var dinero= this.precioSeleccionado*Math.pow(10,18);
-    this.contractsService.ViCOINSaleContract.moreSuply(dinero);
+  async supply(precioSeleccionado){
+    console.log(precioSeleccionado);
+    var dinero = precioSeleccionado*Math.pow(10,18);
+    await this.contractsService.ViCOINSaleContract.moreSupply(BigInt(dinero),{
+      from: this.contractsService.account
+    });
     const alert = await this.alertCtrl.create({
       header: 'Moneda añadida',
       subHeader: 'Total restante: ',

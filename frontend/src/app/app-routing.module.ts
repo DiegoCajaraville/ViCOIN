@@ -48,21 +48,13 @@ const routes: Routes = [
     loadChildren: () => import('./patinete-alquilado-no-yo/patinete-alquilado-no-yo.module').then( m => m.PatineteAlquiladoNoYoPageModule)
   },
   {
-    path: 'patineteYo/:id',
-    loadChildren: () => import('./patinete-alquilado-yo/patinete-alquilado-yo.module').then( m => m.PatineteAlquiladoYoPageModule)
-  },
-  {
     path: 'comprarMoneda',
     loadChildren: () => import('./comprar-moneda/comprar-moneda.module').then( m => m.ComprarMonedaPageModule)
   },
   {
     path: 'ticket-bus',
     loadChildren: () => import('./ticket-bus/ticket-bus.module').then( m => m.TicketBusPageModule)
-  },
-  {
-    path: 'patinete-alquilado-yo',
-    loadChildren: () => import('./patinete-alquilado-yo/patinete-alquilado-yo.module').then( m => m.PatineteAlquiladoYoPageModule)
-  },
+  },  
   {
     path: 'patinete-alquilado-no-yo',
     loadChildren: () => import('./patinete-alquilado-no-yo/patinete-alquilado-no-yo.module').then( m => m.PatineteAlquiladoNoYoPageModule)

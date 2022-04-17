@@ -45,7 +45,8 @@ export class PatinetePage implements OnInit {
     
     var j = this.contractsService.TarifasContract.getPatinetes();
     this.patinetesComprados = j.toString();
-    var b= this.contractsService.ViCOINContract.allowance(this.contractsService.account,this.contractsService.TarifasContract.address);
+    var b= await this.contractsService.ViCOINContract.allowance(this.contractsService.account,this.contractsService.TarifasContract.address);
+    console.log("hola mundo");
     this.allowRent= b/Math.pow(10,18);
     var a = this.contractsService.ViCOINContract.balanceOf(this.contractsService.account);
     this.dineroCliente = a/Math.pow(10,18);
@@ -57,7 +58,7 @@ export class PatinetePage implements OnInit {
     
 
  
-    this.map2 = L.map('map2').setView([42.262539326354435, -8.748173066323389], 16);
+    this.map2 = L.map('map2').setView([42.22912736762485, -8.726044981888979], 16);
     setTimeout(function () {
       window.dispatchEvent(new Event('resize'));
     }, 1000);
@@ -93,11 +94,13 @@ export class PatinetePage implements OnInit {
       backdropDismiss: true,
       buttons: ['Ok']
     });
+
+
     if(this.tarifa==1){
       if(this.allowRent >= this.tarifa1){
         
         alert.present();
-        await this.contractsService.TarifasContract.tarifa1(this.patinete.id,{
+        await this.contractsService.TarifasContract.tarifa1(this.id,{
           from: this.contractsService.account,
         });
         
@@ -116,7 +119,7 @@ export class PatinetePage implements OnInit {
           from: this.contractsService.account,
         });
         alert.present();
-        await this.contractsService.TarifasContract.tarifa1(this.patinete.id,{
+        await this.contractsService.TarifasContract.tarifa1(this.id,{
           from: this.contractsService.account,
         });
      
@@ -125,7 +128,7 @@ export class PatinetePage implements OnInit {
     }else if(this.tarifa==2){
       if(this.allowRent >= this.tarifa2){
         alert.present();
-        await this.contractsService.TarifasContract.tarifa2(this.patinete.id,{
+        await this.contractsService.TarifasContract.tarifa2(this.id,{
           from: this.contractsService.account,
         });
         
@@ -144,14 +147,14 @@ export class PatinetePage implements OnInit {
           from: this.contractsService.account,
         });
         alert.present();
-        await this.contractsService.TarifasContract.tarifa2(this.patinete.id,{
+        await this.contractsService.TarifasContract.tarifa2(this.id,{
           from: this.contractsService.account,
         });
       }
     }else if(this.tarifa==3){
       if(this.allowRent >= this.tarifa3){
         alert.present();
-        await this.contractsService.TarifasContract.tarifa3(this.patinete.id,{
+        await this.contractsService.TarifasContract.tarifa3(this.id,{
           from: this.contractsService.account,
         });
         
@@ -170,14 +173,14 @@ export class PatinetePage implements OnInit {
           from: this.contractsService.account,
         });
         alert.present();
-        await this.contractsService.TarifasContract.tarifa3(this.patinete.id,{
+        await this.contractsService.TarifasContract.tarifa3(this.id,{
           from: this.contractsService.account,
         });
       }
     }else if(this.tarifa==4){
       if(this.allowRent >= this.tarifa4){
         alert.present();
-        await this.contractsService.TarifasContract.tarifa4(this.patinete.id,{
+        await this.contractsService.TarifasContract.tarifa4(this.id,{
           from: this.contractsService.account,
         });
     
@@ -196,7 +199,7 @@ export class PatinetePage implements OnInit {
           from: this.contractsService.account,
         });
         alert.present();
-        await this.contractsService.TarifasContract.tarifa4(this.patinete.id,{
+        await this.contractsService.TarifasContract.tarifa4(this.id,{
           from: this.contractsService.account,
         });
       }
@@ -204,7 +207,7 @@ export class PatinetePage implements OnInit {
       console.log("abc"+this.allowRent);
       if(this.allowRent >= this.tarifaDemo){
         alert.present();
-        await this.contractsService.TarifasContract.tarifaDemo(this.patinete.id,{
+        await this.contractsService.TarifasContract.tarifaDemo(this.id,{
           from: this.contractsService.account,
         });
         
@@ -217,6 +220,7 @@ export class PatinetePage implements OnInit {
         //  alert("No tiene dinero suficiente");
         //  return;
         //}
+        console.log(dineroApprove);
         var c=dineroApprove*Math.pow(10,18);
         
         await this.contractsService.ViCOINContract.approve(this.contractsService.TarifasContract.address, BigInt(c),{
@@ -225,7 +229,7 @@ export class PatinetePage implements OnInit {
         console.log(c);
         alert.present();
 
-        await this.contractsService.TarifasContract.tarifaDemo(this.patinete.id,{
+        await this.contractsService.TarifasContract.tarifaDemo(this.id,{
           from: this.contractsService.account,
         });       
       }

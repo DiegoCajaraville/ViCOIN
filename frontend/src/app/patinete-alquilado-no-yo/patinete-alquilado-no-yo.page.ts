@@ -1,6 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
+
+
 import { Patinete } from '../patinete/patinete.model';
 import { ContractsService } from '../services/contracts.service';
 import { DatabaseService } from '../services/database.service';
@@ -30,7 +31,7 @@ export class PatineteAlquiladoNoYoPage implements OnInit {
   private id;
   patinete: Patinete;
   tiempoRestante;
-  constructor(public http:HttpClient, private contractsService: ContractsService, private databaseService: DatabaseService) { }
+  constructor(private contractsService: ContractsService, private databaseService: DatabaseService) { }
 
   async ngOnInit() {
 
