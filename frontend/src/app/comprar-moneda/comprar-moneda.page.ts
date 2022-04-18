@@ -20,6 +20,7 @@ export class ComprarMonedaPage implements OnInit {
     await this.contractsService.loadContract();
     var a= await this.contractsService.ViCOINContract.balanceOf(this.contractsService.account);
     this.dineroCliente = a/Math.pow(10,18);
+    
   }
 
   async comprarMoneda(precioSeleccionado){
@@ -32,15 +33,14 @@ export class ComprarMonedaPage implements OnInit {
       //Se puede comprar
       var b=this.precio*precioSeleccionado*Math.pow(10,18);   
       var c=(precioSeleccionado*Math.pow(10,18));
-      this.contractsService.ViCOINSaleContract.buyViCOINS(c.toString(),{from: this.contractsService.account,value: b.toString()});
-      
-      const alert = await this.alertCtrl.create({
-        header: 'Realizando Compra',
+      const alert1 = await this.alertCtrl.create({
+        header: 'En breves su saldo será actualizado',
         backdropDismiss: true,
         buttons: ['Ok']
       });
-      await alert.present();
-
+      this.contractsService.ViCOINSaleContract.buyViCOINS(c.toString(),{from: this.contractsService.account,value: b.toString()}).once("transactionHash", async function(){
+        await alert1.present();
+      });
     }
   }
 }

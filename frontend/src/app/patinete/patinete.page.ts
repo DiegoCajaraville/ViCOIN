@@ -45,7 +45,8 @@ export class PatinetePage implements OnInit {
     var b= await this.contractsService.ViCOINContract.allowance(this.contractsService.account,this.contractsService.TarifasContract.address);
     
     this.allowRent= b/Math.pow(10,18);
-    var a = this.contractsService.ViCOINContract.balanceOf(this.contractsService.account);
+   
+    var a = await this.contractsService.ViCOINContract.balanceOf(this.contractsService.account);
     this.dineroCliente = a/Math.pow(10,18);
 
 
@@ -81,140 +82,195 @@ export class PatinetePage implements OnInit {
   }
 
   async rent(){
-    const alert = await this.alertCtrl.create({
-      header: 'Realizando Alquiler',
+
+
+
+    const alert2 = await this.alertCtrl.create({
+      header: 'Aprobando el dinero necesario',
       backdropDismiss: true,
       buttons: ['Ok']
     });
-    const alert2 = await this.alertCtrl.create({
-      header: 'Aprueba el dinero necesario',
+
+    const alert3= await this.alertCtrl.create({
+      header: 'Alquiler completado',
+      backdropDismiss: true,
+      buttons: ['Ok']
+    });
+    const alert4= await this.alertCtrl.create({
+      header: 'Realizando alquiler',
+      backdropDismiss: true,
+      buttons: ['Ok']
+    });
+
+    const alert = await this.alertCtrl.create({
+      header: "No tiene saldo suficiente",
       backdropDismiss: true,
       buttons: ['Ok']
     });
 
 
     if(this.tarifa==1){
-
-
+      if(this.dineroCliente<this.tarifa1){
+        await alert.present();
+        return;
+      }
       if(this.allowRent >= this.tarifa1){
         
-        alert.present();
+       
         await this.contractsService.TarifasContract.tarifa1(this.id,{
           from: this.contractsService.account,
+        }).once("transactionHash", async function(){
+          await alert4.present();
         });
-        
-      }else{
-        alert2.present();
+        await alert3.present();
 
+      }else{
         //Aprobar solo el dinero que sea necesario
-        var dineroApprove=this.tarifa1-this.allowRent;
+        var dineroApprove=this.tarifa1;
         
         var c=dineroApprove*Math.pow(10,18);
         
         await this.contractsService.ViCOINContract.approve(this.contractsService.TarifasContract.address, BigInt(c),{
           from: this.contractsService.account,
+        }).once("transactionHash", async function(){
+          await alert2.present();
         });
-        alert.present();
+        
         await this.contractsService.TarifasContract.tarifa1(this.id,{
           from: this.contractsService.account,
+        }).once("transactionHash", async function(){
+          await alert4.present();
         });
-     
-     
+        await alert3.present();
       }
     }else if(this.tarifa==2){
+      if(this.dineroCliente<this.tarifa2){
+        await alert.present();
+        return;
+      }
       if(this.allowRent >= this.tarifa2){
-        alert.present();
         await this.contractsService.TarifasContract.tarifa2(this.id,{
           from: this.contractsService.account,
+        }).once("transactionHash", async function(){
+          await alert4.present();
         });
-        
+        await alert3.present();
       }else{
-        alert2.present();
         //Aprobar solo el dinero que sea necesario
-        var dineroApprove=this.tarifa1-this.allowRent;
+        var dineroApprove=this.tarifa2;//-this.allowRent;
        
         var c=dineroApprove*Math.pow(10,18);
         
         await this.contractsService.ViCOINContract.approve(this.contractsService.TarifasContract.address, BigInt(c),{
           from: this.contractsService.account,
+        }).once("transactionHash", async function(){
+          await alert2.present();
         });
-        alert.present();
         await this.contractsService.TarifasContract.tarifa2(this.id,{
           from: this.contractsService.account,
+        }).once("transactionHash", async function(){
+          await alert4.present();
         });
+        await alert3.present();
       }
     }else if(this.tarifa==3){
+      if(this.dineroCliente<this.tarifa3){
+        await alert.present();
+        return;
+      }
       if(this.allowRent >= this.tarifa3){
-        alert.present();
+       
         await this.contractsService.TarifasContract.tarifa3(this.id,{
           from: this.contractsService.account,
+        }).once("transactionHash", async function(){
+          await alert4.present();
         });
-        
+        await alert3.present();
       }else{
         alert2.present();
         //Aprobar solo el dinero que sea necesario
-        var dineroApprove=this.tarifa1-this.allowRent;
+        var dineroApprove=this.tarifa3;
        
         var c=dineroApprove*Math.pow(10,18);
         
         await this.contractsService.ViCOINContract.approve(this.contractsService.TarifasContract.address, BigInt(c),{
           from: this.contractsService.account,
+        }).once("transactionHash", async function(){
+          await alert2.present();
         });
-        alert.present();
+      
         await this.contractsService.TarifasContract.tarifa3(this.id,{
           from: this.contractsService.account,
+        }).once("transactionHash", async function(){
+          await alert4.present();
         });
+        await alert3.present();
       }
     }else if(this.tarifa==4){
+      if(this.dineroCliente<this.tarifa4){
+        await alert.present();
+        return;
+      }
       if(this.allowRent >= this.tarifa4){
-        alert.present();
+        
         await this.contractsService.TarifasContract.tarifa4(this.id,{
           from: this.contractsService.account,
+        }).once("transactionHash", async function(){
+          await alert4.present();
         });
-    
+        await alert3.present();
       }else{
         alert2.present();
         //Aprobar solo el dinero que sea necesario
-        var dineroApprove=this.tarifa1-this.allowRent;
+        var dineroApprove=this.tarifa4;
         
         var c=dineroApprove*Math.pow(10,18);
         
         await this.contractsService.ViCOINContract.approve(this.contractsService.TarifasContract.address, BigInt(c),{
           from: this.contractsService.account,
+        }).once("transactionHash", async function(){
+          await alert2.present();
         });
-        alert.present();
+ 
         await this.contractsService.TarifasContract.tarifa4(this.id,{
           from: this.contractsService.account,
+        }).once("transactionHash", async function(){
+          await alert4.present();
         });
+        await alert3.present();
       }
     }else if(this.tarifa==5){
-
-
-      
-      console.log("abc"+this.allowRent);
+      if(this.dineroCliente<this.tarifaDemo){
+        await alert.present();
+        return;
+      }
       if(this.allowRent >= this.tarifaDemo){
-        alert.present();
         await this.contractsService.TarifasContract.tarifaDemo(this.id,{
           from: this.contractsService.account,
+        }).once("transactionHash",async function(){
+          await alert4.present();
         });
-        
+        await alert3.present();
       }else{
         alert2.present();
         //Aprobar solo el dinero que sea necesario
-        var dineroApprove=this.tarifa1-this.allowRent;
+        var dineroApprove=this.tarifaDemo;
         
         console.log(dineroApprove);
         var c=dineroApprove*Math.pow(10,18);
         
         await this.contractsService.ViCOINContract.approve(this.contractsService.TarifasContract.address, BigInt(c),{
           from: this.contractsService.account,
+        }).once("transactionHash", async function(){
+          await alert2.present();
         });
-        console.log(c);
-        alert.present();
 
         await this.contractsService.TarifasContract.tarifaDemo(this.id,{
           from: this.contractsService.account,
-        });       
+        }).once("transactionHash", async function(){
+          await alert4.present();
+        });
+        await alert3.present();
       }
     }
   }  
