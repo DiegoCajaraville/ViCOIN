@@ -37,15 +37,18 @@ export class PatineteAlquiladoNoYoPage implements OnInit {
 
     this.contractsService.loadMetamask();
     await this.contractsService.loadContract();
-
+       
     //obtener el id del patinete de la url
     this.id=this.getId();
     //Obtener los datos del patinete de la base de datos
+    this.continuacion(); 
+
   }
 
   
   getId(){
     var url = (window.location+"").split('/');
+    console.log(url[4]);
     return url[4];
   }
 
@@ -93,16 +96,15 @@ export class PatineteAlquiladoNoYoPage implements OnInit {
 
 
   async continuacion(){
-    try{
+    try{ 
+        console.log(this.id);
        
-        var j = await this.contractsService.TarifasContract.getPatinetes();
         this.tiempoRestante =  await this.contractsService.TarifasContract.remaining(this.id);
 
         console.log(this.tiempoRestante.toNumber());
         this.hours=(Math.floor(this.tiempoRestante / 0xE10));
         this.minutes=(Math.floor(this.tiempoRestante / 0x3C ) % 0x3C);
         this.seconds=(Math.round(this.tiempoRestante % 0x3C));
-        //console.log("Horas: "+this.hours+" Minutos: "+this.minutes+" Segundos: "+this.seconds);
         this.start();
     } catch (error) {
         console.error(error);

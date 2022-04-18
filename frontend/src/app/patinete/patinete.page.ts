@@ -94,6 +94,8 @@ export class PatinetePage implements OnInit {
 
 
     if(this.tarifa==1){
+
+
       if(this.allowRent >= this.tarifa1){
         
         alert.present();
@@ -103,6 +105,7 @@ export class PatinetePage implements OnInit {
         
       }else{
         alert2.present();
+
         //Aprobar solo el dinero que sea necesario
         var dineroApprove=this.tarifa1-this.allowRent;
         
@@ -185,6 +188,9 @@ export class PatinetePage implements OnInit {
         });
       }
     }else if(this.tarifa==5){
+
+
+      
       console.log("abc"+this.allowRent);
       if(this.allowRent >= this.tarifaDemo){
         alert.present();
