@@ -54,26 +54,43 @@ export class PatinetePage implements OnInit {
 
     this.id=this.getPatinete();
     
+    
 
- 
-    this.map2 = L.map('map2').setView([42.22912736762485, -8.726044981888979], 16);
-    setTimeout(function () {
-      window.dispatchEvent(new Event('resize'));
-    }, 1000);
-    //@ts-ignore
-    L.Icon.Default.ImagePath = "../../assests/icon/";
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
-      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-      maxZoom: 18,
-      id: 'mapbox/streets-v11',
-      tileSize: 512,
-      zoomOffset: -1,
-      accessToken: 'your.mapbox.access.token'
-    }).addTo(this.map2);
-    
-    
-    var values = await this.databaseService.getDatosBBDD(this.id);
-    L.marker([values[3], values[4]]).addTo(this.map2);
+    var values =await  this.databaseService.getDatosBBDD(this.id);
+    if(values!=undefined){
+      this.map2 = L.map('map2').setView([values[3], values[4]], 16);
+      setTimeout(function () {
+        window.dispatchEvent(new Event('resize'));
+      }, 1000);
+      //@ts-ignore
+      L.Icon.Default.ImagePath = "../../assests/icon/";
+      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'your.mapbox.access.token'
+      }).addTo(this.map2);
+      
+      
+      var values = await this.databaseService.getDatosBBDD(this.id);
+      L.marker([values[3], values[4]]).addTo(this.map2);
+    }
+    this.map2 = L.map('map2').setView([values[3], values[4]], 16);
+      setTimeout(function () {
+        window.dispatchEvent(new Event('resize'));
+      }, 1000);
+      //@ts-ignore
+      L.Icon.Default.ImagePath = "../../assests/icon/";
+      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'your.mapbox.access.token'
+      }).addTo(this.map2);
   }
   
   getPatinete(){
@@ -82,46 +99,47 @@ export class PatinetePage implements OnInit {
   }
 
   async rent(){
-
-
-
     const alert2 = await this.alertCtrl.create({
       header: 'Aprobando el dinero necesario',
       backdropDismiss: true,
-      buttons: ['Ok']
+      buttons: ['Ok'],
+      cssClass:'buttonCss'
     });
 
     const alert3= await this.alertCtrl.create({
       header: 'Alquiler completado',
       backdropDismiss: true,
-      buttons: ['Ok']
+      buttons: ['Ok'],
+      cssClass:'buttonCss'
     });
     const alert4= await this.alertCtrl.create({
       header: 'Realizando alquiler',
       backdropDismiss: true,
-      buttons: ['Ok']
+      buttons: ['Ok'],
+      cssClass:'buttonCss'
     });
 
-    const alert = await this.alertCtrl.create({
+    const alert1 = await this.alertCtrl.create({
       header: "No tiene saldo suficiente",
       backdropDismiss: true,
-      buttons: ['Ok']
+      buttons: ['Ok'],
+      cssClass:'buttonCss'
     });
 
 
     if(this.tarifa==1){
       if(this.dineroCliente<this.tarifa1){
-        await alert.present();
+        await alert1.present();
         return;
       }
       if(this.allowRent >= this.tarifa1){
-        
-       
         await this.contractsService.TarifasContract.tarifa1(this.id,{
           from: this.contractsService.account,
         }).once("transactionHash", async function(){
           await alert4.present();
         });
+
+        alert("Alquiler completado");
         await alert3.present();
 
       }else{
@@ -145,7 +163,7 @@ export class PatinetePage implements OnInit {
       }
     }else if(this.tarifa==2){
       if(this.dineroCliente<this.tarifa2){
-        await alert.present();
+        await alert1.present();
         return;
       }
       if(this.allowRent >= this.tarifa2){
@@ -175,7 +193,7 @@ export class PatinetePage implements OnInit {
       }
     }else if(this.tarifa==3){
       if(this.dineroCliente<this.tarifa3){
-        await alert.present();
+        await alert1.present();
         return;
       }
       if(this.allowRent >= this.tarifa3){
@@ -187,7 +205,7 @@ export class PatinetePage implements OnInit {
         });
         await alert3.present();
       }else{
-        alert2.present();
+
         //Aprobar solo el dinero que sea necesario
         var dineroApprove=this.tarifa3;
        
@@ -208,7 +226,7 @@ export class PatinetePage implements OnInit {
       }
     }else if(this.tarifa==4){
       if(this.dineroCliente<this.tarifa4){
-        await alert.present();
+        await alert1.present();
         return;
       }
       if(this.allowRent >= this.tarifa4){
@@ -220,7 +238,7 @@ export class PatinetePage implements OnInit {
         });
         await alert3.present();
       }else{
-        alert2.present();
+   
         //Aprobar solo el dinero que sea necesario
         var dineroApprove=this.tarifa4;
         
@@ -241,7 +259,7 @@ export class PatinetePage implements OnInit {
       }
     }else if(this.tarifa==5){
       if(this.dineroCliente<this.tarifaDemo){
-        await alert.present();
+        await alert1.present();
         return;
       }
       if(this.allowRent >= this.tarifaDemo){
@@ -252,11 +270,10 @@ export class PatinetePage implements OnInit {
         });
         await alert3.present();
       }else{
-        alert2.present();
         //Aprobar solo el dinero que sea necesario
         var dineroApprove=this.tarifaDemo;
         
-        console.log(dineroApprove);
+     
         var c=dineroApprove*Math.pow(10,18);
         
         await this.contractsService.ViCOINContract.approve(this.contractsService.TarifasContract.address, BigInt(c),{
@@ -265,6 +282,7 @@ export class PatinetePage implements OnInit {
           await alert2.present();
         });
 
+        
         await this.contractsService.TarifasContract.tarifaDemo(this.id,{
           from: this.contractsService.account,
         }).once("transactionHash", async function(){

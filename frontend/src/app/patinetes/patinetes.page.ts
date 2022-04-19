@@ -90,6 +90,8 @@ export class PatinetesPage implements OnInit {
 
 
   async patinetesAlquilados(){
+    
+
     const popover= this.popCtrl.create({
       component: PopoverComponent
     })

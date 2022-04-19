@@ -40,9 +40,9 @@ export class PopoverComponent implements OnInit {
       var mostrar=true;
   
       this.idsDisponibles = await this.contractsService.TarifasContract.getPatinetes();
-      console.log("ids disponibles: "+this.idsDisponibles.toString());
+      //console.log("ids disponibles: "+this.idsDisponibles.toString());
       this.totalPatinetes = await this.contractsService.TarifasContract.totalPatinetes();
-      console.log("total patinetes: "+this.totalPatinetes.toNumber());
+      //console.log("total patinetes: "+this.totalPatinetes.toNumber());
 
 
       for(var a=0; a<this.totalPatinetes.toNumber();a++){
@@ -53,17 +53,38 @@ export class PopoverComponent implements OnInit {
           } 
         }
         if(mostrar){
-          console.log("AAA");
-          this.patinetesAlquilados.push(a);
+          //console.log("AAA");
+          var Block = await this.contractsService.TarifasContract.Patinetes(a);
+          console.log(Block.IdPatinete.toNumber()); 
+          
+          console.log(this.contractsService.account+"aaa"+Block.usuarioActual.toString());
+          if(this.contractsService.account == Block.usuarioActual.toString().toLowerCase()){
+            this.patinetesAlquilados.push(a);
+          } 
+          
         }
       }
     }catch (error) {
         console.error(error);
     }
   }
-  patineteAlquiladoInfo(id){
+  async patineteAlquiladoInfo(id){
     //Comprobar si la persona que quiere ver los datos del patinete es la persona que lo ha alquilado o es otra persona
     this.idPatinete=id;
-    this.router.navigate(['/patineteNoYo/'+this.idPatinete]);  
+
+
+
+    
+    for(var k=0;k<this.totalPatinetes;k++){
+      var Block = await this.contractsService.TarifasContract.Patinetes(k);
+      console.log(Block.IdPatinete.toNumber()); 
+      if(id == Block.IdPatinete.toNumber()){
+        console.log(this.contractsService.account+"aaa"+Block.usuarioActual.toString());
+        if(this.contractsService.account == Block.usuarioActual.toString().toLowerCase()){
+          this.router.navigate(['/patineteNoYo/'+this.idPatinete]);
+        } 
+      }
+    }
+     
   }
 }
