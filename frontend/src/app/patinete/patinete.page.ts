@@ -33,6 +33,8 @@ export class PatinetePage implements OnInit {
     tarifa4=5;
     tarifaDemo=1;
     id;
+    textButton = "ALQUILAR";
+    approvedTransaction = false;
 
     constructor(
         private contractsService: ContractsService, 
@@ -57,13 +59,8 @@ export class PatinetePage implements OnInit {
         var a = await this.contractsService.ViCOINContract.balanceOf(this.contractsService.account);
         this.dineroCliente = a/Math.pow(10,18);
 
-
-
-
         this.id=this.getPatinete();
         
-        
-
         var values =await  this.databaseService.getDatosBBDD(this.id);
         if(values!=undefined){
         this.map2 = L.map('map2').setView([values[3], values[4]], 16);
@@ -107,6 +104,9 @@ export class PatinetePage implements OnInit {
     }
 
     async rent(){
+        
+        var b = await this.contractsService.ViCOINContract.allowance(this.contractsService.account,this.contractsService.TarifasContract.address);
+        this.allowRent= b/Math.pow(10,18);
 
         const alert1 = await this.alertCtrl.create({
             header: "No tiene saldo suficiente",
@@ -150,10 +150,29 @@ export class PatinetePage implements OnInit {
             cssClass:'buttonCss'
         });
 
+        const alertFin = await this.alertCtrl.create({
+            header: 'Completado. El patinete encenderá en breves...',
+            backdropDismiss: true,
+            buttons: ['Ok'],
+            cssClass:'buttonCss'
+        });
+
+        const loading = await this.loadingController.create({
+            cssClass: 'my-custom-class',
+            message: 'Espere un momento...',
+            duration: 5000
+        });
+
         const loadingApprove = await this.loadingController.create({
             cssClass: 'my-custom-class',
             message: 'Espere unos segundos... Deberá confirmar la transacción.',
-            duration: 15000
+            duration: 1000
+        });
+
+        const loadingWait = await this.loadingController.create({
+            cssClass: 'my-custom-class',
+            message: 'No se ha minado la transacción todavía. Espere unos segundos...',
+            duration: 3000
         });
 
         var precioTarifa = 0;
@@ -180,6 +199,13 @@ export class PatinetePage implements OnInit {
             return;
         }
 
+        // Comprobamos si ha dado tiempo a minar la transaccion
+        if( (document.getElementById('rentButton').innerHTML == "CONFIRMAR") && (this.allowRent < precioTarifa) ){
+            await loadingWait.present();
+            await new Promise(r => setTimeout(r, 3000));
+            await this.loadingController.dismiss().then(() => console.log('dismissed'));
+            return;
+        }
         // Hacemos el "approve" del dinero necesario en función del approved previamente
         if( this.allowRent < precioTarifa ){
 
@@ -191,19 +217,27 @@ export class PatinetePage implements OnInit {
             await new Promise(r => setTimeout(r, 1500));
             await alert6.dismiss();
 
+
             await this.contractsService.ViCOINContract.approve(this.contractsService.TarifasContract.address, BigInt(c),{
                 from: this.contractsService.account,
+                to: "0x30FeD49F1808F83a2d1b4cf26C275DE66E4eE950"
             }).once("transactionHash", async function(){
                 //await alert2.present();
+                document.getElementById('rentButton').innerHTML = "CONFIRMAR"
+                this.approvedTransaction = true;
+
                 await loadingApprove.present();
                 
-                //await this.loadingController.dismiss().then(() => console.log('dismissed'));
-                await this.pagos(true)
+                await new Promise(r => setTimeout(r, 1000));
+                await this.loadingController.dismiss().then(() => console.log('dismissed'));
+
+                //this.textButton = 
+                
+                //await this.pagos(true)
             })
             .then(async function(){
                 alert("HA terminado")
             });
-
         }
 
         //await this.loadingController.dismiss().then(() => console.log('dismissed'));
@@ -277,6 +311,8 @@ export class PatinetePage implements OnInit {
                 //await this.loadingController.dismiss().then(() => console.log('dismissed'));
                 //await alert.present();
                 await alertFin.present();
+                //@ts-ignore
+                document.getElementById('rentButton').disabled = true
                 //window.location.reload(); 
             });
 
