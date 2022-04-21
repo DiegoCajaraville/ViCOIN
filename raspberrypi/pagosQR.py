@@ -168,14 +168,19 @@ def getTransactionByHash(hash, url):
     """""
     transaction = '{"method":"eth_getTransactionByHash","params":["' + hash + '"],"id":' + CHAIN_ID + ',"jsonrpc":"2.0"}'
 
-    response = requests.post(url, data = transaction, headers = {"Content-Type": "application/json"})
-    status = response.status_code
-    transaction = response.text
+    try:
+        response = requests.post(url, data = transaction, headers = {"Content-Type": "application/json"})
+        status = response.status_code
+        transaction = response.text
 
-    print("Status code: " + str(status))
-    print("Response: " + str(transaction))
+        print("Status code: " + str(status))
+        print("Response: " + str(transaction))
 
-    return status, transaction
+        return status, transaction
+
+    except:
+        return 500, ""
+
 
 
 def comprobarTransaccion(hash, url, clienteBBDD, contract):

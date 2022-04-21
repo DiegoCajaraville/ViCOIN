@@ -60,42 +60,49 @@ export class PatinetePage implements OnInit {
         this.dineroCliente = a/Math.pow(10,18);
 
         this.id=this.getPatinete();
+
+        // Cargamos el mapa
+
+        this.map2 = L.map('map2').setView([values[3], values[4]], 16);
+        setTimeout(function () {
+            window.dispatchEvent(new Event('resize'));
+        }, 1000);
+        //@ts-ignore
+        L.Icon.Default.ImagePath = "../../assests/icon/";
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken: 'your.mapbox.access.token'
+        }).addTo(this.map2);
         
-        var values =await  this.databaseService.getDatosBBDD(this.id);
+        var values = await  this.databaseService.getDatosBBDD(this.id);
+
         if(values!=undefined){
-        this.map2 = L.map('map2').setView([values[3], values[4]], 16);
-        setTimeout(function () {
-            window.dispatchEvent(new Event('resize'));
-        }, 1000);
-        //@ts-ignore
-        L.Icon.Default.ImagePath = "../../assests/icon/";
-        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            maxZoom: 18,
-            id: 'mapbox/streets-v11',
-            tileSize: 512,
-            zoomOffset: -1,
-            accessToken: 'your.mapbox.access.token'
-        }).addTo(this.map2);
-        
-        
-        var values = await this.databaseService.getDatosBBDD(this.id);
-        L.marker([values[3], values[4]]).addTo(this.map2);
+
+            /*
+            this.map2 = L.map('map2').setView([values[3], values[4]], 16);
+            setTimeout(function () {
+                window.dispatchEvent(new Event('resize'));
+            }, 1000);
+            //@ts-ignore
+            L.Icon.Default.ImagePath = "../../assests/icon/";
+            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                maxZoom: 18,
+                id: 'mapbox/streets-v11',
+                tileSize: 512,
+                zoomOffset: -1,
+                accessToken: 'your.mapbox.access.token'
+            }).addTo(this.map2);
+            */
+            //var values = await this.databaseService.getDatosBBDD(this.id);
+            L.marker([values[3], values[4]]).addTo(this.map2);
         }
-        this.map2 = L.map('map2').setView([values[3], values[4]], 16);
-        setTimeout(function () {
-            window.dispatchEvent(new Event('resize'));
-        }, 1000);
-        //@ts-ignore
-        L.Icon.Default.ImagePath = "../../assests/icon/";
-        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            maxZoom: 18,
-            id: 'mapbox/streets-v11',
-            tileSize: 512,
-            zoomOffset: -1,
-            accessToken: 'your.mapbox.access.token'
-        }).addTo(this.map2);
+
+        
     }
   
     getPatinete(){

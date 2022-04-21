@@ -17,13 +17,13 @@ PORT = 8086
 USER = 'admin'
 PASSWORD = 'lproPassword'
 DBNAME = 'ViCOIN'
-MEASUREMENT = 'patinetes'
+MEASUREMENT = 'servicioPatinetes'
 
 URI_INFURA = '7cf06df7347d4670a96d76dc4e3e3410'  # your uri
 CHAIN_ID = '5' # (Ropsten = 3, Rinkeby = 4, Goerli = 5)
 
 SAVE_DATA = 10
-CHECK_BLOCKCHAIN = 30
+CHECK_BLOCKCHAIN = 20
 CHECK_TEMPERATURE = 15
 
 PIN_STATE_SCOOTER = 21
@@ -128,10 +128,16 @@ def updateState(contract, id):
     while True:
 
         # LLAMADA A LA BLOCKCHAIN Y GESTIÓN RELE #################
+        try:
 
-        print("[INFO] Llamada al SmartContract Tarifas en la Blockchain")
-        tiempoRestante = contract.functions.remaining(int(id)).call()
-        print("[INFO] El tiempo restante asociado a este patinete es: " + str(tiempoRestante))
+            print("[INFO] Llamada al SmartContract Tarifas en la Blockchain")
+            tiempoRestante = contract.functions.remaining(int(id)).call()
+            print("[INFO] El tiempo restante asociado a este patinete es: " + str(tiempoRestante))
+
+        except:
+            print("[ERROR] No se ha podido realizar la lamada al SmartContract Tarifas en la Blockchain")
+            time.sleep(CHECK_BLOCKCHAIN)
+            continue
 
         # Se ha acabado el tiempo del servicio, hasta ahora activo
         if( (tiempoRestante == 0) and (state == True) ):
@@ -192,10 +198,10 @@ def sendInformationBBDD(client, gpsd, id):
             "measurement": MEASUREMENT,
             "time": int(now.strftime('%s')),
             "fields": {
-                "latitud": float("{:.3f}".format(latitud)),
-                "longitud": float("{:.3f}".format(longitud)),
-                "bateria": bateria,
-                "velocidad": velocidad,
+                "latitud": str("{:.6f}".format(latitud)),
+                "longitud": str("{:.6f}".format(longitud)),
+                "bateria": str(bateria),
+                "velocidad": str(velocidad),
                 "idPatinete": id
             }
         }

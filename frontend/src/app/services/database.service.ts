@@ -14,19 +14,19 @@ export class DatabaseService {
   -G 'http://ec2-44-201-180-246.compute-1.amazonaws.com:8086/query?pretty=true' 
   -H "Authorization: Token admin:lproPassword" 
   --data-urlencode "db=ViCOIN" 
-  --data-urlencode "q=SELECT * FROM patinetes WHERE idPatinete='1' ORDER BY time DESC LIMIT 1"
+  --data-urlencode "q=SELECT * FROM servicioPatinetes WHERE idPatinete='1' ORDER BY time DESC LIMIT 1"
   */
 
   async getDatosBBDD(patinete){
 
     //console.log("Realizar busqueda BBDD")
-    //console.log('SELECT * FROM patinetes WHERE idPatinete=\'' + patinete + '\' ORDER BY time DESC LIMIT 1')
+    //console.log('SELECT * FROM servicioPatinetes WHERE idPatinete=\'' + patinete + '\' ORDER BY time DESC LIMIT 1')
 
     var headers = new HttpHeaders({ 'Authorization': 'Token admin:lproPassword' })
 
     var params = new HttpParams();
     params=params.set('db', 'ViCOIN');
-    params=params.set('q', 'SELECT * FROM patinetes WHERE idPatinete=\'' + patinete + '\' ORDER BY time DESC LIMIT 1');
+    params=params.set('q', 'SELECT * FROM servicioPatinetes WHERE idPatinete=' + patinete + ' ORDER BY time DESC LIMIT 1');
   
     var data= await this.http.get<any>("http://ec2-44-201-180-246.compute-1.amazonaws.com:8086/query?pretty=true", {
         params, 
