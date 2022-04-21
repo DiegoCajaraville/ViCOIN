@@ -46,6 +46,7 @@ export class PopoverComponent implements OnInit {
 
 
       for(var a=0; a<this.totalPatinetes.toNumber();a++){
+
         mostrar=true;
         for(var b=0;b<this.idsDisponibles.length;b++){
           if(a==this.idsDisponibles[b]){
@@ -57,8 +58,8 @@ export class PopoverComponent implements OnInit {
           var Block = await this.contractsService.TarifasContract.Patinetes(a);
           console.log(Block.IdPatinete.toNumber()); 
           
-          console.log(this.contractsService.account+"aaa"+Block.usuarioActual.toString());
-          if(this.contractsService.account == Block.usuarioActual.toString().toLowerCase()){
+          console.log(this.contractsService.account + "     aaa      " + Block.usuarioActual.toString());
+          if(this.contractsService.account.toLowerCase() == Block.usuarioActual.toString().toLowerCase()){
             this.patinetesAlquilados.push(a);
           } 
           
@@ -72,14 +73,11 @@ export class PopoverComponent implements OnInit {
     //Comprobar si la persona que quiere ver los datos del patinete es la persona que lo ha alquilado o es otra persona
     this.idPatinete=id;
 
-
-
-    
     for(var k=0;k<this.totalPatinetes;k++){
       var Block = await this.contractsService.TarifasContract.Patinetes(k);
       console.log(Block.IdPatinete.toNumber()); 
       if(id == Block.IdPatinete.toNumber()){
-        console.log(this.contractsService.account+"aaa"+Block.usuarioActual.toString());
+        console.log(this.contractsService.account+"      aaa       "+Block.usuarioActual.toString());
         if(this.contractsService.account == Block.usuarioActual.toString().toLowerCase()){
           this.router.navigate(['/patineteNoYo/'+this.idPatinete]);
         } 

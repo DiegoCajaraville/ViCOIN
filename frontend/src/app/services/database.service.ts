@@ -33,7 +33,6 @@ export class DatabaseService {
         headers
     }).toPromise();
 
-
     if(data.results[0].series == null)
         console.log("No hay registros de este patinete");
     else{

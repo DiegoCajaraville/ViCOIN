@@ -62,27 +62,10 @@ export class PatinetePage implements OnInit {
         this.id=this.getPatinete();
 
         // Cargamos el mapa
-
-        this.map2 = L.map('map2').setView([values[3], values[4]], 16);
-        setTimeout(function () {
-            window.dispatchEvent(new Event('resize'));
-        }, 1000);
-        //@ts-ignore
-        L.Icon.Default.ImagePath = "../../assests/icon/";
-        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            maxZoom: 18,
-            id: 'mapbox/streets-v11',
-            tileSize: 512,
-            zoomOffset: -1,
-            accessToken: 'your.mapbox.access.token'
-        }).addTo(this.map2);
-        
         var values = await  this.databaseService.getDatosBBDD(this.id);
 
         if(values!=undefined){
 
-            /*
             this.map2 = L.map('map2').setView([values[3], values[4]], 16);
             setTimeout(function () {
                 window.dispatchEvent(new Event('resize'));
@@ -97,9 +80,24 @@ export class PatinetePage implements OnInit {
                 zoomOffset: -1,
                 accessToken: 'your.mapbox.access.token'
             }).addTo(this.map2);
-            */
-            //var values = await this.databaseService.getDatosBBDD(this.id);
+            
             L.marker([values[3], values[4]]).addTo(this.map2);
+        }
+        else{
+            this.map2 = L.map('map2').setView([42.22912736762485, -8.726044981888979], 16);
+            setTimeout(function () {
+                window.dispatchEvent(new Event('resize'));
+            }, 1000);
+            //@ts-ignore
+            L.Icon.Default.ImagePath = "../../assests/icon/";
+            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamF2aWVyb3Rlcm83IiwiYSI6ImNrenluOWszZjAxeWYzcHFwd2x2NnEzeGoifQ.I_5aq-J6HHpXB0_HYtb1Nw', {
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                maxZoom: 18,
+                id: 'mapbox/streets-v11',
+                tileSize: 512,
+                zoomOffset: -1,
+                accessToken: 'your.mapbox.access.token'
+            }).addTo(this.map2);
         }
 
         
@@ -172,8 +170,8 @@ export class PatinetePage implements OnInit {
 
         const loadingApprove = await this.loadingController.create({
             cssClass: 'my-custom-class',
-            message: 'Espere unos segundos... Deberá confirmar la transacción.',
-            duration: 1000
+            message: 'Espere unos segundos... Pulse CONFIRMAR la transacción.',
+            duration: 10000
         });
 
         const loadingWait = await this.loadingController.create({
@@ -235,7 +233,7 @@ export class PatinetePage implements OnInit {
 
                 await loadingApprove.present();
                 
-                await new Promise(r => setTimeout(r, 1000));
+                await new Promise(r => setTimeout(r, 10000));
                 await this.loadingController.dismiss().then(() => console.log('dismissed'));
 
                 //this.textButton = 
