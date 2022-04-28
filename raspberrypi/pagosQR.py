@@ -12,8 +12,8 @@ from web3 import Web3
 import RPi.GPIO as GPIO
 
 # VARIABLES GLOBALES
-HOST = 'ec2-44-201-180-246.compute-1.amazonaws.com'
-PORT = 8086
+HOST = 'lpro.diegocajaraville.cyou'
+PORT = 8089
 USER = 'admin'
 PASSWORD = 'lproPassword'
 DBNAME = 'ViCOIN'

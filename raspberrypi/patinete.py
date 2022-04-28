@@ -12,8 +12,10 @@ import RPi.GPIO as GPIO
 import Adafruit_DHT
 
 # VARIABLES GLOBALES
-HOST = 'ec2-44-201-180-246.compute-1.amazonaws.com'
-PORT = 8086
+#HOST = 'ec2-44-201-180-246.compute-1.amazonaws.com'
+#PORT = 8086
+HOST = 'lpro.diegocajaraville.cyou'
+PORT = 8089
 USER = 'admin'
 PASSWORD = 'lproPassword'
 DBNAME = 'ViCOIN'
@@ -152,9 +154,12 @@ def updateState(contract, id):
             print("[INFO] Nuevo servicio contratado: " + str(tiempoRestante))
             state = True
             changeStateScooter(state)
+            activateSound(0.6, 1)
         # El patinete está activado y aun queda tiempo de servicio
         else:
             print("[INFO] Tiempo restante del servicio: " + str(tiempoRestante))
+            if(tiempoRestante <= 30):
+                activateSound(0.15, 3)
 
         time.sleep(CHECK_BLOCKCHAIN)
 
@@ -163,8 +168,8 @@ def updateState(contract, id):
 
 def sendInformationBBDD(client, gpsd, id):
 
-    lastLatitud = random.uniform(42.6, 43)
-    lastLongitud = random.uniform(-8.7, -8.3)
+    lastLatitud = random.uniform(42.22, 42.24)
+    lastLongitud = random.uniform(-8.74, -8.72)
     lastVelocidad = 0
 
     while True:
@@ -268,6 +273,17 @@ def inicializated():
     time.sleep(0.6)
     GPIO.output(PIN_TIMBRE, False)
     time.sleep(0.6/3)
+
+def activateSound(duration, period):
+
+    i = 1
+
+    while(i <= period):
+        GPIO.output(PIN_TIMBRE, True)
+        time.sleep(duration)
+        GPIO.output(PIN_TIMBRE, False)
+        time.sleep(duration/3)
+        i = i + 1
 
 ###########################################################################################
 
