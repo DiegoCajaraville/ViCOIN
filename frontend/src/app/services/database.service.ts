@@ -11,7 +11,7 @@ export class DatabaseService {
   
   /*
   curl 
-  -G 'http://lpro.diegocajaraville.cyou:8086/query?pretty=true' 
+  -G 'http://lpro.diegocajaraville.cyou:8089/query?pretty=true' 
   -H "Authorization: Token admin:lproPassword" 
   --data-urlencode "db=ViCOIN" 
   --data-urlencode "q=SELECT * FROM servicioPatinetes WHERE idPatinete='1' ORDER BY time DESC LIMIT 1"
@@ -26,7 +26,7 @@ export class DatabaseService {
 
     var params = new HttpParams();
     params=params.set('db', 'ViCOIN');
-    params=params.set('q', 'SELECT * FROM servicioPatinetes WHERE idPatinete=' + patinete + ' ORDER BY time DESC LIMIT 1');
+    params=params.set('q', 'SELECT * FROM servicioPatinetes WHERE idPatinete=\'' + patinete + '\' ORDER BY time DESC LIMIT 1');
   
     var data= await this.http.get<any>("http://lpro.diegocajaraville.cyou:8089/query?pretty=true", {
         params, 
