@@ -30,10 +30,10 @@ CHECK_TEMPERATURE = 15
 
 PIN_STATE_SCOOTER = 21
 PIN_TIMBRE = 23
-PIN_TEMPERATURE = 1
-PIN_VENTILADOR = 1
+PIN_TEMPERATURE = 4
+PIN_VENTILADOR = 17
 
-TEMPERATURA_MAX = 30
+TEMPERATURA_MAX = 20
 
 ###########################################################################################
 
