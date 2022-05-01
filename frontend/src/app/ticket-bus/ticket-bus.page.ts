@@ -11,7 +11,7 @@ const direccionAdministrador = '0x76A431B17560D46dE8430435001cBC66ae04De46'
   styleUrls: ['./ticket-bus.page.scss'],
 })
 export class TicketBusPage implements OnInit {
-
+    tarifa
 
 
     constructor(private contractsService: ContractsService) { }
@@ -25,7 +25,18 @@ export class TicketBusPage implements OnInit {
     async payment(){
 
         // ViC que cuesta el pago a realizar
-        var pagoDinero = 1
+        var pagoDinero
+        if(this.tarifa==1){
+            pagoDinero=1;
+        }
+
+        if(this.tarifa==2){
+            pagoDinero=2;
+        }
+        if(this.tarifa==3){
+            pagoDinero=3;
+        }
+        
         var pagoWEIs = pagoDinero * Math.pow(10,18);
         var hashTransaction = []
             
