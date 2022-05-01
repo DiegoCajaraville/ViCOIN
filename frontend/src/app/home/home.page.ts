@@ -18,7 +18,7 @@ export class HomePage {
         this.contractsService.loadContract();
     }    
     clickAdmin(){
-        if(this.contractsService.account==("0x76A431B17560D46dE8430435001cBC66ae04De46").toLowerCase()){
+        if(this.contractsService.account==("0x76A431B17560D46dE8430435001cBC66ae04De46").toLowerCase() || this.contractsService.account==("0x76A431B17560D46dE8430435001cBC66ae04De46")){
             this.router.navigate(['/admin']);
         }
     }

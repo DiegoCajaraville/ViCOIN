@@ -21,7 +21,7 @@ export class AdminPage implements OnInit {
     this.contractsService.loadMetamask();
     await this.contractsService.loadContract();
 
-    if(this.contractsService.account!=("0x76A431B17560D46dE8430435001cBC66ae04De46")){
+    if(this.contractsService.account!=("0x76A431B17560D46dE8430435001cBC66ae04De46") || this.contractsService.account.toLowerCase() != ("0x76A431B17560D46dE8430435001cBC66ae04De46")){
       this.router.navigate(['/']);
     }
 
