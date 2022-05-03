@@ -53,7 +53,7 @@ export class ContractsService {
 
         } catch(error){
             if(error.code===4001){
-                alert("123");
+                alert("Error");
             }
         }
     }else 

@@ -40,7 +40,7 @@ export class PatineteAlquiladoNoYoPage implements OnInit {
        
     //obtener el id del patinete de la url
     this.id=this.getId();
-    //Obtener los datos del patinete de la base de datos
+    //Obtener lo  s datos del patinete de la base de datos
     this.continuacion(); 
 
   }
